@@ -12,11 +12,13 @@
       <a href="/articles/<%= article.article_id %>">
         <%= article.title %>
       </a>
+      <img src="<%=article.image_url %>" alt=" 대체 사진">
       <li>
         <%= article.press %> |
-          <%= new Date(article.created_at).toLocaleString('ko-KR') %> |
-            <%= article.title %>
+          <%= new Date(article.created_at).toLocaleString('ko-KR') %>
       </li>
+      <br>
+      <hr>
       <% }) %>
   </ul>
 </body>

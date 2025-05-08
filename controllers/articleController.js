@@ -26,9 +26,12 @@ exports.showArticle = (req, res) => {
 
 //기사 목록 보여주기
 exports.showArticleList = (req, res) => {
-  const sql = 'SELECT article_id, title, press, created_at FROM articles';
+  const sql = 'SELECT articles.article_id, articles.title, articles.press, articles.created_at, article_images.image_url FROM articles LEFT JOIN article_images ON articles.article_id = article_images.article_id';
   db.query(sql, (err, results) => {
-    if (err) return res.status(500).send("db 오류");
+    if (err) {
+      console.log(err);
+      return res.status(500).send("db 오류");
+    }
     res.render('articlesList', { articles: results });
   });
 };
