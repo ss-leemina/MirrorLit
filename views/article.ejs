@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 
 <head>
+  <meta charset="UTF-8">
   <title>
     <%= article.title %>
   </title>
+  <link rel="stylesheet" href="/styles/article.css">
 </head>
 
 <body>
-  <p>
-    <%= article.press %>
-  </p>
+  <div class="meta">
+    <%= article.press %> ·
+      <%= new Date(article.created_at).toLocaleString('ko-KR') %>
+  </div>
+
   <h1>
     <%= article.title %>
   </h1>
-  <p>
-    <%= new Date(article.created_at).toLocaleString('ko-KR') %>
-  </p>
-  <p>
-    <%= article.author %>
-  </p>
+
+  <div class="author">
+    <%= article.author %> 기자
+  </div>
+
   <hr>
-  <div>
-    <%= article.content %>
+
+  <div class="content">
+    <% if (image && image.image_url ) { %>
+      <img src="<%= image.image_url %>" alt="대표 이미지">
+      <% } %>
+        <p>
+          <%= article.content %>
+        </p>
   </div>
 </body>
 

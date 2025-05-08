@@ -1,24 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 
 <head>
+  <meta charset="UTF-8">
   <title>Article List</title>
+  <link rel="stylesheet" href="/styles/articleList.css">
 </head>
 
 <body>
-  <h1>Articles</h1>
-  <ul>
-    <% articles.forEach(article=> { %>
-      <a href="/articles/<%= article.article_id %>">
-        <%= article.title %>
-      </a>
-      <li>
-        <%= article.press %> |
-          <%= new Date(article.created_at).toLocaleString('ko-KR') %> |
-            <%= article.title %>
-      </li>
-      <% }) %>
-  </ul>
+  <div class="container">
+    <br>
+    <%= new Date().toLocaleDateString('ko-KR') %>
+      <hr>
+
+      <% articles.forEach(article=> { %>
+        <div class="article-card">
+          <a class="article-title" href="/articles/<%= article.article_id %>">
+            <h2>
+              <%= article.title %>
+            </h2>
+          </a>
+
+          <% if (article.image_url) { %>
+            <img src="<%= article.image_url %>" alt="대표 이미지" class="thumbnail">
+            <% } %>
+
+              <div class="meta">
+                <%= article.press %> |
+                  <%= new Date(article.created_at).toLocaleString('ko-KR') %>
+              </div>
+        </div>
+        <% }) %>
+  </div>
 </body>
 
 </html>
