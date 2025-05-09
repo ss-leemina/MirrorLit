@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-  <meta charset="UTF-8">
-  <title>
-    <%= article.title %>
-  </title>
-  <link rel="stylesheet" href="/styles/article.css">
-</head>
-
-<body>
+<div class="article">
   <div class="meta">
     <%= article.press %> ·
       <%= new Date(article.created_at).toLocaleString('ko-KR') %>
@@ -33,6 +22,4 @@
           <%= article.content %>
         </p>
   </div>
-</body>
-
-</html>
+</div>

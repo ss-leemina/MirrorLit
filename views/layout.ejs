@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1">
+  <title>MirrorLit</title>
+  <link rel="shortcut icon" type="image/png" href="/images/icon.png">
   <link rel="stylesheet" href="/style/layout.css">
+  <link rel="stylesheet" href="/style/article.css">
+  <link rel="stylesheet" href="/style/articleList.css">
 </head>
-
 <body>
-  <header class="header">
-    <a href="/" class="logo">MirrorLit</a>
-  </header>
+  <nav class="navigation">
+    <h1 class="logo">MirrorLit</h1>
+      <!-- check login : not developed yet -->
+      <!-- <% if (loggedIn) { %>
+        <span class="notification">
+          <a href="#"><img src="images/notification.png" width="35"></a>
+        </span>
+        <span class="account-page">
+          <a href="#">마이페이지</a>
+        </span>
+        <span class="logout">
+          <a href="#">로그아웃</a>
+        </span>
+      <%} else {%> -->
+        <span class="login">
+          <a href="#">로그인</a>
+        </span>
+      <!-- <% } %> -->
+  </nav>
 
   <%- body %>
-    <!-- <div id="footer">footer</div> -->
+  <!-- <div id="footer">footer</div> -->
 </body>
-
 </html>
