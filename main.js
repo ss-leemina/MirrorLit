@@ -13,8 +13,8 @@ app.set("port", process.env.PORT || 3000);
 
 // set view rendering
 app.set("view engine", "ejs");
-router.use(layouts);
-router.use(express.static("public"));
+app.use(layouts);
+app.use(express.static("public"));
 
 // set router
 router.use(
