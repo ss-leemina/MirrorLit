@@ -1,4 +1,4 @@
-body {
+.articleList {
 	font-family: "Segoe UI", sans-serif;
 	background-color: #fafafa;
 	color: #333;
@@ -7,7 +7,7 @@ body {
 	margin: auto;
 }
 
-h1 {
+.articleList > h1 {
 	text-align: center;
 	margin-bottom: 2em;
 }
@@ -43,7 +43,7 @@ h1 {
 	margin-bottom: 10px;
 }
 
-.meta {
+.articleList.meta {
 	font-size: 0.9em;
 	color: #777;
 	margin-top: 10px;

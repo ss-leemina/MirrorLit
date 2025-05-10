@@ -1,13 +1,14 @@
 {
-  "name": "wev",
+  "name": "mirrorlit",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
   },
-  "author": "",
+  "author": "project group 2, team mirrorlit",
   "license": "ISC",
-  "description": "",
+  "description": "Fack checking platform for online news",
   "dependencies": {
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",

@@ -1,4 +1,4 @@
-body {
+.article {
 	font-family: "Arial", sans-serif;
 	line-height: 1.6;
 	max-width: 800px;
@@ -8,14 +8,14 @@ body {
 	color: #333;
 }
 
-h1 {
+.article > h1 {
 	font-size: 2em;
 	margin-bottom: 0.5em;
 	border-bottom: 2px solid #eee;
 	padding-bottom: 0.2em;
 }
 
-.meta {
+.article.meta {
 	color: #777;
 	font-size: 0.9em;
 	margin-bottom: 1em;
@@ -26,7 +26,7 @@ h1 {
 	margin-bottom: 1.5em;
 }
 
-.content img {
+.content > img {
 	max-width: 100%;
 	height: auto;
 	margin-top: 1em;
