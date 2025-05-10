@@ -22,4 +22,41 @@
           <%= article.content %>
         </p>
   </div>
+
+  <form class="factCheck" method="POST">
+    <button class="factCheck-Yes" type="submit">팩트다</button>
+    <button class="factCheck-No" type="submit">아니다</button>
+  </form>
+
+  <hr>
+
+  <div>
+    <form method="POST" action="/comments/articles/<%= article.article_id %>/comment">
+      <h2>댓글 </h2>
+      <input type="hidden" name="article_id" value="<%= article.article_id %>">
+      <input type="text" name="source" placeholder="출처" required> <br>
+      <textarea name="content" placeholder="댓글을 입력하세요." required></textarea>
+
+      <button type="submit">작성</button>
+    </form>
+  </div>
+
+  <% if(comments.length===0) { %>
+    <p>아직 댓글이 없습니다. </p>
+    <% } else { %>
+      <% comments.forEach(comment=> { %>
+        <div>
+          <hr>
+          <p>출처 | <%= comment.source %>
+          </p>
+
+          <%= comment.content %><br>
+            <small>
+              <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
+            </small>
+        </div>
+        <% }) %>
+          <% } %>
+
+
 </div>
