@@ -1,4 +1,7 @@
 const db = require('../db');
+// const db = require("../models"),
+//   Comment = db.comment,
+//   Op = db.Sequelize.Op;
 
 exports.createComment = (req, res) => {
   //console.log('댓글 POST 요청 도착:', req.url, req.body);
@@ -13,3 +16,23 @@ exports.createComment = (req, res) => {
     res.redirect(`/articles/${articleId}`);
   });
 };
+
+// exports.createComment = async (req, res) => {
+//   console.log('댓글 POST 요청 도착:', req.url, req.body);
+//   console.log("articleId:", articleId);
+
+//   try {
+//     const articleId = req.params.articleId;
+//     const { source, content } = req.body;
+//     const newComment = await Comment.create({
+//       source,
+//       content,
+//       article_id: parseInt(articleId),
+//       user_id: 1
+//     });
+//     res.redirect(`/articles/${articleId}`);
+//   } catch (err) {
+//     console.error("댓글 작성 중 에러:", err);
+//     res.status(500).send("작성 실패");
+//   };
+// };
