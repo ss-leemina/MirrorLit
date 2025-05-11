@@ -6,6 +6,7 @@ const express = require("express"),
   userRouter = require("./routes/users"),
   accountRouter = require("./routes/accounts"),
   articleRouter = require("./routes/articles"),
+  commentRouter = require("./routes/comments"),
   errorController = require("./controllers/errorController");
 
 // set port
@@ -17,17 +18,19 @@ app.use(layouts);
 app.use(express.static("public"));
 
 // set router
-router.use(
+app.use(
   express.urlencoded({
     extended: false
   })
 );
-router.use(express.json());
+app.use(express.json());
 
 //app.use("/users/:userid", accountRouter);
 //app.use("/users", userRouter);
-app.use("/articles", articleRouter);
 app.use("/home", homeRouter);
+app.use("/articles", articleRouter);
+app.use("/comments", commentRouter);
+
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
