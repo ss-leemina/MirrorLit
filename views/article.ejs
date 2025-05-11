@@ -15,8 +15,8 @@
   <hr>
 
   <div class="content">
-    <% if (image && image.image_url ) { %>
-      <img src="<%= image.image_url %>" alt="대표 이미지">
+    <% if (article.articleImage && article.articleImage.image_url) { %>
+      <img src="<%= article.articleImage.image_url %>" alt="대표 이미지">
       <% } %>
         <p>
           <%= article.content %>
@@ -32,24 +32,22 @@
 
   <div>
     <form method="POST" action="/comments/articles/<%= article.article_id %>/comment">
-      <h2>댓글 </h2>
+      <h2>댓글</h2>
       <input type="hidden" name="article_id" value="<%= article.article_id %>">
       <input type="text" name="source" placeholder="출처" required> <br>
       <textarea name="content" placeholder="댓글을 입력하세요." required></textarea>
-
       <button type="submit">작성</button>
     </form>
   </div>
 
-  <% if(comments.length===0) { %>
-    <p>아직 댓글이 없습니다. </p>
+  <% if (!comments || comments.length===0) { %>
+    <p>아직 댓글이 없습니다.</p>
     <% } else { %>
       <% comments.forEach(comment=> { %>
         <div>
           <hr>
-          <p>출처 | <%= comment.source %>
+          <p>출처 : <%= comment.source %>
           </p>
-
           <%= comment.content %><br>
             <small>
               <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
@@ -57,6 +55,4 @@
         </div>
         <% }) %>
           <% } %>
-
-
 </div>
