@@ -20,7 +20,7 @@ app.use(express.static("public"));
 // set router
 app.use(
   express.urlencoded({
-    extended: false
+    extended: true
   })
 );
 app.use(express.json());

@@ -15,6 +15,7 @@
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
     "http-status-codes": "^2.3.0",
-    "mysql2": "^3.14.1"
+    "mysql2": "^3.14.1",
+    "sequelize": "^6.37.7"
   }
 }

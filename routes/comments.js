@@ -6,4 +6,5 @@ const commentController = require('../controllers/commentController');
 router.post('/articles/:articleId/comment', commentController.createComment);
 
 
+
 module.exports = router;

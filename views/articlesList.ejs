@@ -12,8 +12,8 @@
             </h2>
           </a>
 
-          <% if (article.image_url) { %>
-            <img src="<%= article.image_url %>" alt="대표 이미지" class="thumbnail">
+          <% if (article.articleImage) { %>
+            <img src="<%= article.articleImage.image_url %>" alt="대표 이미지" class="thumbnail">
             <% } %>
 
               <div class="meta">
