@@ -39,10 +39,6 @@ body {
 	border: 1px solid black;
 	border-radius: 5px;
 }
-.account-page > a {
-	color: black;
-	text-decoration: none;
-}
 .logout {
 	position: relative;
 	left: 65%;
@@ -53,10 +49,6 @@ body {
 	border-radius: 5px;
 	text-decoration: none;
 }
-.logout > a {
-	color: white;
-	text-decoration: none;
-}
 .login {
 	position: relative;
 	left: 75.7%;
@@ -65,9 +57,5 @@ body {
 	color: white;
 	border: none;
 	border-radius: 5px;
-	text-decoration: none;
-}
-.login > a {
-	color: white;
 	text-decoration: none;
 }
