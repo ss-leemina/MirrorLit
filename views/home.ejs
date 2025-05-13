@@ -1,44 +1,29 @@
 <div class="home">
 <div class="our-contents">
   <div class="contents-title-box">
-    <span class="contents-title">
+    <a class="contents-title" href="/articles">
       📰 최신 이슈
-    </span>
-    <a class="contents-link" href="/articles">
-      최신 이슈 더보기 →
     </a>
   </div>
   <div class="contents-boxes">
 
     <span class="contents-box">
-      <h3><%= article[0].title %></h3>
+      <a href="/articles/<%= article[0].article_id %>"><%= article[0].title %></a>
       <p class="contents-meta"><%= article[0].press %> | <%= article[0].author %> | <%= new Date(article[0].created_at).toLocaleDateString('ko-KR') %></p>
       <p class="contents-text"><%= article[0].content %></p>
-      <span class="fact-buttons">
-        <a class="button-fact" href="/articles/<%= article[0].article_id %>">팩트다</a>
-        <a class="button-nfact" href="/articles/<%= article[0].article_id %>">아니다</a>
-      </span>
     </span>
 
 
     <span class="contents-box">
-      <h3><%= article[1].title %></h3>
+      <a href="/articles/<%= article[1].article_id %>"><%= article[1].title %></a>
       <p class="contents-meta"><%= article[1].press %> | <%= article[1].author %> | <%= new Date(article[1].created_at).toLocaleDateString('ko-KR') %></p>
       <p class="contents-text"><%= article[1].content %></p>
-      <span class="fact-buttons">
-        <a class="button-fact" href="/articles/<%= article[1].article_id %>">팩트다</a>
-        <a class="button-nfact" href="/articles/<%= article[1].article_id %>">아니다</a>
-      </span>
     </span>
     
     <span class="contents-box">
-      <h3><%= article[2].title %></h3>
+      <a href="/articles/<%= article[2].article_id %>"><%= article[2].title %></a>
       <p class="contents-meta"><%= article[2].press %> | <%= article[2].author %> | <%= new Date(article[2].created_at).toLocaleDateString('ko-KR') %></p>
       <p class="contents-text"><%= article[2].content %></p>
-      <span class="fact-buttons">
-        <a class="button-fact" href="/articles/<%= article[2].article_id %>">팩트다</a>
-        <a class="button-nfact" href="/articles/<%= article[2].article_id %>">아니다</a>
-      </span>
     </span>
 
   </div>

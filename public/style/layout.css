@@ -23,6 +23,8 @@ body {
 	left: 3%;
 	font-size: 2rem;
 	font-weight: bold;
+	text-decoration: none;
+	color: black;
 }
 .notification {
 	margin-top: 1px;

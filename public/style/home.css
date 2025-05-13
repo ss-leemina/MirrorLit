@@ -9,6 +9,7 @@
   border-radius: 5px;
   margin-bottom: 1rem;
   color: #F6F6F6;
+  background-color:#F6F6F6; 
 }
 .contents-title {
   position: relative;
@@ -16,12 +17,6 @@
   font-size: 1.8rem;
   font-weight: bold;
   color: black;
-}
-.contents-link {
-  position: relative;
-  left: 73%;
-  font-size: 1rem;
-  color: #5A5A5A;
   text-decoration: none;
 }
 .contents-boxes {
@@ -31,15 +26,19 @@
 }
 .contents-box {
   flex: 1;
-  height: 350px;
+  height: 300px;
   padding: 1rem;
   border: 1px solid #5A5A5A;
   border-radius: 5px;
   background-color: white;
 }
-.contents-box > h3 {
-  text-align: center;
+.contents-box > a {
+  display: flex;
+  justify-content: center;
   font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
   margin-bottom: 0.5rem;
 }
 .contents-meta {
@@ -49,7 +48,7 @@
 }
 .contents-text {
   width: 90%;
-  height: 50%;
+  height: 57%;
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
