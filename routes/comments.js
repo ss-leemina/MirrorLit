@@ -3,7 +3,7 @@ const router = express.Router();
 const commentController = require('../controllers/commentController');
 
 // 댓글 작성 (POST)
-router.post('/articles/:articleId/comment', commentController.createComment);
+router.post('/', commentController.createComment);
 
 
 
