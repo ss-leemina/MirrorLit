@@ -1,4 +1,4 @@
-const { SELECT } = require("sequelize/lib/query-types");
+// const { SELECT } = require("sequelize/lib/query-types");
 module.exports = (sequelize, Sequelize) => {
   const comment = sequelize.define("comment", {
     comment_id: {
@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,
-      default: Sequelize.NOW
+      defaultValue: Sequelize.NOW
     }
   }, {
     timestamps: false,

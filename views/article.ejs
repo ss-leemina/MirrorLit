@@ -1,4 +1,7 @@
 <div class="article">
+  <button>
+    <a href="/articles">목록보기</a>
+  </button>
   <div class="meta">
     <%= article.press %> ·
       <%= new Date(article.created_at).toLocaleString('ko-KR') %>
@@ -31,7 +34,7 @@
   <hr>
 
   <div>
-    <form method="POST" action="/comments/articles/<%= article.article_id %>/comment">
+    <form method="POST" action="/comments">
       <h2>댓글</h2>
       <input type="hidden" name="article_id" value="<%= article.article_id %>">
       <input type="text" name="source" placeholder="출처" required> <br>
@@ -52,6 +55,9 @@
             <small>
               <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
             </small>
+            <form method="POST" action="/comments/<%= comment.comment_id %>/delete">
+              <input type="hidden" name="article_id" value="<%= article.article_id %>">
+              <button type="submit">삭제</button>
         </div>
         <% }) %>
           <% } %>

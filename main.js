@@ -2,6 +2,7 @@ const express = require("express"),
   app = express(),
   router = express.Router(),
   layouts = require("express-ejs-layouts"),
+  db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
   userRouter = require("./routes/users"),
   accountRouter = require("./routes/accounts"),
@@ -24,6 +25,9 @@ app.use(
   })
 );
 app.use(express.json());
+
+db.sequelize.sync();
+// db.sequelize.sync({ alter: true });
 
 //app.use("/users/:userid", accountRouter);
 //app.use("/users", userRouter);
