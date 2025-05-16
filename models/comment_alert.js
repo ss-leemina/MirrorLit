@@ -17,10 +17,11 @@ module.exports = (sequelize, Sequelize) => {
         model: "comment",
         key: "comment_id"
       },
+      onDelete: "CASCADE"
     },
     user_id: { //추후 수정 필요
       type: Sequelize.INTEGER,
-      allowNull: false 
+      allowNull: false
     },
     is_checked: {
       type: Sequelize.STRING(5),
