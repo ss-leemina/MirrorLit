@@ -13,6 +13,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     comment_id: {
       type: Sequelize.INTEGER,
+      references: {
+        model: "comment",
+        key: "comment_id"
+      },
       allowNull: false
     },
     user_id: { //추가 수정 필요
