@@ -1,7 +1,6 @@
 const express = require("express"),
   app = express(),
   router = express.Router(),
-  db = require("./models/index"),
   layouts = require("express-ejs-layouts"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
