@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      allowNull: false
+      allowNull: false,
     },
     reaction_type: {
       type: Sequelize.STRING(10),
@@ -17,11 +17,12 @@ module.exports = (sequelize, Sequelize) => {
         model: "comment",
         key: "comment_id"
       },
-      allowNull: false
+      allowNull: false,
+      onDelete: "CASCADE"
     },
     user_id: { //추가 수정 필요
       type: Sequelize.INTEGER,
-      allowNull: false
+      
     }
   }, {
     timestamps: false,
