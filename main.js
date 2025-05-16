@@ -1,6 +1,7 @@
 const express = require("express"),
   app = express(),
   router = express.Router(),
+  db = require("./models/index"),
   layouts = require("express-ejs-layouts"),
   homeRouter = require("./routes/homepage"),
   userRouter = require("./routes/users"),
@@ -24,6 +25,9 @@ app.use(
   })
 );
 app.use(express.json());
+
+db.sequelize.sync();
+// db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
 
 //app.use("/users/:userid", accountRouter);
 //app.use("/users", userRouter);

@@ -1,11 +1,10 @@
-const { SELECT } = require("sequelize/lib/query-types");
+// const { SELECT } = require("sequelize/lib/query-types");
 module.exports = (sequelize, Sequelize) => {
   const comment = sequelize.define("comment", {
     comment_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
-      allowNull: false
+      autoIncrement: true
     },
     content: {
       type: Sequelize.TEXT,
@@ -35,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,
-      default: Sequelize.NOW
+      defaultValue: Sequelize.NOW
     }
   }, {
     timestamps: false,
