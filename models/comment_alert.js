@@ -20,8 +20,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     user_id: { //추후 수정 필요
       type: Sequelize.INTEGER,
-      allowNull: false,
-      primaryKey: true  
+      allowNull: false 
     },
     is_checked: {
       type: Sequelize.STRING(5),
