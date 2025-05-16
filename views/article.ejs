@@ -55,6 +55,11 @@
             <small>
               <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
             </small>
+
+            <form method="POST" action="/comments/<%= comment.comment_id %>/delete">
+              <input type="hidden" name="article_id" value="<%= article.article_id %>">
+              <button type="submit">삭제</button>
+            </form>
         </div>
         <% }) %>
           <% } %>

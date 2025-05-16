@@ -12,6 +12,9 @@ db.Sequelize = Sequelize;
 db.article = require("./article.js")(sequelize, Sequelize);
 db.articleImage = require("./articleImage.js")(sequelize, Sequelize);
 db.comment = require("./comment.js")(sequelize, Sequelize);
+db.CommentAlert = require("./comment_alert")(sequelize, Sequelize);
+db.CommentHistory = require("./comment_history")(sequelize, Sequelize);
+db.CommentReaction = require("./comment_reaction")(sequelize, Sequelize);
 
 //관계 정의
 require("./associate.js")(db);
