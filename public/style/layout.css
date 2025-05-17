@@ -31,6 +31,94 @@ body {
 	position: relative;
 	left: 62%;
 }
+
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  justify-content: center;
+  align-items: flex-start;
+}
+.popup-content {
+  border: 1px solid black;
+  background: #fff;
+  padding: 20px;
+  width: 300px;
+  position: relative;
+  left: 30%;
+  top: 12%;
+}
+.alert-title-line {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #5A5A5A;
+}
+.alert-list-title {
+  position: relative;
+  left: 1%;
+  color: black;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+.check-alert-all {
+  position: relative;
+  left: 15%;
+  width: 4rem;
+  padding: 0.2rem 0;
+  color: black;
+  text-decoration: none;
+  font-weight: 450;
+  border: 1px solid #5A5A5A;
+  border-radius: 5px;
+  background-color: white;
+}
+.delete-alert-all {
+  position: relative;
+  left: 17%;
+  width: 4rem;
+  padding: 0.2rem 0;
+  color: black;
+  text-decoration: none;
+  font-weight: 450;
+  border: 1px solid #5A5A5A;
+  border-radius: 5px;
+  background-color: white;
+}
+.close-button {
+  position: absolute;
+  top: 10px; right: 15px;
+  cursor: pointer;
+  font-size: 20px;
+}
+.alert-content-line {
+  margin: 0.5rem;
+  position: relative;
+}
+.alert-category-N {
+  position: relative;
+  left: 0;
+  color: black;
+  font-size: 1rem;
+}
+.alert-category-Y {
+  position: relative;
+  left: 0;
+  color: #5A5A5A;
+  font-size: 1rem;
+}
+.delete-alert {
+  position: relative;
+  left: 20%;
+  color: #5A5A5A;
+}
+.alert-content {
+  position: relative;
+  color: #5A5A5A;
+  font-size: 1rem;
+}
+
 .account-page {
 	position: relative;
 	left: 64%;
