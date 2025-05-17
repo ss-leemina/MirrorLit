@@ -13,22 +13,7 @@
 </head>
 
 <body>
-  <nav class="navigation">
-    <a class="logo" href="/home">MirrorLit</a>
-    <a class="notification" href="#">
-      <img src="/images/notification.png" width="35">
-    </a>
-    <a class="account-page" href="#">
-      마이페이지
-    </a>
-    <a class="logout" href="#">
-      로그아웃
-    </a>
-    <a class="login" href="#">
-      로그인
-    </a>
-  </nav>
-
+  <%- include('navigation', {commentalerts: commentalerts}) %>
   <%- body %>
 
 </body>
