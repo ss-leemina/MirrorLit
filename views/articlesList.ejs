@@ -1,9 +1,11 @@
 <div class="articleList">
 
-  <form method="GET" action="/articles">
-    <input type="text" name="search" value="<%= keyword %>" placeholder="검색어를 입력하세요.">
-    <button type="submit">검색</button>
-  </form>
+  <div class="searchBox">
+    <form method="GET" action="/articles">
+      <input type="text" name="search" value="<%= keyword %>" placeholder="검색어를 입력하세요.">
+      <button type="submit">검색</button>
+    </form>
+  </div>
 
   <% if (articles.length==0) { %>
     <%if (!keyword) keyword=`""`; %>
@@ -11,6 +13,7 @@
         <%= keyword %>에 대한 검색 결과가 없습니다.
       </p>
       <% } else { %>
+
         <div class="container">
           <br>
           <%= new Date().toLocaleDateString('ko-KR') %>
