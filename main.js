@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express"),
   app = express(),
   router = express.Router(),
@@ -9,6 +11,7 @@ const express = require("express"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   errorController = require("./controllers/errorController");
+  userRoutes = require("./routes/userRoutes");
 
 // set port
 app.set("port", process.env.PORT || 3000);
@@ -24,6 +27,8 @@ app.use(
   })
 );
 app.use(express.json());
+
+app.use("/users", userRoutes);
 
 db.sequelize.sync();
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
