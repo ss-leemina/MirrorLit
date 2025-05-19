@@ -1,30 +1,39 @@
 <div class="articleList">
-  <form action="GET">
-    <input type="text" name="search">
+
+  <form method="GET" action="/articles">
+    <input type="text" name="search" value="<%= keyword %>" placeholder="검색어를 입력하세요.">
     <button type="submit">검색</button>
   </form>
-  <div class="container">
-    <br>
-    <%= new Date().toLocaleDateString('ko-KR') %>
-      <hr>
 
-      <% articles.forEach(article=> { %>
-        <div class="article-card">
-          <a class="article-title" href="/articles/<%= article.article_id %>">
-            <h2>
-              <%= article.title %>
-            </h2>
-          </a>
+  <% if (articles.length==0) { %>
+    <%if (!keyword) keyword=`""`; %>
+      <p>
+        <%= keyword %>에 대한 검색 결과가 없습니다.
+      </p>
+      <% } else { %>
+        <div class="container">
+          <br>
+          <%= new Date().toLocaleDateString('ko-KR') %>
+            <hr>
 
-          <% if (article.articleImage) { %>
-            <img src="<%= article.articleImage.image_url %>" alt="대표 이미지" class="thumbnail">
-            <% } %>
+            <% articles.forEach(article=> { %>
+              <div class="article-card">
+                <a class="article-title" href="/articles/<%= article.article_id %>">
+                  <h2>
+                    <%= article.title %>
+                  </h2>
+                </a>
 
-              <div class="meta">
-                <%= article.press %> |
-                  <%= new Date(article.created_at).toLocaleString('ko-KR') %>
+                <% if (article.articleImage) { %>
+                  <img src="<%= article.articleImage.image_url %>" alt="대표 이미지" class="thumbnail">
+                  <% } %>
+
+                    <div class="meta">
+                      <%= article.press %> |
+                        <%= new Date(article.created_at).toLocaleString('ko-KR') %>
+                    </div>
               </div>
+              <% }) %>
         </div>
-        <% }) %>
-  </div>
+        <% } %>
 </div>
