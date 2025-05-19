@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const db = require("../config/db");
+const db = require("../db");
 
 exports.sendVerificationCode = async (req, res) => {
   const { userId, email } = req.body;
