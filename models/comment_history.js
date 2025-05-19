@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
     article_id: {
       type: Sequelize.INTEGER,
       references: {
-        model: "article",
+        model: "articles",
         key: "article_id"
       },
       allowNull: false
@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: "comment",
+        model: "comments",
         key: "comment_id"
       },
       primaryKey: true
