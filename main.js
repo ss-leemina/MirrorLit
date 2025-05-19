@@ -18,7 +18,6 @@ app.set("view engine", "ejs");
 app.use(layouts);
 app.use(express.static("public"));
 
-// set router
 app.use(
   express.urlencoded({
     extended: true
@@ -41,7 +40,7 @@ app.use(async (req, res, next) => {
 
 // set routes
 //app.use("/users/:userid", accountRouter);
-//app.use("/users", userRouter);
+app.use("/users", userRouter);
 app.use("/home", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
