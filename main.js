@@ -13,6 +13,7 @@ const express = require("express"),
   errorController = require("./controllers/errorController");
   userRoutes = require("./routes/userRoutes");
   sseRoutes = require('./routes/sseRoutes');
+  alertRoutes = require('./routes/alertRoutes');
 
 // set port
 app.set("port", process.env.PORT || 3000);
@@ -51,6 +52,7 @@ app.use("/home", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
+app.use('/alerts', alertRoutes);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
