@@ -12,6 +12,7 @@ const express = require("express"),
   commentRouter = require("./routes/comments"),
   errorController = require("./controllers/errorController");
   userRoutes = require("./routes/userRoutes");
+  sseRoutes = require('./routes/sseRoutes');
 
 // set port
 app.set("port", process.env.PORT || 3000);
@@ -49,7 +50,7 @@ app.use("/users", userRouter);
 app.use("/home", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
-
+app.use('/sse', sseRoutes);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
