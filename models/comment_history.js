@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, Sequelize) => {
   const CommentHistory = sequelize.define('comment_history', {
     article_id: {
