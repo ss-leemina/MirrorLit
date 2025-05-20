@@ -6,12 +6,11 @@ const express = require("express"),
   layouts = require("express-ejs-layouts"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
-  userRouter = require("./routes/users"),
+  userRouter = require("./routes/userRouter"),
   accountRouter = require("./routes/accounts"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   errorController = require("./controllers/errorController");
-  userRoutes = require("./routes/userRoutes");
   sseRoutes = require('./routes/sseRoutes');
   alertRoutes = require('./routes/alertRoutes');
 
@@ -29,8 +28,6 @@ app.use(
   })
 );
 app.use(express.json());
-
-app.use("/users", userRoutes);
 
 db.sequelize.sync();
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
