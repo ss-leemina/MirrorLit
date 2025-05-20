@@ -1,6 +1,8 @@
 const db = require("../models"),
   Comment = db.comment,
   CommentReaction = db.CommentReaction;
+const { handleCommentNotification } = require('./commentAlterHandler');
+
 
 //댓글 작성
 exports.createComment = async (req, res) => {
@@ -12,7 +14,9 @@ exports.createComment = async (req, res) => {
       content,
       user_id: 1
     });
-
+    // 알림 핸들러 호출
+    await handleCommentNotification(article_id, newComment.comment_id, user_id);
+    
     res.redirect(`/articles/${article_id}`);
   } catch (err) {
     console.error("댓글 작성 중 에러:", err);
