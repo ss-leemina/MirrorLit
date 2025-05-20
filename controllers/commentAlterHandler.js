@@ -17,7 +17,7 @@ exports.handleCommentNotification = async (article_id, comment_id, user_id) => {
         await CommentAlert.create({
           comment_id,
           user_id: participant.user_id,
-          alert_message: '새 댓글이 등록되었습니다.'
+          alert_message: '새 댓글이 등록되었습니다.',
           is_checked: 'N'  
         });
 
