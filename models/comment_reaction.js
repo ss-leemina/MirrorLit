@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, Sequelize) => {
   const CommentReaction = sequelize.define('comment_reaction', {
     reaction_id: {

@@ -12,7 +12,7 @@ exports.showArticleList = async (req, res) => {
 
     let data = [];
 
-    //리스트 보여주기
+    //기사 리스트 보여주기
     if (keyword == undefined) {
       data = await Article.findAll({
         order: [['created_at', 'DESC']],
@@ -23,7 +23,7 @@ exports.showArticleList = async (req, res) => {
           }
         ]
       });
-    } //검색(공백X)
+    } //검색(공백이 아닌 경우)
     else if (keyword && keyword.length > 0) {
       data = await Article.findAll({
         order: [['created_at', 'DESC']],
@@ -84,3 +84,10 @@ exports.showArticle = async (req, res) => {
     });
   }
 };
+
+//팩트체크 버튼
+exports.factCheckButton = async (req, res) => {
+  const articleId = req.params.articleId;
+  console.log(`articleId: ${articleId}`);
+  res.redirect(`/articles/${articleId}`);
+}

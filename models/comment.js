@@ -1,4 +1,3 @@
-// const { SELECT } = require("sequelize/lib/query-types");
 module.exports = (sequelize, Sequelize) => {
   const comment = sequelize.define("comment", {
     comment_id: {
