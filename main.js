@@ -11,8 +11,8 @@ const express = require("express"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   errorController = require("./controllers/errorController");
-  sseRoutes = require('./routes/sseRoutes');
-  alertRoutes = require('./routes/alertRoutes');
+sseRoutes = require('./routes/sseRoutes');
+alertRoutes = require('./routes/alertRoutes');
 
 // set port
 app.set("port", process.env.PORT || 3000);

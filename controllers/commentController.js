@@ -2,22 +2,39 @@ const db = require("../models"),
   Comment = db.comment,
   CommentReaction = db.CommentReaction;
 const { handleCommentNotification } = require('./commentAlterHandler');
+const { getCommentAnonymousNo } = require('../services/commentNickname');
+function isValidUrl(sourceUrl) {
+  try {
+    const url = new URL(sourceUrl);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch (err) {
+    return false;
+  }
+}
 
 
 //댓글 작성
 exports.createComment = async (req, res) => {
   try {
     const { article_id, source, content } = req.body;
-    await Comment.create({
+    const user_id = 3;  //user 테이블 생기면 수정
+    //url 검사
+    if (!isValidUrl(source)) { return res.redirect(`/articles/${article_id}`) };
+    //익명 번호 붙이기
+    const anonymous_no = await getCommentAnonymousNo(article_id, user_id);
+
+    const newComment = await Comment.create({
       article_id: article_id,
       source,
       content,
-      user_id: 1
+      user_id,
+      anonymous_no
     });
+
     // 알림 핸들러 호출
     await handleCommentNotification(article_id, newComment.comment_id, user_id);
-    
-    res.redirect(`/articles/${article_id}`);
+
+    return res.redirect(`/articles/${article_id}`);
   } catch (err) {
     console.error("댓글 작성 중 에러:", err);
     res.status(500).send("작성 실패");
@@ -28,7 +45,7 @@ exports.createComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   try {
     await Comment.destroy({ where: { comment_id: req.params.commentId } });
-    res.redirect('/articles/' + req.body.article_id);
+    res.redirect(`/articles/${req.body.article_id}`);
   } catch (err) {
     console.error("댓글 삭제 중 에러: ", err);
     res.status(500).send("삭제 실패");

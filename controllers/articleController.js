@@ -36,7 +36,9 @@ exports.showArticleList = async (req, res) => {
         where: {
           [Op.or]: [
             { title: { [Op.like]: `%${keyword}%` } },
-            { content: { [Op.like]: `%${keyword}%` } }
+            { content: { [Op.like]: `%${keyword}%` } },
+            { author: { [Op.like]: `%${keyword}%` } },
+            { press: { [Op.like]: `%${keyword}%` } }
           ]
         }
       });
