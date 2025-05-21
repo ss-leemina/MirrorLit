@@ -82,3 +82,42 @@ exports.reactToComment = async (req, res) => {
     return res.status(500).json({ message: "에러 발생" });
   }
 };
+
+// 댓글 리스트 조회
+exports.getCommentsWithReactions = async (req, res) => {
+  try {
+    const articleId = req.params.articleId;
+
+    // 댓글 목록 조회
+    const comments = await Comment.findAll({
+      where: { article_id: articleId },
+      include: [
+        {
+          model: CommentReaction,
+          attributes: ['reaction_type', 'user_id']
+        }
+      ]
+    });
+
+    // 추천/비추천 수 계산
+    const formattedComments = comments.map(comment => {
+      const reactions = comment.comment_reactions || [];
+      const likeCount = reactions.filter(r => r.reaction_type === 'like').length;
+      const dislikeCount = reactions.filter(r => r.reaction_type === 'dislike').length;
+
+      return {
+        comment_id: comment.comment_id,
+        content: comment.content,
+        user_id: comment.user_id,
+        createdAt: comment.createdAt,
+        likeCount,
+        dislikeCount
+      };
+    });
+
+    res.json(formattedComments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: '댓글 조회 실패' });
+  }
+};

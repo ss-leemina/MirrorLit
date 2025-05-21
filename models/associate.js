@@ -21,4 +21,14 @@ module.exports = (db) => {
   db.comment.belongsTo(db.article, {
     foreignKey: { name: "article_id" }
   });
+
+  // 댓글-댓글 반응 1:N 관계
+  db.comment.hasMany(db.CommentReaction, {
+    foreignKey: 'comment_id',
+    as: 'comment_reactions',  // alias로 eager loading할 때 사용 가능
+    onDelete: "CASCADE"
+  });
+  db.CommentReaction.belongsTo(db.comment, {
+    foreignKey: 'comment_id'
+  });
 }
