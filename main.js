@@ -4,6 +4,9 @@ const express = require("express"),
   app = express(),
   router = express.Router(),
   layouts = require("express-ejs-layouts"),
+  session = require("express-session"),
+  passport = require("passport"),
+  { sequelize, User } = require("./models/userModel"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
   userRouter = require("./routes/users"),
@@ -11,7 +14,8 @@ const express = require("express"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   errorController = require("./controllers/errorController");
-  userRoutes = require("./routes/userRoutes");
+  sseRoutes = require('./routes/sseRoutes'),
+  alertRoutes = require('./routes/alertRoutes');
 
 // set port
 app.set("port", process.env.PORT || 3000);
@@ -21,7 +25,6 @@ app.set("view engine", "ejs");
 app.use(layouts);
 app.use(express.static("public"));
 
-// set router
 app.use(
   express.urlencoded({
     extended: true
@@ -29,8 +32,15 @@ app.use(
 );
 app.use(express.json());
 
-app.use("/users", userRoutes);
+app.use(
+  session({
+    secret: "secretKey",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
+sequelize.sync(); 
 db.sequelize.sync();
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
 
@@ -38,6 +48,10 @@ db.sequelize.sync();
 app.use(async (req, res, next) => {
   try {
     res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
+
+    res.locals.loggedIn = req.isAuthenticated();
+    res.locals.currentUser = req.user;
+
     next();
   } catch (error) {
     next(error);
@@ -46,10 +60,12 @@ app.use(async (req, res, next) => {
 
 // set routes
 //app.use("/users/:userid", accountRouter);
-//app.use("/users", userRouter);
+app.use("/users", userRouter);
 app.use("/home", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
+app.use('/sse', sseRoutes);
+app.use('/alerts', alertRoutes);
 
 
 app.use(errorController.respondNoResourceFound);
