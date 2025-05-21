@@ -1,4 +1,46 @@
+const { Sequelize, DataTypes } = require("sequelize");
+const passportLocalSequelize = require("passport-local-sequelize");
+require("dotenv").config();
 const db = require("../db");
+
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql"
+  }
+);
+
+
+const User = sequelize.define("users", {
+  user_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  id: {
+    type: DataTypes.STRING,
+    unique: true
+  },
+  email: {
+    type: DataTypes.STRING,
+    unique: true
+  },
+  name: DataTypes.STRING,
+  password: DataTypes.STRING,
+  myhash: DataTypes.STRING,
+  mysalt: DataTypes.STRING
+});
+
+
+passportLocalSequelize.attachToUser(User, {
+  usernameField: "email",
+  hashField: "myhash",
+  saltField: "mysalt"
+});
 
 const createUser = async (id, password, name, email) => {
   const query = `
@@ -25,6 +67,8 @@ const updateEmailVerifiedStatus = async (userId, status) => {
 };
 
 module.exports = {
+  sequelize,
+  User,
   createUser,
   findUserById,
   updatePassword,
