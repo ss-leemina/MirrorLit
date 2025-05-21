@@ -15,7 +15,7 @@ exports.createComment = async (req, res) => {
       user_id: 1
     });
     // 알림 핸들러 호출
-    //await handleCommentNotification(article_id, newComment.comment_id, user_id);
+    //await handleCommentNotification(article_id, newComment.comment_id, user_id); 기존코드
     await handleCommentNotification(article_id, newComment.comment_id, 1);
 
     res.redirect(`/articles/${article_id}`);
