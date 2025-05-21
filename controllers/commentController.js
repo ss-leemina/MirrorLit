@@ -8,15 +8,16 @@ const { handleCommentNotification } = require('./commentAlterHandler');
 exports.createComment = async (req, res) => {
   try {
     const { article_id, source, content } = req.body;
-    await Comment.create({
+    const newComment = await Comment.create({
       article_id: article_id,
       source,
       content,
       user_id: 1
     });
     // 알림 핸들러 호출
-    await handleCommentNotification(article_id, newComment.comment_id, user_id);
-    
+    //await handleCommentNotification(article_id, newComment.comment_id, user_id);
+    await handleCommentNotification(article_id, newComment.comment_id, 1);
+
     res.redirect(`/articles/${article_id}`);
   } catch (err) {
     console.error("댓글 작성 중 에러:", err);

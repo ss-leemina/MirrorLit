@@ -56,18 +56,21 @@
               <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
             </small>
 
-             <!-- 추천 버튼 (👍) -->
-             <form method="POST" action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
-               <input type="hidden" name="reaction_type" value="like">
-               <button type="submit">👍 추천</button>
-             </form>
+            <!-- 추천 버튼 (👍) -->
+            <form method="POST"
+              action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
+              <input type="hidden" name="reaction_type" value="like">
+              <button type="submit">👍 추천</button>
+            </form>
 
             <!-- 비추천 버튼 (👎) -->
-            <form method="POST" action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
+            <form method="POST"
+              action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
               <input type="hidden" name="reaction_type" value="dislike">
               <button type="submit">👎 비추천</button>
             </form>
 
+            <!-- 삭제 버튼 -->
             <form method="POST" action="/comments/<%= comment.comment_id %>/delete">
               <input type="hidden" name="article_id" value="<%= article.article_id %>">
               <button type="submit">삭제</button>
