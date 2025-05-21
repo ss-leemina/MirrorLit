@@ -37,6 +37,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE,
       allowNull: false,
       defaultValue: Sequelize.NOW
+    },
+    anonymous_no: {
+      type: Sequelize.INTEGER
     }
   }, {
     timestamps: false,
