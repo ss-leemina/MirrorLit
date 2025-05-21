@@ -14,7 +14,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     source: {
       type: Sequelize.STRING(512),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isUrl: true
+      }
     },
     article_id: {
       type: Sequelize.INTEGER,

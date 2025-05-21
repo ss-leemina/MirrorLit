@@ -37,7 +37,7 @@
     <form method="POST" action="/comments">
       <h2>댓글</h2>
       <input type="hidden" name="article_id" value="<%= article.article_id %>">
-      <input type="text" name="source" placeholder="출처" required> <br>
+      <input type="url" name="source" placeholder="출처" required> <br>
       <textarea name="content" placeholder="댓글을 입력하세요." required></textarea>
       <button type="submit">작성</button>
     </form>
