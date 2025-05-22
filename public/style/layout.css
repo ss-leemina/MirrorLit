@@ -63,18 +63,24 @@ body {
   font-size: 1.3rem;
 }
 .check-alert-all {
+  display: inline;
+  text-align:center;
   position: relative;
   left: 15%;
   width: 4rem;
   padding: 0.2rem 0;
   color: black;
   text-decoration: none;
+  font-size: 0.8rem;
   font-weight: 450;
+  font-size: 0.8rem;
   border: 1px solid #5A5A5A;
   border-radius: 5px;
   background-color: white;
 }
 .delete-alert-all {
+  display: inline;
+  text-align:center;
   position: relative;
   left: 17%;
   width: 4rem;
@@ -82,6 +88,7 @@ body {
   color: black;
   text-decoration: none;
   font-weight: 450;
+  font-size: 0.8rem;
   border: 1px solid #5A5A5A;
   border-radius: 5px;
   background-color: white;
@@ -97,21 +104,25 @@ body {
   position: relative;
 }
 .alert-category-N {
+  display: inline;
   position: relative;
   left: 0;
   color: black;
   font-size: 1rem;
 }
 .alert-category-Y {
+  display: inline;
   position: relative;
   left: 0;
   color: #5A5A5A;
   font-size: 1rem;
 }
 .delete-alert {
+  display: inline;
   position: relative;
   left: 20%;
   color: #5A5A5A;
+  font-size: 1rem;
 }
 .alert-content {
   position: relative;

@@ -49,6 +49,7 @@ app.use(async (req, res, next) => {
     //    res.locals.currentUser = req.user;
 
     res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
+    res.locals.isThereNewAlert = false;
 
     next();
   } catch (error) {

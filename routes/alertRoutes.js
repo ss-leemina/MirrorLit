@@ -6,6 +6,15 @@ const alertController = require('../controllers/alertController');
 router.get('/:user_id', alertController.getAlertsByUser);
 
 //알림 읽음 처리
-router.patch('/:alert_id/read', alertController.markAlertAsRead);
+router.post('/:alert_id/read', alertController.markAlertAsRead);
+
+// 모든 알림 읽음 처리
+router.post('/:user_id/readAll', alertController.markAlertAsReadAll);
+
+// 알림 삭제
+router.post(':alert_id/delete', alertController.deleteAlert);
+
+// 모든 알림 삭제
+router.post(':user_id/deleteAll', alertController.deleteAlertAll);
 
 module.exports = router;
