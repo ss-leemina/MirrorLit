@@ -45,11 +45,21 @@ db.sequelize.sync();
 // set local data
 app.use(async (req, res, next) => {
   try {
-    //    res.locals.loggedIn = req.isAuthenticated();    
-    //    res.locals.currentUser = req.user;
+    // about login session : 로그인 세션 구현 후 주석 해제
+//    res.locals.loggedIn = req.isAuthenticated();    
+//    res.locals.currentUser = req.user;
 
-    res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
+    // about comment alerts : 로그인 세션 구현 후 아래 코드로 변경
+    res.locals.commentalerts = await db.CommentAlert.findAll();
     res.locals.isThereNewAlert = false;
+
+//    res.locals.commentAlerts = await db.CommentAlert.findAll({
+//        where: { user_id: currentUser }
+//    });
+//    commentAlerts.forEach(alr => {
+//        if(alr.is_checked === 'N')
+//            return isThereNewAlert = true;
+//    });
 
     next();
   } catch (error) {
