@@ -19,12 +19,11 @@ module.exports = (sequelize, Sequelize) => {
     password: Sequelize.STRING,
     myhash: Sequelize.STRING,
     mysalt: Sequelize.STRING,
-    },
+  },
     {
       timestamps: false,
       tableName: "users"
-    }
-  );
+    });
 
   passportLocalSequelize.attachToUser(User, {
     usernameField: "email",
@@ -55,4 +54,6 @@ module.exports = (sequelize, Sequelize) => {
     const query = `UPDATE users SET email_verified = ? WHERE user_id = ?`;
     await db.execute(query, [status, userId]);
   };
+
+  return User;
 }

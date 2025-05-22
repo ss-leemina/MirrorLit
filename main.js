@@ -45,11 +45,11 @@ db.sequelize.sync();
 // set local data
 app.use(async (req, res, next) => {
   try {
-//    res.locals.loggedIn = req.isAuthenticated();    
-//    res.locals.currentUser = req.user;
+    //    res.locals.loggedIn = req.isAuthenticated();    
+    //    res.locals.currentUser = req.user;
 
     res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
-    
+
     next();
   } catch (error) {
     next(error);
