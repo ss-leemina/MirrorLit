@@ -4,15 +4,18 @@ const express = require("express"),
   app = express(),
   router = express.Router(),
   layouts = require("express-ejs-layouts"),
+  session = require("express-session"),
+  passport = require("passport"),
+  { sequelize, User } = require("./models/userModel"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
   userRouter = require("./routes/userRouter"),
   accountRouter = require("./routes/accounts"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
-  errorController = require("./controllers/errorController");
-sseRoutes = require('./routes/sseRoutes');
-alertRoutes = require('./routes/alertRoutes');
+  errorController = require("./controllers/errorController"),
+  sseRoutes = require('./routes/sseRoutes'),
+  alertRoutes = require('./routes/alertRoutes');
 
 // set port
 app.set("port", process.env.PORT || 3000);
@@ -29,13 +32,26 @@ app.use(
 );
 app.use(express.json());
 
+app.use(
+  session({
+    secret: "secretKey",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+sequelize.sync(); 
 db.sequelize.sync();
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
 
 // set local data
 app.use(async (req, res, next) => {
   try {
+    res.locals.loggedIn = req.isAuthenticated();
+    
+    res.locals.currentUser = req.user;
     res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
+    
     next();
   } catch (error) {
     next(error);
