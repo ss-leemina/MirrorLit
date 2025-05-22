@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: "comment",
+        model: "comments",
         key: "comment_id"
       },
       onDelete: "CASCADE"

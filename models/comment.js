@@ -1,4 +1,3 @@
-// const { SELECT } = require("sequelize/lib/query-types");
 module.exports = (sequelize, Sequelize) => {
   const comment = sequelize.define("comment", {
     comment_id: {
@@ -15,7 +14,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     source: {
       type: Sequelize.STRING(512),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isUrl: true
+      }
     },
     article_id: {
       type: Sequelize.INTEGER,
@@ -35,6 +37,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE,
       allowNull: false,
       defaultValue: Sequelize.NOW
+    },
+    anonymous_no: {
+      type: Sequelize.INTEGER
     }
   }, {
     timestamps: false,

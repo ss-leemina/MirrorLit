@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const passportLocalSequelize = require("passport-local-sequelize");
 require("dotenv").config();
-const db = require("../db");
+const db = require("../config/db");
 
 
 const sequelize = new Sequelize(

@@ -7,6 +7,37 @@
 	margin: auto;
 }
 
+.searchBox {
+	float: right;
+	margin: 10px;
+	margin-top: -3px;
+}
+
+.searchBox form {
+	display: flex;
+	align-items: center;
+}
+
+.searchBox input[type="text"] {
+	padding: 8px 12px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 3px 0 0 3px;
+	outline: none;
+	width: 250px;
+}
+
+.searchBox button {
+	padding: 8px 16px;
+	font-size: 16px;
+	border: 1px solid #000000d6;
+	border-left: none;
+	background-color: #000000dd;
+	color: white;
+	border-radius: 0 3px 3px 0;
+	cursor: pointer;
+}
+
 .articleList > h1 {
 	text-align: center;
 	margin-bottom: 2em;

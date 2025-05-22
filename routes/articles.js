@@ -5,6 +5,7 @@ const express = require("express"),
 
 router.get("/", articleController.showArticleList);
 router.get("/:articleId", articleController.showArticle);
+router.post("/:articleId/factcheck", articleController.factCheckButton);
 
 
 module.exports = router;

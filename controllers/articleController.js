@@ -4,7 +4,58 @@ const db = require("../models"),
   Comment = db.comment,
   Op = db.Sequelize.Op;
 
-// //기사 상세페이지 보여주기
+//기사 목록 페이지
+exports.showArticleList = async (req, res) => {
+  try {
+    const rawKeyword = req.query.search;
+    const keyword = typeof rawKeyword === "string" ? rawKeyword.trim() : null;
+
+    let data = [];
+
+    //기사 리스트 보여주기
+    if (keyword == undefined) {
+      data = await Article.findAll({
+        order: [['created_at', 'DESC']],
+        include: [
+          {
+            model: ArticleImage,
+            attributes: ['image_url']
+          }
+        ]
+      });
+    } //검색(공백이 아닌 경우)
+    else if (keyword && keyword.length > 0) {
+      data = await Article.findAll({
+        order: [['created_at', 'DESC']],
+        include: [
+          {
+            model: ArticleImage,
+            attributes: ['image_url']
+          }
+        ],
+        where: {
+          [Op.or]: [
+            { title: { [Op.like]: `%${keyword}%` } },
+            { content: { [Op.like]: `%${keyword}%` } },
+            { author: { [Op.like]: `%${keyword}%` } },
+            { press: { [Op.like]: `%${keyword}%` } }
+          ]
+        }
+      });
+    } // 공백으로 검색 
+    else {
+      data: [];
+    }
+    res.render('articlesList', { articles: data, keyword: keyword });
+  } catch (err) {
+    res.status(500).send({
+      message: err.message
+    });
+  }
+};
+
+
+//기사 상세페이지
 exports.showArticle = async (req, res) => {
   let articleId = req.params.articleId;
   try {
@@ -36,23 +87,9 @@ exports.showArticle = async (req, res) => {
   }
 };
 
-
-//기사 목록 보여주기
-exports.showArticleList = async (req, res) => {
-  try {
-    data = await Article.findAll({
-      order: [['created_at', 'DESC']],
-      include: [
-        {
-          model: ArticleImage,
-          attributes: ['image_url']
-        }
-      ]
-    });
-    res.render('articlesList', { articles: data });
-  } catch (err) {
-    res.status(500).send({
-      message: err.message
-    });
-  }
-};
+//팩트체크 버튼
+exports.factCheckButton = async (req, res) => {
+  const articleId = req.params.articleId;
+  console.log(`articleId: ${articleId}`);
+  res.redirect(`/articles/${articleId}`);
+}

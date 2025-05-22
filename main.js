@@ -9,11 +9,11 @@ const express = require("express"),
   { sequelize, User } = require("./models/userModel"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
-  userRouter = require("./routes/users"),
+  userRouter = require("./routes/userRouter"),
   accountRouter = require("./routes/accounts"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
-  errorController = require("./controllers/errorController");
+  errorController = require("./controllers/errorController"),
   sseRoutes = require('./routes/sseRoutes'),
   alertRoutes = require('./routes/alertRoutes');
 
@@ -47,11 +47,11 @@ db.sequelize.sync();
 // set local data
 app.use(async (req, res, next) => {
   try {
-    res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
-
     res.locals.loggedIn = req.isAuthenticated();
+    
     res.locals.currentUser = req.user;
-
+    res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
+    
     next();
   } catch (error) {
     next(error);
@@ -66,7 +66,6 @@ app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
 app.use('/alerts', alertRoutes);
-
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);

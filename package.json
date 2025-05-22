@@ -1,19 +1,27 @@
 {
-  "name": "mirrorlit-backend",
+  "name": "mirrorlit",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
   },
-  "keywords": [],
-  "author": "",
+  "author": "project group 2, team mirrorlit",
   "license": "ISC",
-  "description": "",
+  "description": "Fack checking platform for online news",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "connect-flash": "^0.1.1",
     "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.1",
+    "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.14.1"
+    "mysql2": "^3.14.1",
+    "passport": "^0.7.0",
+    "passport-local-sequelize": "^0.9.1",
+    "sequelize": "^6.37.7"
   }
 }
