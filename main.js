@@ -6,7 +6,6 @@ const express = require("express"),
   layouts = require("express-ejs-layouts"),
   session = require("express-session"),
   passport = require("passport"),
-  { sequelize, User } = require("./models/userModel"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
   userRouter = require("./routes/userRouter"),
@@ -40,16 +39,15 @@ app.use(
   })
 );
 
-sequelize.sync(); 
 db.sequelize.sync();
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
 
 // set local data
 app.use(async (req, res, next) => {
   try {
-    res.locals.loggedIn = req.isAuthenticated();
-    
-    res.locals.currentUser = req.user;
+//    res.locals.loggedIn = req.isAuthenticated();    
+//    res.locals.currentUser = req.user;
+
     res.locals.commentalerts = await db.CommentAlert.findAll();	// 추후 수정
     
     next();
