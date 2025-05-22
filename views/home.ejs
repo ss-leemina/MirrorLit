@@ -7,31 +7,30 @@
   </div>
   <div class="contents-boxes">
 
+    <% if (article.length > 0) { %>
     <span class="contents-box">
-      <% if (article.length > 0) { %>
       <a href="/articles/<%= article[0].article_id %>"><%= article[0].title %></a>
       <p class="contents-meta"><%= article[0].press %> | <%= article[0].author %> | <%= new Date(article[0].created_at).toLocaleDateString('ko-KR') %></p>
       <p class="contents-text"><%= article[0].content %></p>
-      <% } %>
     </span>
+    <% } %>
 
-
+    <% if (article.length > 1) { %>
     <span class="contents-box">
-      <% if (article.length > 1) { %>
       <a href="/articles/<%= article[1].article_id %>"><%= article[1].title %></a>
       <p class="contents-meta"><%= article[1].press %> | <%= article[1].author %> | <%= new Date(article[1].created_at).toLocaleDateString('ko-KR') %></p>
       <p class="contents-text"><%= article[1].content %></p>
-      <% } %>
     </span>
-    
+    <% } %>
+
+    <% if (article.length > 2) { %>
     <span class="contents-box">
-      <% if (article.length > 2) { %>
       <a href="/articles/<%= article[2].article_id %>"><%= article[2].title %></a>
       <p class="contents-meta"><%= article[2].press %> | <%= article[2].author %> | <%= new Date(article[2].created_at).toLocaleDateString('ko-KR') %></p>
       <p class="contents-text"><%= article[2].content %></p>
-      <% } %>
     </span>
-
-  </div>
+    <% } %>
+ 
+ </div>
 </div>
 </div>
