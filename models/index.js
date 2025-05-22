@@ -3,6 +3,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
+
 let sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 db.sequelize = sequelize;
@@ -15,6 +16,7 @@ db.comment = require("./comment.js")(sequelize, Sequelize);
 db.CommentAlert = require("./comment_alert")(sequelize, Sequelize);
 db.CommentHistory = require("./comment_history")(sequelize, Sequelize);
 db.CommentReaction = require("./comment_reaction")(sequelize, Sequelize);
+db.UserModel = require("./userModel")(sequelize, Sequelize);
 
 //관계 정의
 require("./associate.js")(db);

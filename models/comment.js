@@ -38,9 +38,6 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       defaultValue: Sequelize.NOW
     },
-    anonymous_no: {
-      type: Sequelize.INTEGER
-    }
   }, {
     timestamps: false,
     tableName: "comments"
