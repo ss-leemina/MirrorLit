@@ -1,8 +1,8 @@
 const db = require("../models"),
   Comment = db.comment,
-  CommentReaction = db.CommentReaction;
+  CommentReaction = db.CommentReaction,
+  User = db.User;
 const { handleCommentNotification } = require('./commentAlterHandler');
-const { getCommentAnonymousNo } = require('../services/commentNickname');
 function isValidUrl(sourceUrl) {
   try {
     const url = new URL(sourceUrl);
@@ -17,18 +17,15 @@ function isValidUrl(sourceUrl) {
 exports.createComment = async (req, res) => {
   try {
     const { article_id, source, content } = req.body;
-    const user_id = 3;  //user 테이블 생기면 수정
+    const user_id = 1;  //user 테이블 생기면 수정
     //url 검사
     if (!isValidUrl(source)) { return res.redirect(`/articles/${article_id}`) };
-    //익명 번호 붙이기
-    const anonymous_no = await getCommentAnonymousNo(article_id, user_id);
 
     const newComment = await Comment.create({
       article_id: article_id,
       source,
       content,
-      user_id,
-      anonymous_no
+      user_id
     });
 
     // 알림 핸들러 호출

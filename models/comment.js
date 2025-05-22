@@ -28,10 +28,14 @@ module.exports = (sequelize, Sequelize) => {
       },
       onDelete: "CASCADE"
     },
-    user_id: {  //user 테이블 생기면 수정
+    user_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
-      // onDelete: "SETNULL"
+      references: {
+        model: "users",
+        key: "user_id"
+      },
+      onDelete: "SET NULL"
     },
     created_at: {
       type: Sequelize.DATE,
