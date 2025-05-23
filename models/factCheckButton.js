@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING(10),
       allowNull: false,
       validate: {
-        isIn: [['팩트다', '아니다']]
+        isIn: [['fact', 'nofact']]
       }
     }
   }, {

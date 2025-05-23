@@ -13,12 +13,15 @@ function isValidUrl(sourceUrl) {
 }
 
 
-//댓글 작성
+// 댓글 작성
 exports.createComment = async (req, res) => {
   try {
     const { article_id, source, content } = req.body;
-    const user_id = 1;  //user 테이블 생기면 수정
-    //url 검사
+    const user_id = 1; //수정
+    // // 로그인 확인
+    // const user_id = req.user?.user_id;
+    // if (!user_id) return res.status(401).send("로그인 필요");
+    // url 검사
     if (!isValidUrl(source)) { return res.redirect(`/articles/${article_id}`) };
 
     const newComment = await Comment.create({
@@ -38,7 +41,7 @@ exports.createComment = async (req, res) => {
   }
 };
 
-//댓글 삭제
+// 댓글 삭제
 exports.deleteComment = async (req, res) => {
   try {
     await Comment.destroy({ where: { comment_id: req.params.commentId } });
@@ -49,7 +52,7 @@ exports.deleteComment = async (req, res) => {
   }
 };
 
-//추천, 비추천 상호작용
+// 추천, 비추천 상호작용
 exports.reactToComment = async (req, res) => {
   const userId = req.body.user_id;
   const commentId = parseInt(req.params.commentId);
