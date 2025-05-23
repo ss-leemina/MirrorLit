@@ -26,14 +26,17 @@
         </p>
   </div>
 
+  <!-- 팩트체크 버튼 -->
   <form class="factCheck" method="POST" action="/articles/<%= article.article_id %>/factcheck">
-    <button class="factCheck-Yes" type="submit">팩트다</button>
-    <button class="factCheck-No" type="submit">아니다</button>
+    <button class="factCheck-Yes" name="factCheck_type" value="fact" type="submit">팩트다 <%= factCounts.fact %></button>
+    <button class="factCheck-No" name="factCheck_type" value="nofact" type="submit">아니다 <%= factCounts.nofact %>
+        </button>
   </form>
 
   <hr>
 
   <div>
+    <!-- 댓글 작성 -->
     <form method="POST" action="/comments">
       <h2>댓글</h2>
       <input type="hidden" name="article_id" value="<%= article.article_id %>">
@@ -78,4 +81,14 @@
         </div>
         <% }) %>
           <% } %>
+
+            <!-- flash 메세지 추가 -->
+            <% if (flashMessages) { %>
+              <% if (flashMessages.selected) { %>
+                <script>
+                  alert("<%= flashMessages.selected %>");
+                </script>
+                <% } %>
+                  <% } %>
+
 </div>

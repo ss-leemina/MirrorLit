@@ -1,10 +1,10 @@
 require("dotenv").config();
-
 const express = require("express"),
   app = express(),
   router = express.Router(),
   layouts = require("express-ejs-layouts"),
   session = require("express-session"),
+  flash = require('connect-flash'),
   passport = require("passport"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
@@ -38,6 +38,11 @@ app.use(
     saveUninitialized: false
   })
 );
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.flashMessages = req.flash();
+  next();
+});
 
 db.sequelize.sync();
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
@@ -46,20 +51,20 @@ db.sequelize.sync();
 app.use(async (req, res, next) => {
   try {
     // about login session : 로그인 세션 구현 후 주석 해제
-//    res.locals.loggedIn = req.isAuthenticated();    
-//    res.locals.currentUser = req.user;
+    //    res.locals.loggedIn = req.isAuthenticated();    
+    //    res.locals.currentUser = req.user;
 
     // about comment alerts : 로그인 세션 구현 후 아래 코드로 변경
     res.locals.commentalerts = await db.CommentAlert.findAll();
     res.locals.isThereNewAlert = false;
 
-//    res.locals.commentAlerts = await db.CommentAlert.findAll({
-//        where: { user_id: currentUser }
-//    });
-//    commentAlerts.forEach(alr => {
-//        if(alr.is_checked === 'N')
-//            return isThereNewAlert = true;
-//    });
+    //    res.locals.commentAlerts = await db.CommentAlert.findAll({
+    //        where: { user_id: currentUser }
+    //    });
+    //    commentAlerts.forEach(alr => {
+    //        if(alr.is_checked === 'N')
+    //            return isThereNewAlert = true;
+    //    });
 
     next();
   } catch (error) {

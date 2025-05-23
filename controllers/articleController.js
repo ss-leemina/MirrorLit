@@ -2,9 +2,29 @@ const db = require("../models"),
   Article = db.article,
   ArticleImage = db.articleImage,
   Comment = db.comment,
+  FactCheck = db.factCheckButton,
   Op = db.Sequelize.Op;
 
-//기사 목록 페이지
+const getfactCheckCount = async (article_id) => {
+  const counts = await FactCheck.findAll({
+    attributes: [
+      'factCheck_type',
+      [db.Sequelize.fn('COUNT', db.Sequelize.col('factCheck_type')), 'count']
+    ],
+    where: { article_id },
+    group: ['factCheck_type'],
+    raw: true
+  });
+
+  const result = { fact: 0, nofact: 0 };
+  counts.forEach(({ factCheck_type, count }) => {
+    result[factCheck_type] = parseInt(count, 10);
+  });
+
+  return result;
+}
+
+// 기사 목록 페이지
 exports.showArticleList = async (req, res) => {
   try {
     const rawKeyword = req.query.search;
@@ -12,7 +32,7 @@ exports.showArticleList = async (req, res) => {
 
     let data = [];
 
-    //기사 리스트 보여주기
+    // 기사 리스트 보여주기
     if (keyword == undefined) {
       data = await Article.findAll({
         order: [['created_at', 'DESC']],
@@ -23,7 +43,7 @@ exports.showArticleList = async (req, res) => {
           }
         ]
       });
-    } //검색(공백이 아닌 경우)
+    } // 검색(공백이 아닌 경우)
     else if (keyword && keyword.length > 0) {
       data = await Article.findAll({
         order: [['created_at', 'DESC']],
@@ -55,9 +75,10 @@ exports.showArticleList = async (req, res) => {
 };
 
 
-//기사 상세페이지
+// 기사 상세페이지
 exports.showArticle = async (req, res) => {
-  let articleId = req.params.articleId;
+  const articleId = req.params.articleId;
+  const factCounts = await getfactCheckCount(articleId);
   try {
     const foundArticle = await Article.findOne({
       where: { article_id: articleId },
@@ -78,7 +99,8 @@ exports.showArticle = async (req, res) => {
     res.render("article", {
       article: foundArticle,
       iamge: foundArticle.ArticleImage || null,
-      comments: foundArticle.comments
+      comments: foundArticle.comments,
+      factCounts
     });
   } catch (err) {
     res.status(500).send({
