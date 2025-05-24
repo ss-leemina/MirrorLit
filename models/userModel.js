@@ -1,59 +1,77 @@
+require("dotenv").config();
+const { Sequelize, DataTypes } = require("sequelize");
 const passportLocalSequelize = require("passport-local-sequelize");
 
-module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("users", {
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+  }
+);
+
+const User = sequelize.define(
+  "User",
+  {
     user_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      allowNull: false,
     },
     id: {
-      type: Sequelize.STRING,
-      unique: true
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     email: {
-      type: Sequelize.STRING,
-      unique: true
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
     },
-    name: Sequelize.STRING,
-    password: Sequelize.STRING,
-    myhash: Sequelize.STRING,
-    mysalt: Sequelize.STRING,
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    registerDate: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false,
+    },
+    level_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    email_verified: {
+      type: DataTypes.ENUM("Y", "N"),
+      allowNull: false,
+      defaultValue: "N",
+    },
+    // passport-local-sequelize 용 해시/솔트 필드
+    myhash: DataTypes.STRING,
+    mysalt: DataTypes.STRING,
   },
-    {
-      timestamps: false,
-      tableName: "users"
-    });
+  {
+    tableName: "users",
+    timestamps: false,
+  }
+);
 
-  passportLocalSequelize.attachToUser(User, {
-    usernameField: "email",
-    hashField: "myhash",
-    saltField: "mysalt"
-  });
+// passport-local-sequelize 
+passportLocalSequelize.attachToUser(User, {
+  usernameField: "email",
+  hashField: "myhash",
+  saltField: "mysalt",
+});
 
-  const createUser = async (id, password, name, email) => {
-    const query = `
-      INSERT INTO users (id, password, name, email)
-      VALUES (?, ?, ?, ?)
-    `;
-    await db.execute(query, [id, password, name, email]);
-  };
-
-  const findUserById = async (id) => {
-    const query = `SELECT * FROM users WHERE id = ?`;
-    const [rows] = await db.execute(query, [id]);
-    return rows[0];
-  };
-
-  const updatePassword = async (userId, newPassword) => {
-    const query = `UPDATE users SET password = ? WHERE id = ?`;
-    await db.execute(query, [newPassword, userId]);
-  };
-
-  const updateEmailVerifiedStatus = async (userId, status) => {
-    const query = `UPDATE users SET email_verified = ? WHERE user_id = ?`;
-    await db.execute(query, [status, userId]);
-  };
-
-  return User;
-}
+module.exports = {
+  sequelize,
+  User,
+};
