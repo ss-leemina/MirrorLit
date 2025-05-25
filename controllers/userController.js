@@ -35,6 +35,7 @@ const login = (req, res) => {
 };
 
 // 로그인 인증 처리
+// Passport-local-sequelize 사용
 const authenticate = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
     .then(user => {
@@ -150,12 +151,12 @@ const verifyEmail = (req, res, next) => {
 };
 
 // 회원가입 폼 렌더링
-exports.showSignupForm = (req, res) => {
+const showSignupForm = (req, res) => {
   res.render("new");            // views/new.ejs
 };
 
 // 인증코드 요청 폼 렌더링
-exports.showResetRequestForm = (req, res) => {
+const showResetRequestForm = (req, res) => {
   res.render("resetPassword");  // views/resetPassword.ejs
 };
 
@@ -168,5 +169,7 @@ module.exports = {
   sendResetEmail,
   showResetForm,
   resetPasswordFinal,
-  verifyEmail
+  verifyEmail,
+  showSignupForm,
+  showResetRequestForm
 };
