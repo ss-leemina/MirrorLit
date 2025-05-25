@@ -44,6 +44,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 db.sequelize.sync();
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
 
@@ -51,8 +54,8 @@ db.sequelize.sync();
 app.use(async (req, res, next) => {
   try {
     // about login session : 로그인 세션 구현 후 주석 해제
-    //    res.locals.loggedIn = req.isAuthenticated();    
-    //    res.locals.currentUser = req.user;
+    res.locals.loggedIn = req.isAuthenticated();    
+    res.locals.currentUser = req.user;
 
     // about comment alerts : 로그인 세션 구현 후 아래 코드로 변경
     res.locals.commentalerts = await db.CommentAlert.findAll();
