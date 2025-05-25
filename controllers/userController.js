@@ -1,5 +1,5 @@
-const db = require("../models");
-const User = db.User;
+const { User, findUserById, updateEmailVerifiedStatus } = require("../models/userModel");
+
 
 function getUserParams(body) {
   return {
@@ -10,10 +10,6 @@ function getUserParams(body) {
     // 필요하다면 level_id, email_verified 등 추가 
   };
 }
-// 이메일 인증 상태 업데이트
-const findUserById = async (email) => {
-  return await User.findOne({ where: { email } });
-};
 
 // 회원가입 
 const create = (req, res, next) => {
@@ -77,77 +73,29 @@ const redirectView = (req, res) => {
   res.redirect(res.locals.redirect);
 };
 
-// 이메일 인증 코드 발송
-const crypto = require("crypto");
-
-const sendResetEmail = async (req, res, next) => {
-  console.log("RESET 요청 도착");
-  const { email } = req.body;
-  console.log("입력된 이메일:", email);
-
-
-  try {
-    const user = await User.findOne({ where: { email } });
-    console.log("유저 검색 결과:", user ? user.email : "유저 없음");
-
-
-    if (!user) {
-      console.log("유저 없음 - redirect");
-      req.flash("error", "존재하지 않는 이메일입니다.");
-      res.locals.redirect = "/users/reset-password";
-      return next();
-    }
-
-    // 인증코드 생성 (6자리 난수)
-    const code = crypto.randomInt(100000, 999999).toString();
-    user.authCode = code;
-    await user.save();
-
-    console.log("생성된 인증코드:", code);
-
-    // 실제 메일 보내는 부분은 nodemailer로 추후 구현
-    //console.log(`인증코드: ${code} (임시 출력)`);
-
-     res.locals.email = email;
-     req.flash("success", `${user.name}님에게 인증코드를 발송했습니다.`);
-     res.locals.user = user;
-     res.locals.redirect = "/users/reset-password";
-     next();
-  } catch (error) {
-    console.error("인증코드 발송 오류:", error.message);
-    req.flash("error", "인증코드 발송 중 오류 발생");
-    res.locals.redirect = "/users/reset-password";
-    next();
-  }
+// 이메일 인증 코드 발송 
+const sendResetEmail = (req, res, next) => {
+  const { id } = req.body;
+  findUserById(id)
+    .then(user => {
+      if (!user) {
+        req.flash("error", "존재하지 않는 아이디입니다.");
+        res.locals.redirect = "/users/reset";
+      } else {
+        // TODO: 실제 메일 발송 로직 삽입
+        req.flash("success", `${user.name}님에게 인증코드를 보냈습니다.`);
+        res.locals.redirect = "/users/reset-form";
+        res.locals.user = user;
+      }
+      next();
+    })
+    .catch(error => {
+      console.error(`Error finding user: ${error.message}`);
+      req.flash("error", `${error.message}로 인해 인증코드 전송에 실패했습니다.`);
+      res.locals.redirect = "/users/reset";
+      next();
+    });
 };
-
-// 인증코드 검증
-const verifyAuthCode = async (req, res, next) => {
-  const { email, emailCode } = req.body;
-
-  try {
-    const user = await User.findOne({ where: { email } });
-
-    if (!user || user.authCode !== emailCode) {
-      req.flash("error", "잘못된 인증코드입니다.");
-      res.locals.redirect = "/users/reset-password";
-      return next();
-    }
-
-    // 인증 성공
-    req.flash("success", "인증 성공! 비밀번호를 재설정하세요.");
-    res.locals.user = user;
-    res.locals.redirect = "/users/reset-form"; // resetPassword2.ejs로 이동
-    next();
-  } catch (err) {
-    console.error(err.message);
-    req.flash("error", "인증 도중 오류가 발생했습니다.");
-    res.locals.redirect = "/users/reset-password";
-    next();
-  }
-};
-
-
 
 // 비밀번호 재설정 폼 보여주기
 const showResetForm = (req, res) => {
@@ -223,6 +171,5 @@ module.exports = {
   resetPasswordFinal,
   verifyEmail,
   showSignupForm,
-  showResetRequestForm,
-  verifyAuthCode
+  showResetRequestForm
 };

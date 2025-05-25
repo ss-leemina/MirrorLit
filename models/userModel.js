@@ -41,10 +41,6 @@ module.exports =  (sequelize, Sequelize) => {
         allowNull: false,
         defaultValue: "N",
       },
-      authCode: {
-      type: Sequelize.STRING,
-      allowNull: true,
-      },
       // passport-local-sequelize 용 해시/솔트 필드
       myhash: Sequelize.STRING,
       mysalt: Sequelize.STRING,
@@ -55,13 +51,5 @@ module.exports =  (sequelize, Sequelize) => {
     }
   );
 
-
-  User.prototype.passwordComparison = function (inputPassword) {
-    return bcrypt.compare(inputPassword, this.password);
-  };
-
-
   return User;
 };
-
-
