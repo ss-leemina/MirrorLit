@@ -1,5 +1,5 @@
 <div class="article">
-  <button>
+  <button class="list-button">
     <a href="/articles">목록 보기</a>
   </button>
   <div class="meta">
@@ -37,58 +37,63 @@
 
   <div>
     <!-- 댓글 작성 -->
-    <form method="POST" action="/comments">
+    <form class="comment-form" method="POST" action="/comments">
       <h2>댓글</h2>
       <input type="hidden" name="article_id" value="<%= article.article_id %>">
-      <input type="url" name="source" placeholder="출처" required> <br>
+      <input type="url" name="source" placeholder="출처" required>
       <textarea name="content" placeholder="댓글을 입력하세요." required></textarea>
       <button type="submit">작성</button>
     </form>
   </div>
 
-  <% if (!comments || comments.length===0) { %>
-    <p>아직 댓글이 없습니다.</p>
-    <% } else { %>
-      <% comments.forEach(comment=> { %>
-        <div>
-          <hr>
-          <p>출처 : <%= comment.source %>
-          </p>
-          <%= comment.content %><br>
-            <small>
-              <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
-            </small>
-
-            <!-- 추천 버튼 (👍) -->
-            <form method="POST"
-              action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
-              <input type="hidden" name="reaction_type" value="like">
-              <button type="submit">👍 추천</button>
-            </form>
-
-            <!-- 비추천 버튼 (👎) -->
-            <form method="POST"
-              action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
-              <input type="hidden" name="reaction_type" value="dislike">
-              <button type="submit">👎 비추천</button>
-            </form>
-
+  <div class="comment-section">
+    <% if (!comments || comments.length===0) { %>
+      <p class="no-comments">아직 댓글이 없습니다.</p>
+      <% } else { %>
+        <% comments.forEach(comment=> { %>
+          <div class="comment-card">
             <!-- 삭제 버튼 -->
             <form method="POST" action="/comments/<%= comment.comment_id %>/delete">
               <input type="hidden" name="article_id" value="<%= article.article_id %>">
-              <button type="submit">삭제</button>
+              <button type="submit" class="delete-button">❌</button>
             </form>
-        </div>
-        <% }) %>
-          <% } %>
+            <p class="comment-source">출처 : <%= comment.source %>
+            </p>
+            <p class="comment-content">
+              <%= comment.content %>
+            </p>
+            <br>
+            <p class="comment-date ">
+              <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
+            </p>
 
-            <!-- flash 메세지 추가 -->
-            <% if (flashMessages) { %>
-              <% if (flashMessages.selected) { %>
-                <script>
-                  alert("<%= flashMessages.selected %>");
-                </script>
-                <% } %>
-                  <% } %>
+            <div class="reaction-buttons">
+              <!-- 추천 버튼 (👍) -->
+              <form method="POST"
+                action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
+                <input type="hidden" name="reaction_type" value="like">
+                <button type="submit">👍 추천</button>
+              </form>
+
+              <!-- 비추천 버튼 (👎) -->
+              <form method="POST"
+                action="/articles/<%= article.article_id %>/comments/<%= comment.comment_id %>/reaction">
+                <input type="hidden" name="reaction_type" value="dislike">
+                <button type="submit">👎 비추천</button>
+              </form>
+            </div>
+          </div>
+          <% }) %>
+            <% } %>
+  </div>
+
+  <!-- flash 메세지 추가 -->
+  <% if (flashMessages) { %>
+    <% if (flashMessages.selected) { %>
+      <script>
+        alert("<%= flashMessages.selected %>");
+      </script>
+      <% } %>
+        <% } %>
 
 </div>

@@ -17,7 +17,7 @@ function isValidUrl(sourceUrl) {
 exports.createComment = async (req, res) => {
   try {
     const { article_id, source, content } = req.body;
-    const user_id = 1; //수정
+    const user_id = 2; //수정
     // // 로그인 확인
     // const user_id = req.user?.user_id;
     // if (!user_id) return res.status(401).send("로그인 필요");

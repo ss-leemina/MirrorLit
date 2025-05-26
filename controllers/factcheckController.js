@@ -6,7 +6,7 @@ exports.createFactCheck = async (req, res) => {
   try {
     const { factCheck_type } = req.body;
     const article_id = req.params.articleId;
-    const user_id = 1; // 수정
+    const user_id = 2; // 수정
 
     // 이미 선택한 경우
     const existing = await factCheck.findOne({
