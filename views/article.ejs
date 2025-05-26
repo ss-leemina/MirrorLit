@@ -22,7 +22,7 @@
       <img src="<%= article.articleImage.image_url %>" alt="대표 이미지">
       <% } %>
         <p>
-          <%= article.content %>
+          <%- article.content.replace(/\n/g, '<br>' ) %>
         </p>
   </div>
 
@@ -30,7 +30,7 @@
   <form class="factCheck" method="POST" action="/articles/<%= article.article_id %>/factcheck">
     <button class="factCheck-Yes" name="factCheck_type" value="fact" type="submit">팩트다 <%= factCounts.fact %></button>
     <button class="factCheck-No" name="factCheck_type" value="nofact" type="submit">아니다 <%= factCounts.nofact %>
-        </button>
+    </button>
   </form>
 
   <hr>
