@@ -69,6 +69,18 @@ module.exports = (db) => {
     onDelete: "CASCADE"
   });
   db.CommentReaction.belongsTo(db.comment, {
-    foreignKey: 'comment_id'
+    foreignKey: 'comment_id',
+    onDelete: "SET NULL",       
+    onUpdate: "CASCADE"
   });
+
+  // 사용자-이메일인증 1:N 관계
+  db.User.hasMany(db.EmailVerification, {
+    foreignKey: "user_id",
+    onDelete: "CASCADE"
+  });
+  db.EmailVerification.belongsTo(db.User, {
+    foreignKey: "user_id"
+  });
+
 }
