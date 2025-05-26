@@ -6,7 +6,14 @@ exports.createFactCheck = async (req, res) => {
   try {
     const { factCheck_type } = req.body;
     const article_id = req.params.articleId;
-    const user_id = 2; // 수정
+    // const user_id = 2; // 수정
+
+    //로그인 확인
+    const user_id = req.user?.user_id;
+    if (!user_id) {
+      req.flash("notLogin", "로그인이 필요한 기능입니다.");
+      return res.redirect(`/articles/${article_id}`);
+    }
 
     // 이미 선택한 경우
     const existing = await factCheck.findOne({

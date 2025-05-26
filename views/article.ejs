@@ -38,10 +38,11 @@
   <div>
     <!-- 댓글 작성 -->
     <form class="comment-form" method="POST" action="/comments">
-      <h2>댓글</h2>
+      <h2>댓글 <%=commentCounts %>
+      </h2>
       <input type="hidden" name="article_id" value="<%= article.article_id %>">
       <input type="url" name="source" placeholder="출처" required>
-      <textarea name="content" placeholder="댓글을 입력하세요." required></textarea>
+      <textarea name="content" placeholder="댓글을 작성하려면 로그인 해주세요." required></textarea>
       <button type="submit">작성</button>
     </form>
   </div>
@@ -94,6 +95,11 @@
         alert("<%= flashMessages.selected %>");
       </script>
       <% } %>
-        <% } %>
+        <% if (flashMessages.notLogin) { %>
+          <script>
+            alert("<%= flashMessages.notLogin %>");
+          </script>
+          <% } %>
+            <% } %>
 
 </div>

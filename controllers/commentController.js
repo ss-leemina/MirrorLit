@@ -3,24 +3,19 @@ const db = require("../models"),
   CommentReaction = db.CommentReaction,
   User = db.User;
 const { handleCommentNotification } = require('./commentAlterHandler');
-function isValidUrl(sourceUrl) {
-  try {
-    const url = new URL(sourceUrl);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch (err) {
-    return false;
-  }
-}
-
+const { isValidUrl } = require("../services/checkUrl");
 
 // 댓글 작성
 exports.createComment = async (req, res) => {
   try {
     const { article_id, source, content } = req.body;
-    const user_id = 2; //수정
+    // const user_id = 2; //수정
     // // 로그인 확인
-    // const user_id = req.user?.user_id;
-    // if (!user_id) return res.status(401).send("로그인 필요");
+    const user_id = req.user?.user_id;
+    if (!user_id) {
+      req.flash("notLogin", "로그인이 필요한 기능입니다.");
+      return res.redirect(`/articles/${article_id}`);
+    }
     // url 검사
     if (!isValidUrl(source)) { return res.redirect(`/articles/${article_id}`) };
 
