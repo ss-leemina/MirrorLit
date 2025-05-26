@@ -18,6 +18,7 @@ db.comment = require("./comment.js")(sequelize, Sequelize);
 db.CommentAlert = require("./comment_alert")(sequelize, Sequelize);
 db.CommentHistory = require("./comment_history")(sequelize, Sequelize);
 db.CommentReaction = require("./comment_reaction")(sequelize, Sequelize);
+db.EmailVerification = require("./emailVerificationModel.js")(sequelize, Sequelize);
 
 
 //관계 정의

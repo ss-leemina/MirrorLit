@@ -11,21 +11,21 @@ module.exports =  (sequelize, Sequelize) => {
         allowNull: false,
       },
       id: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         unique: true,
         allowNull: false,
       },
       password: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: false,
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         unique: true,
         allowNull: false,
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(10),
         unique: true,
         allowNull: false,
       },
@@ -43,10 +43,7 @@ module.exports =  (sequelize, Sequelize) => {
         allowNull: false,
         defaultValue: "N",
       },
-      authCode: {
-      type: Sequelize.STRING,
-      allowNull: true,
-      },
+      
       // passport-local-sequelize 용 해시/솔트 필드
       myhash: Sequelize.STRING,
       mysalt: Sequelize.STRING,

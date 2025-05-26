@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express"),
   app = express(),
-  router = express.Router(),
+  //router = express.Router(),
   layouts = require("express-ejs-layouts"),
   session = require("express-session"),
   flash = require('connect-flash'),
@@ -12,6 +12,7 @@ const express = require("express"),
   accountRouter = require("./routes/accounts"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
+  emailVerificationRouter = require("./routes/emailVerificationRouter"),
   errorController = require("./controllers/errorController"),
   sseRoutes = require('./routes/sseRoutes'),
   alertRoutes = require('./routes/alertRoutes');
@@ -47,7 +48,8 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-db.sequelize.sync();
+db.sequelize.sync({ alter: true });
+
 // db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
 
 // set local data
@@ -83,6 +85,7 @@ app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
 app.use('/alerts', alertRoutes);
+app.use("/email-verification", emailVerificationRouter);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);

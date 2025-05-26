@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
         key: "comment_id"
       },
       allowNull: true,
-      onDelete: "SET NULL"
+      //onDelete: "SET NULL"
     },
     user_id: { //추가 수정 필요
       type: Sequelize.INTEGER,
