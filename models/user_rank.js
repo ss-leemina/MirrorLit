@@ -1,3 +1,7 @@
+INSERT INTO user_rank (rank_id, rank_name, min_comments, min_upvotes) VALUES
+(1, '신규', 0, 0),
+(2, '기존', 5, 10);
+
 module.exports = (sequelize, Sequelize) => {
 	const UserRank = sequelize.define('user_rank', {
 		rank_id: {
@@ -11,8 +15,8 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 			unique: true
 		},
-		promotion_comments: Sequelize.INTEGER,
-		promotion_upvotes: Sequelize.INTEGER
+		min_comments: Sequelize.INTEGER,
+		min_upvotes: Sequelize.INTEGER
 		//description: Sequelize.TEXT
 	}, {
 		timestamps: false,

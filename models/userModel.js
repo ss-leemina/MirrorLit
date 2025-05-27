@@ -11,6 +11,16 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       unique: true
     },
+    //등급 저장
+    rank_id: {
+      type: Sequelize.INTEGER,
+      reference: {
+              model: 'user_rank',
+              key: 'rank_id'
+      },
+      defaultValue: 1 //신규: 1 기존: 2
+    },
+
     email: {
       type: Sequelize.STRING,
       unique: true
