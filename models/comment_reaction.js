@@ -12,12 +12,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     comment_id: {
       type: Sequelize.INTEGER,
+      allowNull: true,
       references: {
         model: "comments",
-        key: "comment_id"
+        key: "comment_id",
+        onDelete: "SET NULL"
       },
-      allowNull: true,
-      onDelete: "SET NULL"
     },
     user_id: { //추가 수정 필요
       type: Sequelize.INTEGER,
