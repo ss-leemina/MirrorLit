@@ -1,0 +1,44 @@
+.comment-form {
+	width: 100%;
+	max-width: 700px;
+	margin: 30px auto;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.comment-form h2 {
+	font-size: 24px;
+	margin-bottom: 16px;
+}
+
+.comment-form input[type="url"],
+.comment-form textarea {
+	width: 100%;
+	padding: 12px;
+	font-size: 14px;
+	border: 1px solid #646464;
+	border-radius: 6px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+.comment-form textarea {
+	height: 120px;
+	resize: vertical;
+}
+
+.comment-form button {
+	display: block;
+	margin-left: auto;
+	padding: 10px 20px;
+	font-size: 14px;
+	background-color: #252525;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.comment-form button:hover {
+	background-color: #454545;
+}

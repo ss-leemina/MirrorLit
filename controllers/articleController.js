@@ -4,25 +4,9 @@ const db = require("../models"),
   Comment = db.comment,
   FactCheck = db.factCheckButton,
   Op = db.Sequelize.Op;
+const { getfactCheckCount } = require("../services/getFactCheck");
+const { getCommentCount } = require("../services/getComment");
 
-const getfactCheckCount = async (article_id) => {
-  const counts = await FactCheck.findAll({
-    attributes: [
-      'factCheck_type',
-      [db.Sequelize.fn('COUNT', db.Sequelize.col('factCheck_type')), 'count']
-    ],
-    where: { article_id },
-    group: ['factCheck_type'],
-    raw: true
-  });
-
-  const result = { fact: 0, nofact: 0 };
-  counts.forEach(({ factCheck_type, count }) => {
-    result[factCheck_type] = parseInt(count, 10);
-  });
-
-  return result;
-}
 
 // 기사 목록 페이지
 exports.showArticleList = async (req, res) => {
@@ -79,6 +63,7 @@ exports.showArticleList = async (req, res) => {
 exports.showArticle = async (req, res) => {
   const articleId = req.params.articleId;
   const factCounts = await getfactCheckCount(articleId);
+  const commentCounts = await getCommentCount(articleId);
   try {
     const foundArticle = await Article.findOne({
       where: { article_id: articleId },
@@ -100,7 +85,8 @@ exports.showArticle = async (req, res) => {
       article: foundArticle,
       iamge: foundArticle.ArticleImage || null,
       comments: foundArticle.comments,
-      factCounts
+      factCounts,
+      commentCounts
     });
   } catch (err) {
     res.status(500).send({

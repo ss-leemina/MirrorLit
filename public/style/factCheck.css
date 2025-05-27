@@ -1,0 +1,40 @@
+.factCheck {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin: 20px 0;
+}
+
+.factCheck button {
+	background-color: #f0f0f0;
+	border: 2px solid #ccc;
+	border-radius: 4px;
+	padding: 10px 16px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+
+.factCheck button:hover {
+	background-color: #dcdcdc;
+	border-color: #999;
+}
+
+.factCheck-Yes {
+	color: #3b79d4;
+	border-color: #484ab5;
+}
+
+.factCheck-No {
+	color: #c94949;
+	border-color: #c62828;
+}
+
+.factCheck-Yes:hover {
+	background-color: #e8f5e9;
+}
+
+.factCheck-No:hover {
+	background-color: #ffebee;
+}

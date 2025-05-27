@@ -1,0 +1,77 @@
+.comment-section {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.comment-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.no-comments {
+	text-align: center;
+	color: #444;
+	margin-top: 20px;
+	font-size: 1.1rem;
+}
+.comment-card {
+	position: relative;
+	border-top: 1px solid #6b6b6b;
+	padding: 16px;
+	margin-bottom: 16px;
+}
+
+.comment-source {
+	font-size: 0.9rem;
+	margin-bottom: 4px;
+}
+
+.comment-content {
+	font-size: 1rem;
+	margin-bottom: 4px;
+}
+
+.comment-date {
+	font-size: 0.8rem;
+	color: #323232;
+	margin-bottom: 8px;
+	display: block;
+}
+
+.reaction-buttons {
+	display: flex;
+	gap: 8px;
+}
+
+.reaction-buttons form {
+	display: inline;
+}
+
+.reaction-buttons button {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 4px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.9rem;
+}
+
+.reaction-buttons button:hover {
+	background-color: #f0f0f0;
+}
+.delete-button {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	background: none;
+	border: none;
+	font-size: 1rem;
+	cursor: pointer;
+	color: #888;
+}
+
+.delete-button:hover {
+	background-color: #f0f0f0;
+}

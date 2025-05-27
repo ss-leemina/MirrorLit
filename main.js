@@ -56,7 +56,7 @@ db.sequelize.sync({ alter: true });
 app.use(async (req, res, next) => {
   try {
     // about login session : 로그인 세션 구현 후 주석 해제
-    res.locals.loggedIn = req.isAuthenticated();    
+    res.locals.loggedIn = req.isAuthenticated();
     res.locals.currentUser = req.user;
 
     // about comment alerts : 로그인 세션 구현 후 아래 코드로 변경

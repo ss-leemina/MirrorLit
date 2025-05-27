@@ -4,7 +4,8 @@ const commentController = require('../controllers/commentController');
 const authenticate = require("../middlewares/auth");
 
 // 댓글 작성
-router.post('/', authenticate.authenticate, commentController.createComment);
+// router.post('/', authenticate.authenticate, commentController.createComment);
+router.post('/', commentController.createComment);
 
 // 댓글 삭제
 router.post('/:commentId/delete', commentController.deleteComment);
