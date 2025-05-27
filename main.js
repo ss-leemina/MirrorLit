@@ -49,7 +49,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 db.sequelize.sync();
-// db.sequelize.sync({ alter: true });  // sequelize 바꾸면 이걸로 바꿔서 동기화
+// sequelize 바꾸면 이걸로 바꿔서 동기화
+// db.sequelize.sync({ alter: true });
 
 // set local data
 app.use(async (req, res, next) => {
