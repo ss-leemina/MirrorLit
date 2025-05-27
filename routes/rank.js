@@ -6,4 +6,3 @@ const rankController = require('../controllers/rankController');
 router.get('/user/:userId', rankController.getUserRank);
 
 module.exports = router;
-

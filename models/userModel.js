@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const passportLocalSequelize = require("passport-local-sequelize");
 
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define("users", {
@@ -30,67 +30,40 @@ module.exports = (sequelize, Sequelize) => {
     myhash: Sequelize.STRING,
     mysalt: Sequelize.STRING,
   },
-    module.exports = (sequelize, Sequelize) => {
-      const User = sequelize.define(
-        "User",
-        {
-          user_id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-          },
-          id: {
-            type: Sequelize.STRING(20),
-            unique: true,
-            allowNull: false,
-          },
-          password: {
-            type: Sequelize.STRING(20),
-            allowNull: false,
-          },
-          email: {
-            type: Sequelize.STRING(50),
-            unique: true,
-            allowNull: false,
-          },
-          name: {
-            type: Sequelize.STRING(10),
-            unique: true,
-            allowNull: false,
-          },
-          registerDate: {
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW,
-            allowNull: false,
-          },
-          level_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-          },
-          email_verified: {
-            type: Sequelize.ENUM("Y", "N"),
-            allowNull: false,
-            defaultValue: "N",
-          },
+    {
+      timestamps: false,
+      tableName: "users"
+    });
 
-          // passport-local-sequelize 용 해시/솔트 필드
-          myhash: Sequelize.STRING,
-          mysalt: Sequelize.STRING,
-        },
-        {
-          tableName: "users",
-          timestamps: false,
-        }
-      );
+  passportLocalSequelize.attachToUser(User, {
+    usernameField: "email",
+    hashField: "myhash",
+    saltField: "mysalt"
+  });
 
+  const createUser = async (id, password, name, email) => {
+    const query = `
+      INSERT INTO users (id, password, name, email)
+      VALUES (?, ?, ?, ?)
+    `;
+    await db.execute(query, [id, password, name, email]);
+  };
 
-      User.prototype.passwordComparison = function (inputPassword) {
-        return bcrypt.compare(inputPassword, this.password);
-      };
+  const findUserById = async (id) => {
+    const query = `SELECT * FROM users WHERE id = ?`;
+    const [rows] = await db.execute(query, [id]);
+    return rows[0];
+  };
 
+  const updatePassword = async (userId, newPassword) => {
+    const query = `UPDATE users SET password = ? WHERE id = ?`;
+    await db.execute(query, [newPassword, userId]);
+  };
 
-      return User;
-    };
+  const updateEmailVerifiedStatus = async (userId, status) => {
+    const query = `UPDATE users SET email_verified = ? WHERE user_id = ?`;
+    await db.execute(query, [status, userId]);
+  };
 
-
+  return User;
+}

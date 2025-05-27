@@ -1,11 +1,11 @@
 const db = require("../models");
-const User = db.users;
-const UserRank = db.user_rank;
+const User = db.User;
+const UserRank = db.UserRank;
 
-//:사용자의 등급 정보 조회
+// 사용자의 등급 정보 조회
 exports.getUserRank = async (req, res) => {
   try {
-   i const userId = req.params.userId;
+    const userId = req.params.userId;
 
     const user = await User.findByPk(userId, {
       include: [{
