@@ -1,50 +1,53 @@
 <nav class="navigation">
   <a class="logo" href="/home">MirrorLit</a>
+  <% if (loggedIn) { %>
+    <span class="notification" id="openPopup" alt="팝업 열기">
+      <% if (isThereNewAlert) { %>
+        <img src="/images/notification_unchecked.png" width="35">
+      <% } else { %>
+        <img src="/images/notification.png" width="35">
+      <% } %>
+    </span>
 
-  <span class="notification" id="openPopup" alt="팝업 열기">
-    <% if (isThereNewAlert) { %>
-      <img src="/images/notification_unchecked.png" width="35">
-    <% } else { %>
-      <img src="/images/notification.png" width="35">
-    <% } %>
-  </span>
-
-  <div id="popup" class="popup-overlay">
-    <div class="popup-content">
-      <span class="alert-title-line">
-        <span class="alert-list-title">알림 목록</span>
-        <form method="POST" action="#" id="check-alert-all" class="check-alert-all">
-          모두 읽기
-        </form>
-        <form method="POST" action="#" id="delete-alert-all" class="delete-alert-all">
-          비우기
-        </form>
-      </span>
-      <div class="alert-content-line">
-        <% if (commentalerts.length === 0) { %>
-          <p class="alert-content">알림이 없습니다.</p>
-        <% } else { %>
-          <% commentalerts.forEach(alerts => { %>
-            <form method="POST" action="/alerts/<%= alerts.alert_id %>/read" class="alert-category-<%= alerts.is_checked %>">
-              <%= alerts.alert_message %>
-            </form>
-            <form method="POST" action="/alerts/<%= alerts.alert_id %>/delete" id="delete-alert" class="delete-alert">
-              &times;
-            </form>
-          <% }) %>
-        <% } %>
+    <div id="popup" class="popup-overlay">
+      <div class="popup-content">
+        <span class="alert-title-line">
+          <span class="alert-list-title">알림 목록</span>
+          <form method="POST" action="/alerts/<%= currentUser.user_id %>/readAll" id="check-alert-all" class="check-alert-all">
+            모두 읽기
+          </form>
+          <form method="POST" action="/alerts/<%= currentUser.user_id %>/deleteAll" id="delete-alert-all" class="delete-alert-all">
+            비우기
+          </form>
+        </span>
+        <div class="alert-content-line">
+          <% if (commentalerts.length === 0) { %>
+            <p class="alert-content">알림이 없습니다.</p>
+          <% } else { %>
+            <% commentalerts.forEach(alerts => { %>
+              <form method="POST" action="/alerts/<%= alerts.alert_id %>/read" class="alert-category-<%= alerts.is_checked %>">
+                <%= alerts.alert_message %>
+              </form>
+              <form method="POST" action="/alerts/<%= alerts.alert_id %>/delete" id="delete-alert" class="delete-alert">
+                &times;
+              </form>
+            <% }) %>
+          <% } %>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="/js/layoutScript.js"></script>
+    <script src="/js/layoutScript.js"></script>
 
-  <a class="account-page" href="#">
-    마이페이지
-  </a>
-  <a class="logout" href="/users/logout">
-    로그아웃
-  </a>
-  <a class="login" href="/users/login">
-    로그인
-  </a>
+    <a class="account-page" href="#">
+      마이페이지
+    </a>
+    <a class="logout" href="/users/logout">
+      로그아웃
+    </a>
+
+  <% } else { %>
+    <a class="login" href="/users/login">
+      로그인
+    </a>
+  <% } %>
 </nav>
