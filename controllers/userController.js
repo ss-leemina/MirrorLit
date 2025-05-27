@@ -63,7 +63,7 @@ try {
     id,
     email,
     password,
-    level_id: 1,
+    level_id: 0,
     email_verified: 'Y'
   });
 
@@ -85,13 +85,35 @@ try {
   next();
 
 } catch (error) {
+  if (error.name === 'SequelizeUniqueConstraintError') {
+    // 중복 확인
+    const field = error.errors[0].path; // 예: 'email', 'id', 'name'
+    let message = '';
+
+    switch (field) {
+      case 'email':
+        message = '이미 사용 중인 이메일입니다.';
+        break;
+      case 'id':
+        message = '이미 사용 중인 아이디입니다.';
+        break;
+      case 'name':
+        message = '이미 사용 중인 닉네임입니다.';
+        break;
+      default:
+        message = '중복된 값이 있습니다.';
+    }
+
+    req.flash('error', message);
+    return res.render('new', { name, id, email, password, confirmPassword, messages: req.flash() });
+  }
+
+  // 그 외 에러 처리
   console.error("회원가입 오류:", error.message);
   req.flash("error", error.message);
   res.render("new", { name, id, email, password, confirmPassword, messages: req.flash() });
 }
-
 };
-
 
 // 로그인 폼
 const login = (req, res) => {

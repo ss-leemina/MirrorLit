@@ -10,7 +10,8 @@ const sendVerificationCode = async (req, res) => {
     const sent_at = new Date();
 
     await EmailVerification.create({
-      user_id: userId,
+      email,
+      user_id: null,
       code,
       sent_at,
       verified: 'N'

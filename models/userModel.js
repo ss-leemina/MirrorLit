@@ -8,45 +8,45 @@ module.exports =  (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
+        allowNull: false
       },
       id: {
         type: Sequelize.STRING(20),
         unique: true,
-        allowNull: false,
+        allowNull: false
       },
       password: {
         type: Sequelize.STRING(20),
-        allowNull: false,
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING(50),
         unique: true,
-        allowNull: false,
+        allowNull: false
       },
       name: {
         type: Sequelize.STRING(10),
         unique: true,
-        allowNull: false,
+        allowNull: false
       },
       registerDate: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
-        allowNull: false,
+        allowNull: true
       },
       level_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       email_verified: {
         type: Sequelize.ENUM("Y", "N"),
         allowNull: false,
-        defaultValue: "N",
+        defaultValue: "N"
       },
       
       // passport-local-sequelize 용 해시/솔트 필드
       myhash: Sequelize.STRING,
-      mysalt: Sequelize.STRING,
+      mysalt: Sequelize.STRING
     },
     {
       tableName: "users",
