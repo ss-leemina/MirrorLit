@@ -102,6 +102,7 @@ body {
 .alert-content-line {
   margin: 0.5rem;
   position: relative;
+  overflow: scroll;
 }
 .alert-category-N {
   display: inline;
