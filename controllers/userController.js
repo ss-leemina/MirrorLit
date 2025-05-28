@@ -73,14 +73,20 @@ const create = async (req, res, next) => {
           req.flash('error', message);
           return res.render('new', { name, id, email, password, confirmPassword, messages: req.flash() });
         }
+<<<<<<< HEAD
          
+=======
+>>>>>>> cfcc1d190ac4171989714a2ab0e93bae3e6d92f6
 
         req.flash("error", err.message);
         return res.render("new", { name, id, email, password, confirmPassword, messages: req.flash() });
       }
 
+<<<<<<< HEAD
       console.log(" User.register 호출됨! user_id:", user.user_id);
 
+=======
+>>>>>>> cfcc1d190ac4171989714a2ab0e93bae3e6d92f6
       // 회원가입 성공 시 이메일 인증 테이블에 user_id 업데이트
       await db.EmailVerification.update(
         { user_id: user.user_id },

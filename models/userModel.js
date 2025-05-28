@@ -66,9 +66,29 @@ module.exports = (sequelize, Sequelize) => {
     saltField: "mysalt"
   });
 
+<<<<<<< HEAD
   User.prototype.passwordComparison = function (password, cb) {
   return User.authenticate(password, this.myhash, this.mysalt, cb);
 };
+=======
+
+
+  //User.beforeCreate(async (user, options) => {
+  //const bcrypt = require("bcrypt");
+  //const saltRounds = 10;
+  //user.password = await bcrypt.hash(user.password, saltRounds);
+  //});
+
+  //User.beforeUpdate(async (user, options) => {
+  //if (user.changed('password')) {
+  //const bcrypt = require("bcrypt");
+  //const saltRounds = 10;
+  //user.password = await bcrypt.hash(user.password, saltRounds);
+  //}
+  //});
+
+
+>>>>>>> cfcc1d190ac4171989714a2ab0e93bae3e6d92f6
 
   return User;
 }
