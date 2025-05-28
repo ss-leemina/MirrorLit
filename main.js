@@ -9,12 +9,7 @@ const express = require("express"),
   LocalStrategy = require('passport-local').Strategy,
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
-<<<<<<< HEAD
   userRouter = require("./routes/userRouter"), 
-=======
-  userRouter = require("./routes/userRouter"),
-  accountRouter = require("./routes/accounts"),
->>>>>>> bc2ab73 (Revert "로그인, 회원가입 최종 수정 완료")
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   emailVerificationRouter = require("./routes/emailVerificationRouter"),
