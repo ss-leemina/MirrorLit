@@ -19,9 +19,14 @@ module.exports = (sequelize, Sequelize) => {
       },
       onDelete: "CASCADE"
     },
-    user_id: { //추후 수정 필요
+    user_id: { 
       type: Sequelize.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "user_id"
+      },
+      onDelete: "CASCADE"
     },
     is_checked: {
       type: Sequelize.STRING(5),
