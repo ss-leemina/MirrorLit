@@ -1,4 +1,11 @@
 <div class="login-form">
+    <% if (messages.error && messages.error.length > 0) { %>
+  <div class="error-message" style="color: red; margin-bottom: 10px;">
+    <%= messages.error[0] %>
+  </div>
+<% } %>
+
+
         <form action="/users/login" method="POST">
             <h2>로그인</h2>
 

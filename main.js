@@ -10,7 +10,6 @@ const express = require("express"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
   userRouter = require("./routes/userRouter"),
-  accountRouter = require("./routes/accounts"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   emailVerificationRouter = require("./routes/emailVerificationRouter"),
@@ -47,12 +46,12 @@ app.use(passport.session());
 
 // passport LocalStrategy/serializeUser/deserializeUser
 passport.use(new LocalStrategy(
-  
-  {
-  usernameField: "id",        
-    passwordField: "password"
-},
 
+  {
+    usernameField: "id",
+    passwordField: "password"
+  },
+  
   async (id, password, done) => {
     console.log("LocalStrategy 실행됨", id);
     try {
@@ -62,20 +61,29 @@ passport.use(new LocalStrategy(
         return done(null, false, { message: "존재하지 않는 계정입니다." });
       }
 
-      const isMatch = await user.passwordComparison(password);
-      if (!isMatch) {
-        console.log(" 비밀번호 불일치");
-        return done(null, false, { message: "비밀번호가 틀렸습니다." });
-      }
+      user.authenticate(password, (err, valid, msg) => {
+        if (err) {
+          console.error("비교 중 에러:", err);
+          return done(err);
+        }
+        if (!valid) {
+          console.log("비밀번호 불일치");
+          return done(null, false, { message: msg.message });
+        }
 
-      console.log(" 로그인 성공, 사용자 ID:", user.user_id);
-      return done(null, user);
+        console.log("로그인 성공, 사용자 ID:", user.user_id);
+        return done(null, user);
+      });
+
     } catch (err) {
       console.error("LocalStrategy 에러:", err);
       return done(err);
     }
   }
 ));
+
+
+
 
 passport.serializeUser((user, done) => {
   console.log("serializeUser 실행됨", user.user_id);
@@ -94,7 +102,7 @@ passport.deserializeUser(async (user_id, done) => {
 });
 
 // db 수정이 없는 경우 : alert true인 채로 계속 돌리다 보면 오류 납니다.
-db.sequelize.sync();
+   db.sequelize.sync();
 // db 수정이 있는 경우 : sequelize 바꾸면 이걸로 바꿔서 동기화
 // db.sequelize.sync({ alter: true });
 
