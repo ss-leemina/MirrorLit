@@ -70,10 +70,40 @@ module.exports = (db) => {
   });
   db.CommentReaction.belongsTo(db.comment, {
     foreignKey: 'comment_id',
-    onDelete: "SET NULL",       
-    onUpdate: "CASCADE"
+    onDelete: "SET NULL"
   });
 
+    // 댓글 - 댓글 이력 1:N 관계
+  db.comment.hasMany(db.CommentHistory, {
+    foreignKey: 'comment_id',
+    as: 'comment_histories',
+    onDelete: 'CASCADE'
+  });
+  db.CommentHistory.belongsTo(db.comment, {
+    foreignKey: 'comment_id',
+    onDelete: 'CASCADE'
+  });
+
+  // 사용자 - 댓글 이력 1:N 관계
+  db.User.hasMany(db.CommentHistory, {
+    foreignKey: 'user_id',
+    onDelete: 'CASCADE'
+  });
+  db.CommentHistory.belongsTo(db.User, {
+    foreignKey: 'user_id',
+    onDelete: 'CASCADE'
+  });
+
+  // 기사 - 댓글 이력 1:N 관계
+  db.Article.hasMany(db.CommentHistory, {
+    foreignKey: 'article_id',
+    onDelete: 'CASCADE'
+  });
+  db.CommentHistory.belongsTo(db.Article, {
+    foreignKey: 'article_id',
+    onDelete: 'CASCADE'
+  });
+  
   // 사용자-이메일인증 1:N 관계
   db.User.hasMany(db.EmailVerification, {
     foreignKey: "user_id",
