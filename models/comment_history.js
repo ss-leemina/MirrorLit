@@ -17,9 +17,14 @@ module.exports = (sequelize, Sequelize) => {
       },
       primaryKey: true
     },
-    user_id: { //추가 수정 필요
+    user_id: {
       type: Sequelize.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "user_id"
+      },
+      onDelete: "CASCADE"
     }
   }, {
     timestamps: false,
