@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) -> {
+module.exports = (sequelize, Sequelize) => {
 	const Notification = sequelize.define('user_notification', {
 		notification_id: {
 			type: Sequelize.INTEGER,
