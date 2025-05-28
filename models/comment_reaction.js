@@ -19,9 +19,14 @@ module.exports = (sequelize, Sequelize) => {
         onDelete: "SET NULL"
       },
     },
-    user_id: { //추가 수정 필요
+    user_id: { 
       type: Sequelize.INTEGER,
-
+      allowNull: true,
+      references: {
+        model: "users",
+        key: "user_id"
+      },
+      onDelete: "SET NULL"
     }
   }, {
     timestamps: false,

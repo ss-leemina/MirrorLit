@@ -15,11 +15,17 @@ module.exports = (sequelize, Sequelize) => {
         model: "comments",
         key: "comment_id"
       },
+      onDelete: "CASCADE",  // 댓글 삭제 시 이력도 삭제
       primaryKey: true
     },
-    user_id: { //추가 수정 필요
+    user_id: {
       type: Sequelize.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "user_id"
+      },
+      onDelete: "CASCADE"
     }
   }, {
     timestamps: false,
