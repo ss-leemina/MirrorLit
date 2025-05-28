@@ -19,7 +19,7 @@ const findUserById = async (email) => {
   return await User.findOne({ where: { email } });
 };
 
-
+//회원가입
 const create = async (req, res, next) => {
   const { name, id, email, password, confirmPassword, emailCode, term1, term2 } = req.body;
 
@@ -87,7 +87,7 @@ try {
 } catch (error) {
   if (error.name === 'SequelizeUniqueConstraintError') {
     // 중복 확인
-    const field = error.errors[0].path; // 예: 'email', 'id', 'name'
+    const field = error.errors[0].path; 
     let message = '';
 
     switch (field) {
@@ -117,51 +117,36 @@ try {
 
 // 로그인 폼
 const login = (req, res) => {
-  res.render("login");
+  res.render("login", { messages: req.flash() });
 };
-
-// 로그인 인증 처리
-const authenticate = (req, res, next) => {
-  User.findOne({ where: { id: req.body.id } })
-    .then(user => {
-      if (!user) {
-        req.flash("error", "존재하지 않는 계정입니다.");
-        res.locals.redirect = "/users/login";
-        return next();
-      }
-      return user.passwordComparison(req.body.password)
-        .then(match => {
-          if (!match) {
-            req.flash("error", "틀린 비밀번호입니다.");
-            res.locals.redirect = "/users/login";
-          } else {
-            req.flash("success", `${user.name}님이 로그인하셨습니다.`);
-            res.locals.redirect = `/users/${user.id}`;
-            res.locals.user = user;
-          }
-          next();
-        });
-    })
-    .catch(error => {
-      console.error(`${error.message}로 인해 로그인에 실패했습니다.`);
-      next(error);
-    });
-};
+;
 
 // 로그아웃
 const logout = (req, res, next) => {
-  req.session.destroy(() => next());
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    req.session.destroy(() => {
+      res.locals.redirect = "/users/login"; 
+      next();
+    });
+  });
 };
 
 // 리다이렉션 처리
 const redirectView = (req, res) => {
-  res.redirect(res.locals.redirect);
+  if (res.locals.redirect) {
+    res.redirect(res.locals.redirect);
+  } else {
+    res.end(); 
+  }
 };
+
 
 // 비밀번호 재설정 폼
 const showResetForm = (req, res) => {
-  res.render("resetPassword2");
+  res.render("resetPassword2", { messages: req.flash() });
 };
+
 
 // 최종 비밀번호 변경 처리
 const resetPasswordFinal = (req, res, next) => {
@@ -211,17 +196,19 @@ const showSignupForm = (req, res) => {
 
 // 인증코드 요청 폼 렌더링
 const showResetRequestForm = (req, res) => {
-  res.render("resetPassword");
+  res.render("resetPassword", { messages: req.flash() });
 };
+
+
 
 module.exports = {
   create,
   login,
-  authenticate,
   logout,
   redirectView,
   showSignupForm,
   showResetRequestForm,
   showResetForm,
-  resetPasswordFinal
+  resetPasswordFinal,
+  
 };

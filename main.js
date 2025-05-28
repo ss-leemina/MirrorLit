@@ -47,28 +47,46 @@ app.use(passport.session());
 
 // passport LocalStrategy/serializeUser/deserializeUser 구현
 passport.use(new LocalStrategy(
+  
+  {
+  usernameField: "id",        
+    passwordField: "password"
+},
+
   async (id, password, done) => {
+    console.log("LocalStrategy 실행됨", id);
     try {
       const user = await db.User.findOne({ where: { id } });
-      if (!user) return done(null, false, { message: "존재하지 않는 계정입니다." });
+      if (!user) {
+        console.log("사용자 없음");
+        return done(null, false, { message: "존재하지 않는 계정입니다." });
+      }
 
       const isMatch = await user.passwordComparison(password);
-      if (!isMatch) return done(null, false, { message: "비밀번호가 틀렸습니다." });
+      if (!isMatch) {
+        console.log(" 비밀번호 불일치");
+        return done(null, false, { message: "비밀번호가 틀렸습니다." });
+      }
 
+      console.log(" 로그인 성공, 사용자 ID:", user.user_id);
       return done(null, user);
     } catch (err) {
+      console.error("LocalStrategy 에러:", err);
       return done(err);
     }
   }
 ));
 
 passport.serializeUser((user, done) => {
+  console.log("serializeUser 실행됨", user.user_id);
   done(null, user.user_id);
 });
+
 
 passport.deserializeUser(async (user_id, done) => {
   try {
     const user = await db.User.findByPk(user_id);
+    console.log("deserializeUser 실행됨", user?.id);
     done(null, user);
   } catch (err) {
     done(err);
@@ -76,9 +94,9 @@ passport.deserializeUser(async (user_id, done) => {
 });
 
 // db 수정이 없는 경우 : alert true인 채로 계속 돌리다 보면 오류 납니다.
-//db.sequelize.sync();
+db.sequelize.sync();
 // db 수정이 있는 경우 : sequelize 바꾸면 이걸로 바꿔서 동기화
- db.sequelize.sync({ alter: true }); 
+//db.sequelize.sync({ alter: true }); 
 
 // set local data
 app.use(async (req, res, next) => {
@@ -116,7 +134,8 @@ app.use(async (req, res, next) => {
 //app.use("/users/:userid", accountRouter);
 app.use("/users", userRouter);
 app.use("/email-verification", emailVerificationRouter);
-app.use("/home", homeRouter);
+//app.use("/home", homeRouter);
+app.use("/", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
@@ -124,6 +143,8 @@ app.use('/alerts', alertRoutes);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
+
+
 
 app.listen(app.get("port"), () => {
   console.log("실행 중");

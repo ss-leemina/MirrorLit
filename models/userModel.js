@@ -16,7 +16,7 @@ module.exports =  (sequelize, Sequelize) => {
         allowNull: false
       },
       password: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(100), //bcrypt 해시 길이 때문에 100으로 설정
         allowNull: false
       },
       email: {
@@ -36,7 +36,8 @@ module.exports =  (sequelize, Sequelize) => {
       },
       level_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
       },
       email_verified: {
         type: Sequelize.ENUM("Y", "N"),
@@ -59,6 +60,20 @@ module.exports =  (sequelize, Sequelize) => {
     return bcrypt.compare(inputPassword, this.password);
   };
 
+  User.beforeCreate(async (user, options) => {
+  const bcrypt = require("bcrypt");
+  const saltRounds = 10;
+  user.password = await bcrypt.hash(user.password, saltRounds);
+});
+
+
+User.beforeUpdate(async (user, options) => {
+  if (user.changed('password')) {
+    const bcrypt = require("bcrypt");
+    const saltRounds = 10;
+    user.password = await bcrypt.hash(user.password, saltRounds);
+  }
+});
 
   return User;
 };

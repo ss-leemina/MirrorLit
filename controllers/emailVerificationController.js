@@ -70,9 +70,6 @@ const verifyCode = async (req, res) => {
   }
 };
 
-
-
-
 module.exports = {
   sendVerificationCode,
   verifyCode
