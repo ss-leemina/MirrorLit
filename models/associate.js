@@ -83,15 +83,4 @@ module.exports = (db) => {
     foreignKey: "user_id"
   });
 
-  // 유저는 랭크에 속함
-db.User.belongsTo(db.UserRank, {
-  foreignKey: "rank_id",
-  targetKey: "rank_id"
-});
-
-// 랭크는 여러 유저를 가짐
-db.UserRank.hasMany(db.User, {
-  foreignKey: "rank_id"
-});
-
 }

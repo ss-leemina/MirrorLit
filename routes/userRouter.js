@@ -12,7 +12,7 @@ router.post("/login",
     next();
   },
   passport.authenticate("local", {
-    successRedirect: "/home",
+    successRedirect: "/",
     failureRedirect: "/users/login",
     failureFlash: true
   })
