@@ -61,11 +61,17 @@ passport.use(new LocalStrategy(
         return done(null, false, { message: "존재하지 않는 계정입니다." });
       }
 
-      const isMatch = await user.passwordComparison(password);
-      if (!isMatch) {
-        console.log(" 비밀번호 불일치");
-        return done(null, false, { message: "비밀번호가 틀렸습니다." });
-      }
+      user.passwordComparison(password, (err, isMatch) => {
+        if (err) return done(err);
+        if (!isMatch) {
+          console.log("비밀번호 불일치");
+          return done(null, false, { message: "비밀번호가 틀렸습니다." });
+       }
+
+      console.log("로그인 성공, 사용자 ID:", user.user_id);
+      return done(null, user);
+  });
+
 
       console.log(" 로그인 성공, 사용자 ID:", user.user_id);
       return done(null, user);
@@ -85,12 +91,23 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (user_id, done) => {
   try {
     const user = await db.User.findByPk(user_id);
+
+    // 강제 인스턴스로 변환
+    if (user && typeof user.passwordComparison !== 'function') {
+  passportLocalSequelize.attachToUser(user.constructor, {
+    usernameField: "id",
+    hashField: "myhash",
+    saltField: "mysalt"
+  });
+}
+
     console.log("deserializeUser 실행됨", user.id);
     done(null, user);
   } catch (err) {
     done(err);
   }
 });
+
 
 // db 수정이 없는 경우 : alert true인 채로 계속 돌리다 보면 오류 납니다.
 db.sequelize.sync();
