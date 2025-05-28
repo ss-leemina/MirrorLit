@@ -130,7 +130,7 @@ app.use(async (req, res, next) => {
 //app.use("/users/:userid", accountRouter);
 app.use("/users", userRouter);
 app.use("/email-verification", emailVerificationRouter);
-app.use("/home", homeRouter);
+app.use("/", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
