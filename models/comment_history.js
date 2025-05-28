@@ -15,6 +15,7 @@ module.exports = (sequelize, Sequelize) => {
         model: "comments",
         key: "comment_id"
       },
+      onDelete: "CASCADE",  // 댓글 삭제 시 이력도 삭제
       primaryKey: true
     },
     user_id: {
