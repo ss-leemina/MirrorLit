@@ -9,8 +9,7 @@ const express = require("express"),
   LocalStrategy = require('passport-local').Strategy,
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
-  userRouter = require("./routes/userRouter"),
-  accountRouter = require("./routes/accounts"),
+  userRouter = require("./routes/userRouter"), 
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   emailVerificationRouter = require("./routes/emailVerificationRouter"),
@@ -127,7 +126,6 @@ app.use(async (req, res, next) => {
 });
 
 // set routes
-//app.use("/users/:userid", accountRouter);
 app.use("/users", userRouter);
 app.use("/email-verification", emailVerificationRouter);
 app.use("/", homeRouter);
