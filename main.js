@@ -45,25 +45,48 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport LocalStrategy/serializeUser/deserializeUser 구현
-// 10주차 강의안 107p의 코드는 mongoose를 쓰는 경우에만 사용가능하다고 해서,
-// gpt한테 받은 코드입니다. 잘못되었거나 비효율적인 문장이 있을 수 있습니다.
+// passport LocalStrategy/serializeUser/deserializeUser
 passport.use(new LocalStrategy(
+  
+  {
+  usernameField: "id",        
+    passwordField: "password"
+},
+
   async (id, password, done) => {
+    console.log("LocalStrategy 실행됨", id);
     try {
       const user = await db.User.findOne({ where: { id } });
+      if (!user) {
+        console.log("사용자 없음");
+        return done(null, false, { message: "존재하지 않는 계정입니다." });
+      }
+
+      const isMatch = await user.passwordComparison(password);
+      if (!isMatch) {
+        console.log(" 비밀번호 불일치");
+        return done(null, false, { message: "비밀번호가 틀렸습니다." });
+      }
+
+      console.log(" 로그인 성공, 사용자 ID:", user.user_id);
       return done(null, user);
     } catch (err) {
+      console.error("LocalStrategy 에러:", err);
       return done(err);
     }
   }
 ));
+
 passport.serializeUser((user, done) => {
+  console.log("serializeUser 실행됨", user.user_id);
   done(null, user.user_id);
 });
+
+
 passport.deserializeUser(async (user_id, done) => {
   try {
     const user = await db.User.findByPk(user_id);
+    console.log("deserializeUser 실행됨", user.id);
     done(null, user);
   } catch (err) {
     done(err);
@@ -90,14 +113,11 @@ app.use(async (req, res, next) => {
     res.locals.isThereNewAlert = false;
 
     if (res.locals.loggedIn) {
-      const alerts = await db.CommentAlert.findAll({
-        where: { user_id: res.locals.currentUser.user_id }
-      });
-      res.locals.commentalerts = alerts;
-      res.locals.isThereNewAlert = await alerts.forEach(alr => {
-        if (alr.is_checked === 'N')
-          return true;
-      });
+        const alerts = await db.CommentAlert.findAll({
+            where: { user_id: res.locals.currentUser.user_id }
+        });
+        res.locals.commentalerts = alerts;
+        res.locals.isThereNewAlert = await alerts.some(alr => alr.is_checked === 'N');
     }
 
     next();
@@ -109,15 +129,17 @@ app.use(async (req, res, next) => {
 // set routes
 //app.use("/users/:userid", accountRouter);
 app.use("/users", userRouter);
+app.use("/email-verification", emailVerificationRouter);
 app.use("/home", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
 app.use('/alerts', alertRoutes);
-app.use("/email-verification", emailVerificationRouter);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
+
+
 
 app.listen(app.get("port"), () => {
   console.log("실행 중");

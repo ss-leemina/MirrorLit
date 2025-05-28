@@ -1,15 +1,17 @@
 const passportLocalSequelize = require("passport-local-sequelize");
 
-module.exports = (sequelize, Sequelize) => {
+module.exports =  (sequelize, Sequelize) => {
   const User = sequelize.define("users", {
     user_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      allowNull: false
     },
     id: {
-      type: Sequelize.STRING,
-      unique: true
+      type: Sequelize.STRING(20),
+      unique: true,
+      allowNull: false
     },
     //등급 저장
     rank_id: {
@@ -20,15 +22,39 @@ module.exports = (sequelize, Sequelize) => {
       },
       defaultValue: 1 //신규: 1 기존: 2
     },
-
-    email: {
-      type: Sequelize.STRING,
-      unique: true
+    password: {
+      type: Sequelize.STRING(100), //bcrypt 해시 길이 때문에 100으로 설정
+      allowNull: false
     },
-    name: Sequelize.STRING,
-    password: Sequelize.STRING,
+    email: {
+      type: Sequelize.STRING(50),
+      unique: true,
+      allowNull: false
+    },
+    name: {
+      type: Sequelize.STRING(10),
+      unique: true,
+      allowNull: false
+    },
+    registerDate: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+      allowNull: true
+    },
+    level_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
+    email_verified: {
+      type: Sequelize.ENUM("Y", "N"),
+      allowNull: false,
+      defaultValue: "N"
+    },
+      
+    // passport-local-sequelize 용 해시/솔트 필드
     myhash: Sequelize.STRING,
-    mysalt: Sequelize.STRING,
+    mysalt: Sequelize.STRING
   },
     {
       timestamps: false,
@@ -48,6 +74,20 @@ module.exports = (sequelize, Sequelize) => {
     `;
     await db.execute(query, [id, password, name, email]);
   };
+
+  User.beforeCreate(async (user, options) => {
+    const bcrypt = require("bcrypt");
+    const saltRounds = 10;
+    user.password = await bcrypt.hash(user.password, saltRounds);
+  });
+
+  User.beforeUpdate(async (user, options) => {
+    if (user.changed('password')) {
+      const bcrypt = require("bcrypt");
+      const saltRounds = 10;
+      user.password = await bcrypt.hash(user.password, saltRounds);
+    }
+  });
 
   const findUserById = async (id) => {
     const query = `SELECT * FROM users WHERE id = ?`;

@@ -3,5 +3,6 @@ const express = require("express"),
   homeController = require("../controllers/homeController");
 
 router.get("/", homeController.showMainPage);
+router.get("/home", homeController.showMainPage);
 
 module.exports = router;
