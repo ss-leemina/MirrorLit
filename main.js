@@ -45,7 +45,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport LocalStrategy/serializeUser/deserializeUser 구현
+// passport LocalStrategy/serializeUser/deserializeUser
 passport.use(new LocalStrategy(
   
   {
@@ -86,7 +86,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (user_id, done) => {
   try {
     const user = await db.User.findByPk(user_id);
-    console.log("deserializeUser 실행됨", user?.id);
+    console.log("deserializeUser 실행됨", user.id);
     done(null, user);
   } catch (err) {
     done(err);
@@ -96,7 +96,7 @@ passport.deserializeUser(async (user_id, done) => {
 // db 수정이 없는 경우 : alert true인 채로 계속 돌리다 보면 오류 납니다.
 db.sequelize.sync();
 // db 수정이 있는 경우 : sequelize 바꾸면 이걸로 바꿔서 동기화
-//db.sequelize.sync({ alter: true }); 
+// db.sequelize.sync({ alter: true });
 
 // set local data
 app.use(async (req, res, next) => {
@@ -117,11 +117,7 @@ app.use(async (req, res, next) => {
             where: { user_id: res.locals.currentUser.user_id }
         });
         res.locals.commentalerts = alerts;
-        res.locals.isThereNewAlert = alerts.some(alr => alr.is_checked === 'N');
-        //res.locals.isThereNewAlert = await alerts.forEach(alr => {
-            //if(alr.is_checked === 'N')
-                //return true;
-        //});
+        res.locals.isThereNewAlert = await alerts.some(alr => alr.is_checked === 'N');
     }
 
     next();
