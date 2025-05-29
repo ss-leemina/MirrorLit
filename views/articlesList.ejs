@@ -27,14 +27,16 @@
                   </h2>
                 </a>
 
+                <div class="meta">
+                  <%= article.press %> |
+                    <%= new Date(article.created_at).toLocaleString('ko-KR') %>
+                </div>
+
                 <% if (article.articleImage) { %>
                   <img src="<%= article.articleImage.image_url %>" alt="대표 이미지" class="thumbnail">
                   <% } %>
 
-                    <div class="meta">
-                      <%= article.press %> |
-                        <%= new Date(article.created_at).toLocaleString('ko-KR') %>
-                    </div>
+
               </div>
               <% }) %>
         </div>

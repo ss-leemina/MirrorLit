@@ -73,7 +73,7 @@ module.exports = (db) => {
     onDelete: "SET NULL"
   });
 
-    // 댓글 - 댓글 이력 1:N 관계
+  // 댓글 - 댓글 이력 1:N 관계
   db.comment.hasMany(db.CommentHistory, {
     foreignKey: 'comment_id',
     as: 'comment_histories',
@@ -103,7 +103,7 @@ module.exports = (db) => {
     foreignKey: 'article_id',
     onDelete: 'CASCADE'
   });
-  
+
   // 사용자-이메일인증 1:N 관계
   db.User.hasMany(db.EmailVerification, {
     foreignKey: "user_id",
