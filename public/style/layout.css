@@ -16,6 +16,7 @@ body {
 	align-items: center;
 	padding: 1rem 2rem;
 	border-bottom: 1px solid black;
+        overflow: scroll;
 }
 
 .logo {
@@ -169,6 +170,7 @@ body {
   padding-top: 6rem;
   background-color: #F6F6F6;
   font-size: 0.9rem;
+  overflow: scroll;
 }
 .footer-info {
   margin-bottom: 1rem;
