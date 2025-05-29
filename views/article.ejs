@@ -73,7 +73,9 @@
               <form method="POST"
                 action="/comments/<%= comment.comment_id %>/reaction">
                 <input type="hidden" name="reaction_type" value="like">
-                <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+		<% if (loggedIn) { %>
+                  <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+		<% } %>
   		<input type="hidden" name="article_id" value="<%= article.article_id %>">
 	        <button type="submit">👍 추천</button>
               </form>
@@ -82,7 +84,9 @@
               <form method="POST"
                 action="/comments/<%= comment.comment_id %>/reaction">
                 <input type="hidden" name="reaction_type" value="dislike">
-		<input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+		<% if (loggedIn) { %>
+	  	  <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+		<% } %>
 		<input type="hidden" name="article_id" value="<%= article.article_id %>">
                 <button type="submit">👎 비추천</button>
               </form>
