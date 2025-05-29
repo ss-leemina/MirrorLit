@@ -132,6 +132,39 @@ const redirectView = (req, res) => {
 
 
 // 비밀번호 재설정 폼
+// 인증코드 전송 처리
+const sendResetCode = async (req, res) => {
+  const { email } = req.body;
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+  try {
+    // 이메일 유효성 검사
+    const user = await db.User.findOne({ where: { email } });
+    if (!user) {
+      req.flash("error", "존재하지 않는 이메일입니다.");
+      return res.render("resetPassword", { messages: req.flash(), email });
+    }
+
+    // 인증코드 생성 및 저장
+    await db.EmailVerification.create({
+      user_id: user.user_id,
+      email,
+      code,
+      sent_at: new Date(),
+      verified: 'N'
+    });
+
+    console.log(`[DEBUG] ${email}로 인증 코드 전송됨: ${code}`);
+    req.flash("success", "인증 코드가 전송되었습니다.");
+    return res.render("resetPassword", { messages: req.flash(), email });
+
+  } catch (err) {
+    console.error("인증코드 전송 오류:", err);
+    req.flash("error", "오류로 인해 인증 코드를 보낼 수 없습니다.");
+    return res.render("resetPassword", { messages: req.flash(), email });
+  }
+};
+
 const showResetForm = (req, res) => {
   res.render("resetPassword2", { messages: req.flash() });
 };
@@ -188,6 +221,36 @@ const showResetRequestForm = (req, res) => {
   res.render("resetPassword", { messages: req.flash() });
 };
 
+const verifyResetCode = async (req, res) => {
+  const { email, emailCode } = req.body;
+
+  const record = await db.EmailVerification.findOne({
+    where: { email, code: emailCode, verified: 'N' }
+  });
+
+  if (!record) {
+    req.flash("error", "유효하지 않은 인증 코드입니다.");
+    return res.render("resetPassword", { email, messages: req.flash() });
+  }
+
+  const now = new Date();
+  if (now - record.sent_at > 5 * 60 * 1000) {
+    req.flash("error", "인증 코드가 만료되었습니다.");
+    return res.render("resetPassword", { email, messages: req.flash() });
+  }
+
+  await record.update({ verified: 'Y', verified_at: now });
+
+  // 다음 단계로 (비밀번호 변경 폼)
+  const user = await db.User.findOne({ where: { email } });
+  if (!user) {
+    req.flash("error", "사용자를 찾을 수 없습니다.");
+    return res.redirect("/users/reset-password");
+  }
+
+  res.render("resetPassword2", { user, messages: req.flash() });
+};
+
 
 
 module.exports = {
@@ -199,6 +262,8 @@ module.exports = {
   showResetRequestForm,
   showResetForm,
   resetPasswordFinal,
+  sendResetCode,
+  verifyResetCode
 
 };
 

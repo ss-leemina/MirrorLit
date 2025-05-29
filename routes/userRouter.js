@@ -23,7 +23,10 @@ router.post("/create", userController.create, userController.redirectView);
 
 router.get("/reset-password", userController.showResetRequestForm);
 router.get("/reset-form", userController.showResetForm);
+router.post("/reset", userController.sendResetCode);
 router.post("/reset2", userController.resetPasswordFinal, userController.redirectView);
+router.post("/verify-code", userController.verifyResetCode);
+
 
 router.get("/logout", userController.logout, userController.redirectView);
 
