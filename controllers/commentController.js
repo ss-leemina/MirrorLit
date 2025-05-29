@@ -10,8 +10,7 @@ const { isValidUrl } = require("../services/checkUrl");
 exports.createComment = async (req, res) => {
   try {
     const { article_id, source, content } = req.body;
-    // const user_id = 2; //수정
-    // // 로그인 확인
+    // 로그인 확인
     const user_id = req.user?.user_id;
     if (!user_id) {
       req.flash("notLogin", "로그인이 필요한 기능입니다.");
@@ -43,8 +42,22 @@ exports.createComment = async (req, res) => {
 // 댓글 삭제
 exports.deleteComment = async (req, res) => {
   try {
-    await Comment.destroy({ where: { comment_id: req.params.commentId } });
-    res.redirect(`/articles/${req.body.article_id}`);
+    const user_id = req.user?.user_id;
+    // 로그인 안 한 경우
+    if (!user_id) {
+      req.flash("notLogin", "로그인이 필요한 기능입니다.");
+      return res.redirect(`/articles/${req.body.article_id}`);
+    }
+
+    // 로그인 한 경우
+    // 자기 자신의 댓글 삭제(가능)
+    const deleteComment = await Comment.destroy({ where: { comment_id: req.params.commentId, user_id: user_id } });
+    // 다른 사람의 댓글 삭제(불가)
+    if (!deleteComment) {
+      req.flash("noUser", "자기 자신의 댓글만 삭제할 수 있습니다.");
+      return res.redirect(`/articles/${req.body.article_id}`);
+    }
+    return res.redirect(`/articles/${req.body.article_id}`);
   } catch (err) {
     console.error("댓글 삭제 중 에러: ", err);
     res.status(500).send("삭제 실패");

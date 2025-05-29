@@ -23,30 +23,29 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE,
       allowNull: true
     },
-     email: {
+    email: {
       type: Sequelize.STRING(50),
       allowNull: false
     },
     user_id: {
-     type: Sequelize.INTEGER,
-     allowNull: true 
+      type: Sequelize.INTEGER,
+      allowNull: true
     }
   }, {
     tableName: 'email_verifications',
-    timestamps: false 
+    timestamps: false
   });
 
   EmailVerification.associate = (models) => {
     EmailVerification.belongsTo(models.User, {
-    foreignKey: "user_id",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    allowNull: true 
-  });
-};
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+      allowNull: true
+    });
+  };
 
 
 
   return EmailVerification;
 };
-

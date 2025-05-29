@@ -100,6 +100,11 @@
             alert("<%= flashMessages.notLogin %>");
           </script>
           <% } %>
-            <% } %>
+            <% if (flashMessages.noUser) { %>
+              <script>
+                alert("<%= flashMessages.noUser %>");
+              </script>
+              <% } %>
+                <% } %>
 
 </div>
