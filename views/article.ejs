@@ -48,51 +48,49 @@
   <div class="comment-section">
     <% if (!comments || comments.length===0) { %>
       <p class="no-comments">아직 댓글이 없습니다.</p>
+    <% } else { %>
+      <% comments.forEach(comment=> { %>
+        <div class="comment-card">
 
-      <% } else { %>
-        <% comments.forEach(comment=> { %>
-          <div class="comment-card">
+          <!-- 삭제 버튼 -->
+          <form method="POST" action="/comments/<%= comment.comment_id %>/delete">
+            <input type="hidden" name="article_id" value="<%= article.article_id %>">
+            <button type="submit" class="delete-button">❌</button>
+          </form>
 
-            <!-- 삭제 버튼 -->
-            <form method="POST" action="/comments/<%= comment.comment_id %>/delete">
+          <p class="comment-author">
+            <%= comment.user.name %> 「<%= comment.user.user_rank.rank_name %>」
+          </p>
+          <p class="comment-source">출처 : <%= comment.source %>
+          </p>
+          <p class="comment-content">
+            <%= comment.content %>
+          </p>
+          <br>
+          <p class="comment-date ">
+            <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
+          </p>
+
+          <div class="reaction-buttons">
+            <!-- 추천 버튼 (👍) -->
+            <form method="POST" action="/comments/<%= comment.comment_id %>/reaction">
+              <input type="hidden" name="reaction_type" value="like">
+              <% if (loggedIn) { %>
+                <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+              <% } %>
               <input type="hidden" name="article_id" value="<%= article.article_id %>">
-              <button type="submit" class="delete-button">❌</button>
+              <button type="submit">👍 추천</button>
             </form>
 
-            <p class="comment-author">
-              <%= comment.user.name %> 「<%= comment.user.user_rank.rank_name %>」
-            </p>
-            <p class="comment-source">출처 : <%= comment.source %>
-            </p>
-            <p class="comment-content">
-              <%= comment.content %>
-            </p>
-            <br>
-            <p class="comment-date ">
-              <%= new Date(comment.created_at).toLocaleString('ko-KR') %>
-            </p>
-
-            <div class="reaction-buttons">
-              <!-- 추천 버튼 (👍) -->
-              <form method="POST" action="/comments/<%= comment.comment_id %>/reaction">
-                <input type="hidden" name="reaction_type" value="like">
-                <% if (loggedIn) { %>
-                  <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
-                  <% } %>
-                    <input type="hidden" name="article_id" value="<%= article.article_id %>">
-                    <button type="submit">👍 추천</button>
-              </form>
-
-              <!-- 비추천 버튼 (👎) -->
-              <form method="POST" action="/comments/<%= comment.comment_id %>/reaction">
-                <input type="hidden" name="reaction_type" value="dislike">
-                <% if (loggedIn) { %>
-                  <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
-                  <% } %>
-                    <input type="hidden" name="article_id" value="<%= article.article_id %>">
-                    <button type="submit">👎 비추천</button>
-              </form>
-            </div>
+            <!-- 비추천 버튼 (👎) -->
+            <form method="POST" action="/comments/<%= comment.comment_id %>/reaction">
+              <input type="hidden" name="reaction_type" value="dislike">
+              <% if (loggedIn) { %>
+                <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+              <% } %>
+              <input type="hidden" name="article_id" value="<%= article.article_id %>">
+              <button type="submit">👎 비추천</button>
+            </form>
           </div>
         </div>
       <% }) %>
@@ -105,33 +103,32 @@
       <script>
         alert("<%= flashMessages.selected %>");
       </script>
-
-      <% } %>
-        <% if (flashMessages.notLogin) { %>
-          <script>
-            alert("<%= flashMessages.notLogin %>");
-          </script>
-          <% } %>
-            <% if (flashMessages.noUser) { %>
-              <script>
-                alert("<%= flashMessages.noUser %>");
-              </script>
-              <% } %>
-                <% if (flashMessages.reactionselected){ %>
-                  <script>
-                    alert("<%= flashMessages.reactionselected %>");
-                  </script>
-                  <% } %>
-                    <% if (flashMessages.reactionerror) { %>
-                      <script>
-                        alert("<%= flashMessages.reactionerror %>");
-                      </script>
-                      <% } %>
-                        <% if (flashMessages.avaliablefactcheck) { %>
-                          <script>
-                            alert("<%= flashMessages.avaliablefactcheck %>");
-                          </script>
-                          <% } %>
-                            <% } %>
+    <% } %>
+    <% if (flashMessages.notLogin) { %>
+      <script>
+        alert("<%= flashMessages.notLogin %>");
+      </script>
+    <% } %>
+    <% if (flashMessages.noUser) { %>
+      <script>
+        alert("<%= flashMessages.noUser %>");
+      </script>
+    <% } %>
+    <% if (flashMessages.reactionselected){ %>
+      <script>
+        alert("<%= flashMessages.reactionselected %>");
+      </script>
+    <% } %>
+    <% if (flashMessages.reactionerror) { %>
+      <script>
+        alert("<%= flashMessages.reactionerror %>");
+      </script>
+    <% } %>
+    <% if (flashMessages.avaliablefactcheck) { %>
+      <script>
+        alert("<%= flashMessages.avaliablefactcheck %>");
+      </script>
+    <% } %>
+  <% } %>
 
 </div>
