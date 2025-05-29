@@ -55,7 +55,6 @@ exports.deleteComment = async (req, res) => {
     // 다른 사람의 댓글 삭제(불가)
     if (!deleteComment) {
       req.flash("noUser", "자기 자신의 댓글만 삭제할 수 있습니다.");
-      return res.redirect(`/articles/${req.body.article_id}`);
     }
     return res.redirect(`/articles/${req.body.article_id}`);
   } catch (err) {

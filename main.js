@@ -110,9 +110,9 @@ passport.deserializeUser(async (user_id, done) => {
 
 
 // db 수정이 없는 경우 : alert true인 채로 계속 돌리다 보면 오류 납니다.
-// db.sequelize.sync();
+db.sequelize.sync();
 // db 수정이 있는 경우 : sequelize 바꾸면 이걸로 바꿔서 동기화
-db.sequelize.sync({ alter: true });
+// db.sequelize.sync({ alter: true });
 
 // set local data
 app.use(async (req, res, next) => {
