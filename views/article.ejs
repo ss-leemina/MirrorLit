@@ -53,11 +53,16 @@
       <% } else { %>
         <% comments.forEach(comment=> { %>
           <div class="comment-card">
+
             <!-- 삭제 버튼 -->
             <form method="POST" action="/comments/<%= comment.comment_id %>/delete">
               <input type="hidden" name="article_id" value="<%= article.article_id %>">
               <button type="submit" class="delete-button">❌</button>
             </form>
+
+            <p class="comment-author">
+              <%= comment.user.name %> 「<%= comment.user.rank_id %>」
+            </p>
             <p class="comment-source">출처 : <%= comment.source %>
             </p>
             <p class="comment-content">

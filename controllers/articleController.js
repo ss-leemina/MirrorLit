@@ -3,6 +3,7 @@ const db = require("../models"),
   ArticleImage = db.articleImage,
   Comment = db.comment,
   FactCheck = db.factCheckButton,
+  User = db.User,
   Op = db.Sequelize.Op;
 const { getfactCheckCount } = require("../services/getFactCheck");
 const { getCommentCount } = require("../services/getComment");
@@ -74,6 +75,12 @@ exports.showArticle = async (req, res) => {
         },
         {
           model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'rank_id']
+            }
+          ]
         }
       ],
       order: [[Comment, 'created_at', 'DESC']]
