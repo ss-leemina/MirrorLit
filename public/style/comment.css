@@ -22,6 +22,11 @@
 	padding: 16px;
 	margin-bottom: 16px;
 }
+.comment-author {
+	font-size: 1rem;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
 
 .comment-source {
 	font-size: 0.9rem;
@@ -29,8 +34,8 @@
 }
 
 .comment-content {
-	font-size: 1rem;
-	margin-bottom: 4px;
+	font-size: 1.1rem;
+	margin: 4px;
 }
 
 .comment-date {

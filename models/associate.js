@@ -113,4 +113,13 @@ module.exports = (db) => {
     foreignKey: "user_id"
   });
 
+  // 등급-사용자 1:N 
+  db.UserRank.hasMany(db.User, {
+    foreignKey: "rank_id",
+  });
+  db.User.belongsTo(db.UserRank, {
+    foreignKey: "rank_id",
+    as: "user_rank"
+  });
+
 }
