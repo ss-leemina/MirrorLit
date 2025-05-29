@@ -65,9 +65,10 @@ exports.deleteComment = async (req, res) => {
 
 // 추천, 비추천 상호작용
 exports.reactToComment = async (req, res) => {
-  const userId = req.body.user_id;
+  const userId =  req.user?.user_id;
   const commentId = parseInt(req.params.commentId);
-  const { reaction_type } = req.body;
+  const {reaction_type } = req.body;
+  const {article_id} = req.body;
 
   if (!['like', 'dislike'].includes(reaction_type)) {
     return res.status(400).json({ message: "추천 또는 비추천만 가능합니다." });
@@ -85,7 +86,8 @@ exports.reactToComment = async (req, res) => {
 
     // 2. 자신의 댓글에는 추천/비추천 불가
     if (comment.user_id === userId) {
-      return res.status(403).json({ message: "자신의 댓글에는 반응할 수 없습니다." });
+      req.flash("reactionerror", "자신의 댓글에는 반응할 수 없습니다.");
+      return res.redirect(`/articles/${article_id}`);
     }
 
     // 3. 이미 반응한 적 있는지 확인
@@ -93,7 +95,8 @@ exports.reactToComment = async (req, res) => {
       where: { comment_id: commentId, user_id: userId }
     });
     if (existingReaction) {
-      return res.status(400).json({ message: "댓글에 이미 반응을 남겼습니다." });
+      req.flash("reactionselected", "댓글에 이미 반응을 남겼습니다.");
+      return res.redirect(`/articles/${article_id}`);
     }
 
     // 4. 새 반응 등록
@@ -106,7 +109,7 @@ exports.reactToComment = async (req, res) => {
     //등급 평가(추천수)
     await evaluateUserRank(userId);
 
-    return res.status(201).json({ message: `${reaction_type} 성공` });
+    return res.redirect(`/articles/${article_id}`);
 
   } catch (err) {
     console.error(err);
