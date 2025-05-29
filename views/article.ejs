@@ -61,7 +61,7 @@
             </form>
 
             <p class="comment-author">
-              <%= comment.user.name %> 「<%= comment.user.rank_id %>」
+              <%= comment.user.name %> 「<%= comment.user.user_rank.rank_name %>」
             </p>
             <p class="comment-source">출처 : <%= comment.source %>
             </p>
@@ -75,25 +75,23 @@
 
             <div class="reaction-buttons">
               <!-- 추천 버튼 (👍) -->
-              <form method="POST"
-                action="/comments/<%= comment.comment_id %>/reaction">
+              <form method="POST" action="/comments/<%= comment.comment_id %>/reaction">
                 <input type="hidden" name="reaction_type" value="like">
-		<% if (loggedIn) { %>
+                <% if (loggedIn) { %>
                   <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
-		<% } %>
-  		<input type="hidden" name="article_id" value="<%= article.article_id %>">
-	        <button type="submit">👍 추천</button>
+                  <% } %>
+                    <input type="hidden" name="article_id" value="<%= article.article_id %>">
+                    <button type="submit">👍 추천</button>
               </form>
 
               <!-- 비추천 버튼 (👎) -->
-              <form method="POST"
-                action="/comments/<%= comment.comment_id %>/reaction">
+              <form method="POST" action="/comments/<%= comment.comment_id %>/reaction">
                 <input type="hidden" name="reaction_type" value="dislike">
-		<% if (loggedIn) { %>
-	  	  <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
-		<% } %>
-		<input type="hidden" name="article_id" value="<%= article.article_id %>">
-                <button type="submit">👎 비추천</button>
+                <% if (loggedIn) { %>
+                  <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+                  <% } %>
+                    <input type="hidden" name="article_id" value="<%= article.article_id %>">
+                    <button type="submit">👎 비추천</button>
               </form>
             </div>
           </div>
@@ -118,16 +116,16 @@
                 alert("<%= flashMessages.noUser %>");
               </script>
               <% } %>
-		<% if (flashMessages.reactionselected){ %>
-		  <script>
-		    alert("<%= flashMessages.reactionselected %>");
-		  </script>
-		  <% } %>
-		    <% if (flashMessages.reactionerror) { %>
-    		      <script>
-       		        alert("<%= flashMessages.reactionerror %>");
-     		      </script>
-     		      <% } %>
+                <% if (flashMessages.reactionselected){ %>
+                  <script>
+                    alert("<%= flashMessages.reactionselected %>");
+                  </script>
+                  <% } %>
+                    <% if (flashMessages.reactionerror) { %>
+                      <script>
+                        alert("<%= flashMessages.reactionerror %>");
+                      </script>
+                      <% } %>
                         <% } %>
 
 </div>

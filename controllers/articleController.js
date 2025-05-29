@@ -4,6 +4,7 @@ const db = require("../models"),
   Comment = db.comment,
   FactCheck = db.factCheckButton,
   User = db.User,
+  UserRank = db.UserRank,
   Op = db.Sequelize.Op;
 const { getfactCheckCount } = require("../services/getFactCheck");
 const { getCommentCount } = require("../services/getComment");
@@ -78,13 +79,21 @@ exports.showArticle = async (req, res) => {
           include: [
             {
               model: User,
-              attributes: ['name', 'rank_id']
+              attributes: ['name'],
+              include: [
+                {
+                  model: UserRank,
+                  attributes: ['rank_name'],
+                  as: 'user_rank'
+                }
+              ]
             }
           ]
         }
       ],
       order: [[Comment, 'created_at', 'DESC']]
     });
+
     if (!foundArticle) {
       return res.status(404).send("기사 없음");
     }
