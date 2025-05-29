@@ -67,8 +67,15 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   User.prototype.passwordComparison = function (password, cb) {
-  return User.authenticate(password, this.myhash, this.mysalt, cb);
-};
+    console.log("in User.prototype.passwordComparison ######");
+    console.log(typeof User.authenticate);
+    console.log(this.myhash);
+    console.log(this.mysalt);
+    console.log(User.authenticate.toString());
+    console.log(this.authenticate.toString());
+
+    return this.authenticate(password, cb);
+  };
 
   return User;
 }
