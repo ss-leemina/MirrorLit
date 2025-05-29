@@ -73,7 +73,7 @@
               <form method="POST"
                 action="/comments/<%= comment.comment_id %>/reaction">
                 <input type="hidden" name="reaction_type" value="like">
-               <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
+                <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
 	        <button type="submit">👍 추천</button>
               </form>
 
