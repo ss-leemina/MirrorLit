@@ -95,11 +95,11 @@ module.exports = (db) => {
   });
 
   // 기사 - 댓글 이력 1:N 관계
-  db.Article.hasMany(db.CommentHistory, {
+  db.article.hasMany(db.CommentHistory, {
     foreignKey: 'article_id',
     onDelete: 'CASCADE'
   });
-  db.CommentHistory.belongsTo(db.Article, {
+  db.CommentHistory.belongsTo(db.article, {
     foreignKey: 'article_id',
     onDelete: 'CASCADE'
   });
