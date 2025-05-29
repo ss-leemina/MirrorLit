@@ -1,64 +1,62 @@
-<div class="data-form">
-  <!-- 1. 인증코드 발송 전용 폼 -->
-  <form action="/email-verification/send" method="POST">
-    <h2>이메일 인증:</h2>
 
-    <label for="email">이메일</label>
-    <input type="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" required>
+  <div class="auth-container">
+    <div class="auth-box">
+      <!-- 1. 인증코드 발송 전용 폼 -->
+      <form action="/email-verification/send" method="POST" class="auth-form">
+        <h2 class="auth-title">이메일 인증</h2>
 
-    <!--이전에 입력한 이메일이 있으면 유지됨 -->
+        <label for="email">이메일</label>
+        <input type="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" required>
 
-    <input type="hidden" name="name" value="<%= typeof name !== 'undefined' ? name : '' %>">
-    <input type="hidden" name="id" value="<%= typeof id !== 'undefined' ? id : '' %>">
-    <input type="hidden" name="password" value="<%= typeof password !== 'undefined' ? password : '' %>">
-    <input type="hidden" name="confirmPassword" value="<%= typeof confirmPassword !== 'undefined' ? confirmPassword : '' %>">
+        <input type="hidden" name="name" value="<%= typeof name !== 'undefined' ? name : '' %>">
+        <input type="hidden" name="id" value="<%= typeof id !== 'undefined' ? id : '' %>">
+        <input type="hidden" name="password" value="<%= typeof password !== 'undefined' ? password : '' %>">
+        <input type="hidden" name="confirmPassword" value="<%= typeof confirmPassword !== 'undefined' ? confirmPassword : '' %>">
 
-    <button type="submit">인증코드 발송</button>
-  </form>
-
-  <br>
-
-  <!-- 2. 실제 회원가입 폼 -->
-  <form action="/users/create" method="POST">
-    <h2>회원가입:</h2>
-
-    <!-- 에러 메시지 출력  -->
-    <% if (messages && messages.error) { %>
-      <div class="error-message">
-        <%= messages.error[0] %>
-      </div>
-    <% } %>
-
-    <label for="inputName">닉네임</label>
-    <input type="text" name="name" id="inputName" value="<%= typeof name !== 'undefined' ? name : '' %>" required><br>
-
-    <label for="inputId">아이디</label>
-    <input type="text" name="id" id="inputId" value="<%= typeof id !== 'undefined' ? id : '' %>" required><br>
-
-    <label for="inputEmail">이메일</label>
-    <input type="email" name="email" id="inputEmail" value="<%= typeof email !== 'undefined' ? email : '' %>" required><br>
-
-
-    <label for="inputPassword">비밀번호</label>
-    <input type="password" name="password" id="inputPassword" value="<%= typeof password !== 'undefined' ? password : '' %>" required><br>
-
-    <label for="confirmPassword">비밀번호 확인</label>
-    <input type="password" name="confirmPassword" id="confirmPassword" value="<%= typeof confirmPassword !== 'undefined' ? confirmPassword : '' %>" required><br>
-
-    <!-- 사용자가 받은 인증코드 입력 -->
-    <label for="emailCode">이메일 인증코드</label>
-    <input type="text" name="emailCode" placeholder="인증코드 입력"><br>
-
-    <!-- 약관 동의 -->
-    <div class="terms-group">
-      <div class="terms-box">
-        <label><input type="checkbox" name="term1"> [필수]이용약관 동의</label>
-      </div>
-      <div class="terms-box">
-        <label><input type="checkbox" name="term2"> [필수]개인정보 수집 및 이용 동의</label>
-      </div>
+        <button type="submit">인증코드 발송</button>
+      </form>
     </div>
 
-    <button type="submit">회원가입</button>
-  </form>
-</div>
+    <div class="auth-box">
+      <!-- 2. 실제 회원가입 폼 -->
+      <form action="/users/create" method="POST" class="auth-form">
+        <h2 class="auth-title">회원가입</h2>
+
+        <% if (messages && messages.error) { %>
+          <div class="error-message">
+            <%= messages.error[0] %>
+          </div>
+        <% } %>
+
+        <label for="inputName">닉네임</label>
+        <input type="text" name="name" id="inputName" value="<%= typeof name !== 'undefined' ? name : '' %>" required>
+
+        <label for="inputId">아이디</label>
+        <input type="text" name="id" id="inputId" value="<%= typeof id !== 'undefined' ? id : '' %>" required>
+
+        <label for="inputEmail">이메일</label>
+        <input type="email" name="email" id="inputEmail" value="<%= typeof email !== 'undefined' ? email : '' %>" required>
+
+        <label for="inputPassword">비밀번호</label>
+        <input type="password" name="password" id="inputPassword" value="<%= typeof password !== 'undefined' ? password : '' %>" required>
+
+        <label for="confirmPassword">비밀번호 확인</label>
+        <input type="password" name="confirmPassword" id="confirmPassword" value="<%= typeof confirmPassword !== 'undefined' ? confirmPassword : '' %>" required>
+
+        <label for="emailCode">이메일 인증코드</label>
+        <input type="text" name="emailCode" placeholder="인증코드 입력">
+
+        <div class="terms-group">
+          <div class="terms-box">
+            <label><input type="checkbox" name="term1"> [필수]이용약관 동의</label>
+          </div>
+          <div class="terms-box">
+            <label><input type="checkbox" name="term2"> [필수]개인정보 수집 및 이용 동의</label>
+          </div>
+        </div>
+
+        <button type="submit">회원가입</button>
+      </form>
+    </div>
+  </div>
+
