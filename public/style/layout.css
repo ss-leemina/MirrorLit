@@ -169,6 +169,7 @@ body {
   padding-top: 6rem;
   background-color: #F6F6F6;
   font-size: 0.9rem;
+  overflow: scroll;
 }
 .footer-info {
   margin-bottom: 1rem;
