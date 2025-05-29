@@ -10,7 +10,6 @@ const express = require("express"),
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
   userRouter = require("./routes/userRouter"),
-  accountRouter = require("./routes/accounts"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   emailVerificationRouter = require("./routes/emailVerificationRouter"),
@@ -45,35 +44,75 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport LocalStrategy/serializeUser/deserializeUser 구현
-// 10주차 강의안 107p의 코드는 mongoose를 쓰는 경우에만 사용가능하다고 해서,
-// gpt한테 받은 코드입니다. 잘못되었거나 비효율적인 문장이 있을 수 있습니다.
+// passport LocalStrategy/serializeUser/deserializeUser
 passport.use(new LocalStrategy(
+
+  {
+    usernameField: "id",
+    passwordField: "password"
+  },
+
   async (id, password, done) => {
+    console.log("LocalStrategy 실행됨", id);
     try {
       const user = await db.User.findOne({ where: { id } });
+      if (!user) {
+        console.log("사용자 없음");
+        return done(null, false, { message: "존재하지 않는 계정입니다." });
+      }
+
+      user.passwordComparison(password, (err, isMatch) => {
+        if (err) return done(err);
+        if (!isMatch) {
+          console.log("비밀번호 불일치");
+          return done(null, false, { message: "비밀번호가 틀렸습니다." });
+        }
+
+        console.log("로그인 성공, 사용자 ID:", user.user_id);
+        return done(null, user);
+      });
+
+
+      console.log(" 로그인 성공, 사용자 ID:", user.user_id);
       return done(null, user);
     } catch (err) {
+      console.error("LocalStrategy 에러:", err);
       return done(err);
     }
   }
 ));
+
 passport.serializeUser((user, done) => {
+  console.log("serializeUser 실행됨", user.user_id);
   done(null, user.user_id);
 });
+
+
 passport.deserializeUser(async (user_id, done) => {
   try {
     const user = await db.User.findByPk(user_id);
+
+    // 강제 인스턴스로 변환
+    if (user && typeof user.passwordComparison !== 'function') {
+      passportLocalSequelize.attachToUser(user.constructor, {
+        usernameField: "id",
+        hashField: "myhash",
+        saltField: "mysalt"
+      });
+    }
+
+    console.log("deserializeUser 실행됨", user.id);
     done(null, user);
   } catch (err) {
     done(err);
   }
 });
 
+
 // db 수정이 없는 경우 : alert true인 채로 계속 돌리다 보면 오류 납니다.
 db.sequelize.sync();
 // db 수정이 있는 경우 : sequelize 바꾸면 이걸로 바꿔서 동기화
-// db.sequelize.sync({ alter: true }); 
+// db.sequelize.sync({ alter: true });
 
 // set local data
 app.use(async (req, res, next) => {
@@ -94,10 +133,7 @@ app.use(async (req, res, next) => {
         where: { user_id: res.locals.currentUser.user_id }
       });
       res.locals.commentalerts = alerts;
-      res.locals.isThereNewAlert = await alerts.forEach(alr => {
-        if (alr.is_checked === 'N')
-          return true;
-      });
+      res.locals.isThereNewAlert = await alerts.some(alr => alr.is_checked === 'N');
     }
 
     next();
@@ -107,17 +143,18 @@ app.use(async (req, res, next) => {
 });
 
 // set routes
-//app.use("/users/:userid", accountRouter);
 app.use("/users", userRouter);
-app.use("/home", homeRouter);
+app.use("/email-verification", emailVerificationRouter);
+app.use("/", homeRouter);
 app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
 app.use('/alerts', alertRoutes);
-app.use("/email-verification", emailVerificationRouter);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
+
+
 
 app.listen(app.get("port"), () => {
   console.log("실행 중");

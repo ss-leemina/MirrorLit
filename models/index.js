@@ -19,8 +19,8 @@ db.CommentAlert = require("./comment_alert")(sequelize, Sequelize);
 db.CommentHistory = require("./comment_history")(sequelize, Sequelize);
 db.CommentReaction = require("./comment_reaction")(sequelize, Sequelize);
 db.EmailVerification = require("./emailVerificationModel.js")(sequelize, Sequelize);
-// db.UserRank = require("./user_rank.js")(sequelize, Sequelize);
-// db.Notification = require("./user_notification.js")(sequelize, Sequelize);
+db.UserRank = require("./user_rank.js")(sequelize, Sequelize);
+db.UserNotification = require("./user_notification")(sequelize, Sequelize);
 
 
 //관계 정의

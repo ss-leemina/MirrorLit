@@ -3,6 +3,7 @@ const db = require("../models"),
   CommentReaction = db.CommentReaction,
   User = db.User;
 const { handleCommentNotification } = require('./commentAlterHandler');
+const { evaluateUserRank } = require("../services/rankService");
 const { isValidUrl } = require("../services/checkUrl");
 
 // 댓글 작성
@@ -25,6 +26,9 @@ exports.createComment = async (req, res) => {
       content,
       user_id
     });
+
+    // 등급 평가 (댓글 수)
+    await evaluateUserRank(user_id);
 
     // 알림 핸들러 호출
     await handleCommentNotification(article_id, newComment.comment_id, user_id);
@@ -86,6 +90,9 @@ exports.reactToComment = async (req, res) => {
       comment_id: commentId,
       user_id: userId
     });
+
+    //등급 평가(추천수)
+    await evaluateUserRank(userId);
 
     return res.status(201).json({ message: `${reaction_type} 성공` });
 
