@@ -57,9 +57,11 @@ passport.use(new LocalStrategy(
     try {
       const user = await db.User.findOne({ where: { id } });
       if (!user) {
-        console.log("사용자 없음");
-        return done(null, false, { message: "존재하지 않는 계정입니다." });
-      }
+      console.log("사용자 없음");
+      return done(null, false, {
+      message: "회원가입이 완료되지 않은 계정입니다. 먼저 가입을 진행해주세요."
+  });
+}
 
       user.passwordComparison(password, (err, isMatch) => {
         if (err) return done(err);
