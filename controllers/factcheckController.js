@@ -6,7 +6,6 @@ exports.createFactCheck = async (req, res) => {
   try {
     const { factCheck_type } = req.body;
     const article_id = req.params.articleId;
-    // const user_id = 2; // 수정
 
     //로그인 확인
     const user_id = req.user?.user_id;

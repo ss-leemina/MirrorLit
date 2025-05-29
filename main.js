@@ -9,7 +9,7 @@ const express = require("express"),
   LocalStrategy = require('passport-local').Strategy,
   db = require("./models/index"),
   homeRouter = require("./routes/homepage"),
-  userRouter = require("./routes/userRouter"), 
+  userRouter = require("./routes/userRouter"),
   articleRouter = require("./routes/articles"),
   commentRouter = require("./routes/comments"),
   emailVerificationRouter = require("./routes/emailVerificationRouter"),
@@ -46,11 +46,11 @@ app.use(passport.session());
 
 // passport LocalStrategy/serializeUser/deserializeUser
 passport.use(new LocalStrategy(
-  
+
   {
-  usernameField: "id",        
+    usernameField: "id",
     passwordField: "password"
-},
+  },
 
   async (id, password, done) => {
     console.log("LocalStrategy 실행됨", id);
@@ -66,11 +66,11 @@ passport.use(new LocalStrategy(
         if (!isMatch) {
           console.log("비밀번호 불일치");
           return done(null, false, { message: "비밀번호가 틀렸습니다." });
-       }
+        }
 
-      console.log("로그인 성공, 사용자 ID:", user.user_id);
-      return done(null, user);
-  });
+        console.log("로그인 성공, 사용자 ID:", user.user_id);
+        return done(null, user);
+      });
 
 
       console.log(" 로그인 성공, 사용자 ID:", user.user_id);
@@ -94,12 +94,12 @@ passport.deserializeUser(async (user_id, done) => {
 
     // 강제 인스턴스로 변환
     if (user && typeof user.passwordComparison !== 'function') {
-  passportLocalSequelize.attachToUser(user.constructor, {
-    usernameField: "id",
-    hashField: "myhash",
-    saltField: "mysalt"
-  });
-}
+      passportLocalSequelize.attachToUser(user.constructor, {
+        usernameField: "id",
+        hashField: "myhash",
+        saltField: "mysalt"
+      });
+    }
 
     console.log("deserializeUser 실행됨", user.id);
     done(null, user);
@@ -129,11 +129,11 @@ app.use(async (req, res, next) => {
     res.locals.isThereNewAlert = false;
 
     if (res.locals.loggedIn) {
-        const alerts = await db.CommentAlert.findAll({
-            where: { user_id: res.locals.currentUser.user_id }
-        });
-        res.locals.commentalerts = alerts;
-        res.locals.isThereNewAlert = await alerts.some(alr => alr.is_checked === 'N');
+      const alerts = await db.CommentAlert.findAll({
+        where: { user_id: res.locals.currentUser.user_id }
+      });
+      res.locals.commentalerts = alerts;
+      res.locals.isThereNewAlert = await alerts.some(alr => alr.is_checked === 'N');
     }
 
     next();
