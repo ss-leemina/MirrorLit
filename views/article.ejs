@@ -126,6 +126,11 @@
                         alert("<%= flashMessages.reactionerror %>");
                       </script>
                       <% } %>
-                        <% } %>
+                        <% if (flashMessages.avaliablefactcheck) { %>
+                          <script>
+                            alert("<%= flashMessages.avaliablefactcheck %>");
+                          </script>
+                          <% } %>
+                            <% } %>
 
 </div>
