@@ -8,7 +8,7 @@ router.get("/login", userController.login);
 
 router.post("/login",
   (req, res, next) => {
-    console.log("로그인 시도: ", req.body);
+    //console.log("로그인 시도: ", req.body);
     next();
   },
   passport.authenticate("local", {

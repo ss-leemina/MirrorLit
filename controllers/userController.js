@@ -73,7 +73,7 @@ const create = async (req, res, next) => {
           req.flash('error', message);
           return res.render('new', { name, id, email, password, confirmPassword, messages: req.flash() });
         }
-         
+
 
         req.flash("error", err.message);
         return res.render("new", { name, id, email, password, confirmPassword, messages: req.flash() });
@@ -115,8 +115,8 @@ const logout = (req, res, next) => {
   req.logout(function (err) {
     if (err) { return next(err); }
     req.session.destroy(() => {
-      res.locals.redirect = "/users/login";
-      next();
+      const redirectTo = req.headers.referer || "/users/login";
+      res.redirect(redirectTo); 
     });
   });
 };
@@ -177,7 +177,7 @@ const resetPasswordFinal = (req, res, next) => {
   if (password !== confirmPassword) {
     req.flash("error", "비밀번호와 확인이 일치하지 않습니다.");
     res.render("resetPassword2", { messages: req.flash(), user: { email } });
-    return next();
+    return;
   }
 
   findUserById(email)
@@ -187,18 +187,23 @@ const resetPasswordFinal = (req, res, next) => {
         res.locals.redirect = "/users/login";
         return next();
       }
-      user.password = password;
-      return user.save().then(() => {
+      user.setPassword(password, async (err, userWithPassword) => {
+        if (err) {
+          req.flash("error", "비밀번호 설정 중 오류가 발생했습니다.");
+          res.locals.redirect = "/users/reset-form";
+          return next();
+        }
+
+        await userWithPassword.save();
+
         req.flash("success", "비밀번호가 성공적으로 변경되었습니다.");
-        res.locals.redirect = "/users/login";
-        next();
+        return res.redirect("/users/login");
       });
     })
     .catch(error => {
       console.error(`Error resetting password: ${error.message}`);
       req.flash("error", `${error.message}로 인해 비밀번호 변경에 실패했습니다.`);
       res.locals.redirect = "/users/reset-form";
-      next();
     });
 };
 
