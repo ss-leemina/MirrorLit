@@ -57,26 +57,26 @@ passport.use(new LocalStrategy(
     try {
       const user = await db.User.findOne({ where: { id } });
       if (!user) {
-      console.log("사용자 없음");
-      return done(null, false, {
-      message: "회원가입이 완료되지 않은 계정입니다. 먼저 가입을 진행해주세요."
-  });
-}
+        console.log("사용자 없음");
+        return done(null, false, {
+          message: "회원가입이 완료되지 않은 계정입니다. 먼저 가입을 진행해주세요."
+        });
+      }
 
-      user.passwordComparison(password, (err, isMatch) => {
+      console.log("사용자 있음", user.user_id);
+      user.passwordComparison(password, (err, result, info) => {
+        console.log("in passwordComparison ######")
         if (err) return done(err);
-        if (!isMatch) {
+
+        if (result === false) {
           console.log("비밀번호 불일치");
           return done(null, false, { message: "비밀번호가 틀렸습니다." });
         }
-
-        console.log("로그인 성공, 사용자 ID:", user.user_id);
-        return done(null, user);
+        else {
+          console.log("로그인 성공, 사용자 ID:", user.user_id);
+          return done(null, user);
+        }
       });
-
-
-      console.log(" 로그인 성공, 사용자 ID:", user.user_id);
-      return done(null, user);
     } catch (err) {
       console.error("LocalStrategy 에러:", err);
       return done(err);
