@@ -16,17 +16,17 @@
     <!-- 알림 팝업 -->
     <div id="popup" class="popup-overlay">
       <div class="popup-content">
-        <span class="alert-title-line">
+        <div class="alert-title-line">
           <span class="alert-list-title">알림 목록</span>
           <!-- 알림 모두 읽기 -->
-          <form method="POST" action="/alerts/<%= currentUser.user_id %>/readAll" id="check-alert-all">
+          <form method="POST" action="/alerts/<%= currentUser.user_id %>/readAll" class="check-alert-all-display">
             <button class="check-alert-all" type="submit">모두 읽기</button>
           </form>
           <!-- 알림 모두 삭제 -->
-          <form method="POST" action="/alerts/<%= currentUser.user_id %>/deleteAll" id="delete-alert-all">
+          <form method="POST" action="/alerts/<%= currentUser.user_id %>/deleteAll" class="delete-alert-all-display">
             <button class="delete-alert-all" type="submit">비우기</button>
           </form>
-        </span>
+        </div>
         <div class="alert-content-line">
           <!-- 알림 목록 : 알림이 없는 경우 -->
           <% if (commentalerts.length === 0) { %>
@@ -37,7 +37,7 @@
               <form method="POST" action="/alerts/<%= alerts.alert_id %>/read">
                 <button class="alert-category-<%= alerts.is_checked %>" type="submit"><%= alerts.alert_message %></button>
               </form>
-              <form method="POST" action="/alerts/<%= alerts.alert_id %>/delete" id="delete-alert">
+              <form method="POST" action="/alerts/<%= alerts.alert_id %>/delete">
                 <button class="delete-alert" type="submit">&times;</button>
               </form>
             <% }) %>
