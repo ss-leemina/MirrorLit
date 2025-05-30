@@ -75,6 +75,11 @@ exports.reactToComment = async (req, res) => {
   }
 
   try {
+    // 0. 로그인 확인
+    if (!userId) {
+      req.flash("notLogin", "로그인이 필요한 기능입니다.");
+      return res.redirect(`/articles/${article_id}`);
+    }
     // 1. 댓글 존재 여부 및 작성자 확인
     const comment = await Comment.findOne({
       where: { comment_id: commentId }
@@ -118,6 +123,7 @@ exports.reactToComment = async (req, res) => {
 };
 
 // 댓글 리스트 조회
+/*
 exports.getCommentsWithReactions = async (req, res) => {
   try {
     const articleId = req.params.articleId;
@@ -155,3 +161,4 @@ exports.getCommentsWithReactions = async (req, res) => {
     res.status(500).json({ message: '댓글 조회 실패' });
   }
 };
+*/
