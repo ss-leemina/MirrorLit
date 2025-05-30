@@ -44,7 +44,7 @@ exports.deleteComment = async (req, res) => {
   try {
     const user_id = req.user?.user_id;
     // 로그인 안 한 경우
-    if (!userId) {
+    if (!user_id) {
       req.flash("notLogin", "로그인이 필요한 기능입니다.");
       return res.redirect(`/articles/${req.body.article_id}`);
     }
@@ -76,7 +76,7 @@ exports.reactToComment = async (req, res) => {
 
   try {
     // 0. 로그인 확인
-    if (!user_id) {
+    if (!userId) {
       req.flash("notLogin", "로그인이 필요한 기능입니다.");
       return res.redirect(`/articles/${article_id}`);
     }
