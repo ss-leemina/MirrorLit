@@ -78,7 +78,7 @@
                   <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
                   <% } %>
                     <input type="hidden" name="article_id" value="<%= article.article_id %>">
-                    <button type="submit">👍 추천</button>
+                    <button type="submit">👍 추천(<%= comment.likeCount || 0 %>)</button>
               </form>
 
               <!-- 비추천 버튼 (👎) -->
@@ -88,7 +88,7 @@
                   <input type="hidden" name="user_id" value="<%= currentUser.user_id %>">
                   <% } %>
                     <input type="hidden" name="article_id" value="<%= article.article_id %>">
-                    <button type="submit">👎 비추천</button>
+                    <button type="submit">👎 비추천(<%= comment.dislikeCount || 0 %>) </button>
               </form>
             </div>
           </div>
