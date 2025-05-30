@@ -8,7 +8,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     reaction_type: {
       type: Sequelize.STRING(10),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isIn: [['like', 'dislike']]
+      }
     },
     comment_id: {
       type: Sequelize.INTEGER,

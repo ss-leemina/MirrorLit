@@ -123,6 +123,7 @@ exports.reactToComment = async (req, res) => {
 };
 
 // 댓글 리스트 조회
+/*
 exports.getCommentsWithReactions = async (req, res) => {
   try {
     const articleId = req.params.articleId;
@@ -160,3 +161,4 @@ exports.getCommentsWithReactions = async (req, res) => {
     res.status(500).json({ message: '댓글 조회 실패' });
   }
 };
+*/

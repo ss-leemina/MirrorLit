@@ -8,7 +8,7 @@ const db = require("../models"),
   Op = db.Sequelize.Op;
 const { getfactCheckCount } = require("../services/getFactCheck");
 const { getCommentCount } = require("../services/getComment");
-
+const { getReactionCount } = require("../services/getReaction");
 
 // 기사 목록 페이지
 exports.showArticleList = async (req, res) => {
@@ -97,10 +97,21 @@ exports.showArticle = async (req, res) => {
     if (!foundArticle) {
       return res.status(404).send("기사 없음");
     }
+    const enrichedComments = await Promise.all(
+      foundArticle.comments.map(async comment => {
+       const reactions = await getReactionCount(comment.comment_id);
+       return {
+         ...comment.dataValues,
+         likeCount: reactions.like,
+         dislikeCount: reactions.dislike
+        };
+       })
+    );
+    
     res.render("article", {
       article: foundArticle,
       iamge: foundArticle.ArticleImage || null,
-      comments: foundArticle.comments,
+      comments: enrichedComments,
       factCounts,
       commentCounts
     });
