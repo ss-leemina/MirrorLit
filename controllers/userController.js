@@ -176,7 +176,7 @@ const resetPasswordFinal = (req, res, next) => {
 
   if (password !== confirmPassword) {
     req.flash("error", "비밀번호와 확인이 일치하지 않습니다.");
-    res.locals.redirect = "/users/reset-form";
+    res.render("resetPassword2", { messages: req.flash(), user: { email } });
     return next();
   }
 
