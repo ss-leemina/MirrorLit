@@ -75,6 +75,11 @@ exports.reactToComment = async (req, res) => {
   }
 
   try {
+    // 0. 로그인 확인
+    if (!user_id) {
+      req.flash("notLogin", "로그인이 필요한 기능입니다.");
+      return res.redirect(`/articles/${article_id}`);
+    }
     // 1. 댓글 존재 여부 및 작성자 확인
     const comment = await Comment.findOne({
       where: { comment_id: commentId }
