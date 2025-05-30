@@ -12,9 +12,9 @@ router.post('/:alert_id/read', alertController.markAlertAsRead);
 router.post('/:user_id/readAll', alertController.markAlertAsReadAll);
 
 // 알림 삭제
-router.post(':alert_id/delete', alertController.deleteAlert);
+router.post('/:alert_id/delete', alertController.deleteAlert);
 
 // 모든 알림 삭제
-router.post(':user_id/deleteAll', alertController.deleteAlertAll);
+router.post('/:user_id/deleteAll', alertController.deleteAlertAll);
 
 module.exports = router;
