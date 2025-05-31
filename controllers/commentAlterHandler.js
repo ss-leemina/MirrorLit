@@ -12,7 +12,7 @@ exports.handleCommentNotification = async (article_id, comment_id, user_id) => {
 
     // 기록이 없으면 추가
     if (!existing) {
-      await CommentHistory.create({ article_id,comment_id, user_id }); //comment_id 제거
+      await CommentHistory.create({ article_id,comment_id, user_id }); 
     }
 
     const participants = await CommentHistory.findAll({  
