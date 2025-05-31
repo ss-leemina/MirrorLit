@@ -27,6 +27,7 @@ router.post("/reset", userController.sendResetCode);
 router.post("/reset2", userController.resetPasswordFinal, userController.redirectView);
 router.post("/verify-code", userController.verifyResetCode);
 
+router.get("/mypage", userController.getMyPage);
 
 router.get("/logout", userController.logout, userController.redirectView);
 
