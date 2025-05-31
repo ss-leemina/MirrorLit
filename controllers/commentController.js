@@ -47,6 +47,24 @@ exports.deleteComment = async (req, res) => {
     if (!user_id) {
       req.flash("notLogin", "로그인이 필요한 기능입니다.");
       return res.redirect(`/articles/${req.body.article_id}`);
+    }else {
+      // 댓글 삭제 후
+      const remaining = await Comment.count({
+        where: {
+          article_id: req.body.article_id,
+          user_id: user_id
+        }
+      });
+
+      if (remaining === 0) {
+        // 더 이상 댓글 없음 → 알림 기록 제거
+        await CommentHistory.destroy({
+          where: {
+            article_id: req.body.article_id,
+            user_id
+          }
+        });
+      }
     }
 
     // 로그인 한 경우
