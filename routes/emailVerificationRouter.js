@@ -6,6 +6,6 @@ const express = require("express"),
 router.post("/send", emailVerificationController.sendVerificationCode);
 
 // 인증 코드 확인
-router.post("/:userId/verify", emailVerificationController.verifyCode);
+// router.post("/:userId/verify", emailVerificationController.verifyCode);
 
 module.exports = router;
