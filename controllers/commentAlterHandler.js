@@ -8,13 +8,14 @@ exports.handleCommentNotification = async (article_id, comment_id, user_id) => {
     const existing = await CommentHistory.findOne({
       where: { article_id, user_id }
     });
+    console.log('기존 기록 조회:', existing);
 
     // 기록이 없으면 추가
     if (!existing) {
-      await CommentHistory.create({ article_id, comment_id, user_id });
+      await CommentHistory.create({ article_id,comment_id, user_id }); 
     }
 
-    const participants = await CommentHistory.findAll({  // 게시글 참여자 조회(중복 제거)
+    const participants = await CommentHistory.findAll({  
       where: { article_id },
       attributes: ['user_id'],
       group: ['user_id']
