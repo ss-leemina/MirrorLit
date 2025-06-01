@@ -7,7 +7,7 @@ const CommentReaction = db.CommentReaction;
 const UserNotification = db.UserNotification;
 
 //등급 평가 함수
-exports.evaluateUserRank = async (userId) => {
+const evaluateUserRank = async (userId) => {
         try {
 		//사용자 정보 불러오기
 		const user = await User.findByPk(userId);
@@ -32,7 +32,7 @@ exports.evaluateUserRank = async (userId) => {
 
 
                 //전체 등급 불러오기
-                const ranks = await UserRank.findALL({ 
+                const ranks = await UserRank.findAll({ 
 			order: [['min_comments', 'ASC'], ['min_upvotes', 'ASC']]
 		});
 
@@ -52,7 +52,7 @@ exports.evaluateUserRank = async (userId) => {
 
 		//등급 변경된 경우 업데이트, 알림기능
 		if (user.rank_id !== newRank.rank_id) {
-			await user.updates({ rank_id: newRank.rank_id});
+			await user.update({ rank_id: newRank.rank_id});
 
 			await UserNotification.create({
 				user_id: user.user_id,
