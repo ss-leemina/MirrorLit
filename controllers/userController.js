@@ -258,6 +258,25 @@ const verifyResetCode = async (req, res) => {
   res.render("resetPassword2", { user, messages: req.flash() });
 };
 
+//마이페이지에 등급 정보를 함께 보여주기 위한 코드
+const getMyPage = async (req, res) => {
+  try {
+    const userId = req.user.user_id; // 로그인된 사용자 ID
+
+    const user = await db.User.findByPk(userId, {
+      include: [{ model: db.UserRank, as: 'user_rank' }]
+    });
+
+    if (!user) {
+      return res.status(404).send("사용자를 찾을 수 없습니다.");
+    }
+
+    res.render("mypage", { user });
+  } catch (err) {
+    console.error("마이페이지 로딩 오류:", err);
+    res.status(500).send("서버 에러");
+  }
+};
 
 
 module.exports = {
@@ -270,7 +289,7 @@ module.exports = {
   showResetForm,
   resetPasswordFinal,
   sendResetCode,
-  verifyResetCode
-
+  verifyResetCode,
+  getMyPage
 };
 

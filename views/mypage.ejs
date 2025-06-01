@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>마이페이지</title>
+  <link rel="stylesheet" href="/stylesheets/style.css"> <!-- CSS 파일 연결은 프로젝트에 맞게 수정 -->
+</head>
+<body>
+  <div class="container">
+    <h1>Mypage</h1>
+
+    <% ifMypage) { %>
+      <p><strong>닉네임:</strong> <%= user.name %></p>
+      <p><strong>이메일:</strong> <%= user.email %></p>
+      <p><strong>아이디:</strong> <%= user.id %></p>
+      <p><strong>회원가입일:</strong> <%= user.registerDate.toLocaleDateString() %></p>
+      <p><strong>등급:</strong> 
+        <% if (user.user_rank) { %>
+          <%= user.user_rank.rank_name %>
+        <% } else { %>
+          등급 정보 없음
+        <% } %>
+      </p>
+
+      <a href="/users/logout">로그아웃</a>
+    <% } else { %>
+      <p>로그인된 사용자 정보가 없습니다.</p>
+      <a href="/users/login">로그인 하러 가기</a>
+    <% } %>
+  </div>
+</body>
+</html>
+

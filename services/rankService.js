@@ -7,8 +7,8 @@ const CommentReaction = db.CommentReaction;
 const UserNotification = db.UserNotification;
 
 //등급 평가 함수
-exports.evaluateUserRank = async (userId) => {
-        try {
+const evaluateUserRank = async (userId) => {
+  try {
 		//사용자 정보 불러오기
 		const user = await User.findByPk(userId);
 		if(!user) return; //유저 존재하지 않는 경우 종료
@@ -21,18 +21,16 @@ exports.evaluateUserRank = async (userId) => {
 			where: { user_id: userId } 
 		});
 
-                //추천 수(추천 누른 수) 확인
-                const upvoteCount = await CommentReaction.count({
-                        where: {
+    //추천 수(추천 누른 수) 확인
+    const upvoteCount = await CommentReaction.count({
+    where: {
 				user_id: userId,
 				reaction_type: 'like'
-			}
-				
+			}		
 		});
 
-
-                //전체 등급 불러오기
-                const ranks = await UserRank.findALL({ 
+    //전체 등급 불러오기
+    const ranks = await UserRank.findAll({ 
 			order: [['min_comments', 'ASC'], ['min_upvotes', 'ASC']]
 		});
 
@@ -40,11 +38,11 @@ exports.evaluateUserRank = async (userId) => {
 		const defaultRank = ranks.find(rank => rank.min_comments === 0 && rank.min_upvotes ===0);
 		let newRank = defaultRank || ranks[0];
 
-                //유저가 승급 조건 만족했는지 확인
+    //유저가 승급 조건 만족했는지 확인
 		for (const rank of ranks) {
-                        if (
-                                commentCount >= rank.min_comments &&
-                                upvoteCount >= rank.min_upvotes 
+      if (
+        commentCount >= rank.min_comments &&
+        upvoteCount >= rank.min_upvotes 
 			) {
 				newRank = rank;
 			}
@@ -52,7 +50,7 @@ exports.evaluateUserRank = async (userId) => {
 
 		//등급 변경된 경우 업데이트, 알림기능
 		if (user.rank_id !== newRank.rank_id) {
-			await user.updates({ rank_id: newRank.rank_id});
+			await user.update({ rank_id: newRank.rank_id});
 
 			await UserNotification.create({
 				user_id: user.user_id,
