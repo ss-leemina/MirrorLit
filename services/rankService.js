@@ -21,18 +21,18 @@ const evaluateUserRank = async (userId) => {
 			where: { user_id: userId } 
 		});
 
-    //추천 수(추천 누른 수) 확인
-    const upvoteCount = await CommentReaction.count({
-    where: {
+    		//추천 수(추천 누른 수) 확인
+    		const upvoteCount = await CommentReaction.count({
+    		where: {
 				user_id: userId,
 				reaction_type: 'like'
-			}		
-		});
+		}
+    		});
 
-    //전체 등급 불러오기
-    const ranks = await UserRank.findAll({ 
-			order: [['min_comments', 'ASC'], ['min_upvotes', 'ASC']]
-		});
+    		//전체 등급 불러오기
+    		const ranks = await UserRank.findAll({
+	    		order: [['min_comments', 'ASC'], ['min_upvotes', 'ASC']]
+    		});
 
 		//등급이 확장되어도 문제 없을 수 있도록
 		const defaultRank = ranks.find(rank => rank.min_comments === 0 && rank.min_upvotes ===0);
@@ -40,9 +40,9 @@ const evaluateUserRank = async (userId) => {
 
     //유저가 승급 조건 만족했는지 확인
 		for (const rank of ranks) {
-      if (
-        commentCount >= rank.min_comments &&
-        upvoteCount >= rank.min_upvotes 
+      			if (
+        			commentCount >= rank.min_comments &&
+        			upvoteCount >= rank.min_upvotes 
 			) {
 				newRank = rank;
 			}
@@ -61,7 +61,7 @@ const evaluateUserRank = async (userId) => {
 
 			//SSE알림 전송(실시간)
 			if (global.sendSSE) {
-				global.sendSSE(user.user_id, '${newRank.name} 등급으로 승급되었습니다.`);
+				global.sendSSE(user.user_id, `${newRank.name} 등급으로 승급되었습니다.`);
 			}
 
 			console.log(`사용자 '${user.name}'이(가) '${newRank.name}' 등급으로 승급되었습니다.`);
