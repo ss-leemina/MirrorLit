@@ -5,6 +5,19 @@
       <form action="/email-verification/send" method="POST" class="auth-form">
         <h2 class="auth-title">이메일 인증</h2>
 
+        <% if (messages && messages.email_verification_send_success) { %>
+          <div class="success-message">
+            <%= messages.email_verification_send_success[0] %>
+          </div>
+        <% } %>
+        
+        <% if (messages && messages.email_verification_send_error) { %>
+          <div class="error-message">
+            <%= messages.email_verification_send_error[0] %>
+          </div>
+        <% } %>
+
+
         <label for="email">이메일</label>
         <input type="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" required>
 
