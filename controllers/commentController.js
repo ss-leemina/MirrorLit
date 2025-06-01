@@ -1,6 +1,7 @@
 const db = require("../models"),
   Comment = db.comment,
   CommentReaction = db.CommentReaction,
+  CommentHistory = db.CommentHistory,
   User = db.User;
 const { handleCommentNotification } = require('./commentAlterHandler');
 const { evaluateUserRank } = require("../services/rankService");
@@ -47,7 +48,7 @@ exports.deleteComment = async (req, res) => {
     if (!user_id) {
       req.flash("notLogin", "로그인이 필요한 기능입니다.");
       return res.redirect(`/articles/${req.body.article_id}`);
-    }else {
+    } else {
       // 댓글 삭제 후
       const remaining = await Comment.count({
         where: {
@@ -83,10 +84,10 @@ exports.deleteComment = async (req, res) => {
 
 // 추천, 비추천 상호작용
 exports.reactToComment = async (req, res) => {
-  const userId =  req.user?.user_id;
+  const userId = req.user?.user_id;
   const commentId = parseInt(req.params.commentId);
-  const {reaction_type } = req.body;
-  const {article_id} = req.body;
+  const { reaction_type } = req.body;
+  const { article_id } = req.body;
 
   if (!['like', 'dislike'].includes(reaction_type)) {
     return res.status(400).json({ message: "추천 또는 비추천만 가능합니다." });
