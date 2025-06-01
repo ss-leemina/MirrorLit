@@ -136,6 +136,7 @@ app.use(async (req, res, next) => {
       // 댓글 알림 확인
       const alerts = await db.CommentAlert.findAll({
         where: { user_id: res.locals.currentUser.user_id },
+        order: [['alert_id', 'DESC']]
       });
       res.locals.commentalerts = alerts;
 
