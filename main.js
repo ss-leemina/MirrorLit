@@ -15,7 +15,8 @@ const express = require("express"),
   emailVerificationRouter = require("./routes/emailVerificationRouter"),
   errorController = require("./controllers/errorController"),
   sseRoutes = require('./routes/sseRoutes'),
-  alertRoutes = require('./routes/alertRoutes');
+  alertRoutes = require('./routes/alertRoutes'),
+  rankRouter = require('./routes/rank');
 
 // set port
 app.set("port", process.env.PORT || 3000);
@@ -46,7 +47,6 @@ app.use(passport.session());
 
 // passport LocalStrategy/serializeUser/deserializeUser
 passport.use(new LocalStrategy(
-
   {
     usernameField: "id",
     passwordField: "password"
@@ -152,6 +152,7 @@ app.use("/articles", articleRouter);
 app.use("/comments", commentRouter);
 app.use('/sse', sseRoutes);
 app.use('/alerts', alertRoutes);
+app.use('/rank', rankRouter);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
