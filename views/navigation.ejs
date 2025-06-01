@@ -1,51 +1,65 @@
 <nav class="navigation">
+  <!-- MirrorLit 로고 -->
   <a class="logo" href="/home">MirrorLit</a>
+  <!-- 로그인 되어있다면 : 알림/마이페이지/로그아웃 표시 -->
   <% if (loggedIn) { %>
     <span class="notification" id="openPopup" alt="팝업 열기">
+      <!-- 알림 버튼 : 새 알림이 있는 경우 -->
       <% if (isThereNewAlert) { %>
         <img src="/images/notification_unchecked.png" width="35">
+      <!-- 알림 버튼 : 새 알림이 없는 경우 -->
       <% } else { %>
         <img src="/images/notification.png" width="35">
       <% } %>
     </span>
 
+    <!-- 알림 팝업 -->
     <div id="popup" class="popup-overlay">
       <div class="popup-content">
-        <span class="alert-title-line">
+        <div class="alert-title-line">
           <span class="alert-list-title">알림 목록</span>
-          <form method="POST" action="/alerts/<%= currentUser.user_id %>/readAll" id="check-alert-all" class="check-alert-all">
-            모두 읽기
+          <!-- 알림 모두 읽기 -->
+          <form method="POST" action="/alerts/<%= currentUser.user_id %>/readAll" class="check-alert-all-display">
+            <button class="check-alert-all" type="submit">모두 읽기</button>
           </form>
-          <form method="POST" action="/alerts/<%= currentUser.user_id %>/deleteAll" id="delete-alert-all" class="delete-alert-all">
-            비우기
+          <!-- 알림 모두 삭제 -->
+          <form method="POST" action="/alerts/<%= currentUser.user_id %>/deleteAll" class="delete-alert-all-display">
+            <button class="delete-alert-all" type="submit">비우기</button>
           </form>
-        </span>
+        </div>
         <div class="alert-content-line">
+          <!-- 알림 목록 : 알림이 없는 경우 -->
           <% if (commentalerts.length === 0) { %>
             <p class="alert-content">알림이 없습니다.</p>
+          <!-- 알림 목록 : 알림이 있는 경우 -->
           <% } else { %>
             <% commentalerts.forEach(alerts => { %>
-              <form method="POST" action="/alerts/<%= alerts.alert_id %>/read" class="alert-category-<%= alerts.is_checked %>">
-                <%= alerts.alert_message %>
+              <form method="POST" action="/alerts/<%= alerts.alert_id %>/read">
+                <button class="alert-category-<%= alerts.is_checked %>" type="submit"><%= alerts.alert_message %></button>
               </form>
-              <form method="POST" action="/alerts/<%= alerts.alert_id %>/delete" id="delete-alert" class="delete-alert">
-                &times;
+              <form method="POST" action="/alerts/<%= alerts.alert_id %>/delete">
+                <button class="delete-alert" type="submit">&times;</button>
               </form>
             <% }) %>
           <% } %>
         </div>
       </div>
     </div>
+    <!-- 알림 팝업 자바스크립트 불러오기 -->
     <script src="/js/layoutScript.js"></script>
 
+    <!-- 마이페이지 버튼 -->
     <a class="account-page" href="#">
       마이페이지
     </a>
+    <!-- 로그아웃 버튼 -->
     <a class="logout" href="/users/logout">
       로그아웃
     </a>
 
+  <!-- 로그인 되어있지 않다면 : 로그인 표시 -->
   <% } else { %>
+    <!-- 로그인 버튼 -->
     <a class="login" href="/users/login">
       로그인
     </a>

@@ -116,7 +116,7 @@ const logout = (req, res, next) => {
     if (err) { return next(err); }
     req.session.destroy(() => {
       const redirectTo = req.headers.referer || "/users/login";
-      res.redirect(redirectTo); 
+      res.redirect(redirectTo);
     });
   });
 };
@@ -167,6 +167,11 @@ const sendResetCode = async (req, res) => {
 
 const showResetForm = (req, res) => {
   res.render("resetPassword2", { messages: req.flash() });
+};
+
+// 인증코드 요청 폼 렌더링
+const showResetRequestForm = (req, res) => {
+  res.render("resetPassword", { messages: req.flash() });
 };
 
 
@@ -221,10 +226,7 @@ const showSignupForm = (req, res) => {
   });
 };
 
-// 인증코드 요청 폼 렌더링
-const showResetRequestForm = (req, res) => {
-  res.render("resetPassword", { messages: req.flash() });
-};
+
 
 const verifyResetCode = async (req, res) => {
   const { email, emailCode } = req.body;
