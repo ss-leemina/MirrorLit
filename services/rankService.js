@@ -33,7 +33,7 @@ exports.evaluateUserRank = async (userId) => {
 
                 //전체 등급 불러오기
                 const ranks = await UserRank.findALL({ 
-			order: [['min_comments', 'ASC'], ['min_upvotes', 'ASC]]
+			order: [['min_comments', 'ASC'], ['min_upvotes', 'ASC']]
 		});
 
 		//등급이 확장되어도 문제 없을 수 있도록
