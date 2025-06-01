@@ -287,7 +287,7 @@ module.exports = {
   showResetForm,
   resetPasswordFinal,
   sendResetCode,
-  verifyResetCode
+  verifyResetCode,
   getMyPage
 };
 
