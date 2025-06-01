@@ -3,6 +3,15 @@ const router = express.Router();
 const passport = require("passport");
 const userController = require("../controllers/userController");
 
+//(mypage에만 적용) 로그인 여부 확인 
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  req.flash("error", "로그인이 필요합니다.");
+  res.redirect("/users/login");
+};
+
 
 router.get("/login", userController.login);
 
@@ -27,7 +36,7 @@ router.post("/reset", userController.sendResetCode);
 router.post("/reset2", userController.resetPasswordFinal, userController.redirectView);
 router.post("/verify-code", userController.verifyResetCode);
 
-router.get("/mypage", userController.getMyPage);
+router.get("/mypage", ensureAuthenticated, userController.getMyPage);
 
 router.get("/logout", userController.logout, userController.redirectView);
 
