@@ -10,7 +10,7 @@ exports.getUserRank = async (req, res) => {
     const user = await User.findByPk(userId, {
       include: [{
         model: UserRank,
-        as: 'rank',  // 관계 설정 시 alias로 설정했다면
+        as: 'user_rank',  // 관계 설정 시 alias로 설정했다면
         attributes: ['rank_name', 'min_comments', 'min_upvotes']
       }]
     });
