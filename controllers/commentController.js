@@ -7,6 +7,7 @@ const { handleCommentNotification } = require('./commentAlterHandler');
 const { evaluateUserRank } = require("../services/rankService");
 const { isValidUrl } = require("../services/checkUrl");
 const { maskBannedWords } = require("../services/profanityFilter");
+const { checkSpamComment } = require('../services/spamFilter');
 
 // 댓글 작성
 exports.createComment = async (req, res) => {
@@ -22,7 +23,13 @@ exports.createComment = async (req, res) => {
     if (!isValidUrl(source)) { return res.redirect(`/articles/${article_id}`) };
     // 금칙어 마스킹
     const filteredContent = await maskBannedWords(content);
-   
+    // 도배 검사
+    const spamCheck = await checkSpamComment({ user_id, article_id });
+    if (spamCheck) {
+      req.flash("spam", spamCheck.message);
+      return res.redirect(`/articles/${article_id}`);
+    }
+
     const newComment = await Comment.create({
       article_id: article_id,
       source,
