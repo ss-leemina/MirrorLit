@@ -22,9 +22,9 @@ exports.getUserRank = async (req, res) => {
     res.status(200).json({
       user_id: user.user_id,
       name: user.name,
-      rank: user.rank.rank_name,
-      commentRequirement: user.rank.min_comments,
-      upvoteRequirement: user.rank.min_upvotes
+      rank: user.user_rank.rank_name,
+      commentRequirement: user.user_rank.min_comments,
+      upvoteRequirement: user.user_rank.min_upvotes
     });
   } catch (err) {
     console.error("등급 조회 실패:", err);
