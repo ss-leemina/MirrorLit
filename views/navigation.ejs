@@ -27,19 +27,32 @@
             <button class="delete-alert-all" type="submit">비우기</button>
           </form>
         </div>
-        <div class="alert-content-line">
+        <div class="alert-content-area">
           <!-- 알림 목록 : 알림이 없는 경우 -->
           <% if (commentalerts.length === 0) { %>
             <p class="alert-content">알림이 없습니다.</p>
           <!-- 알림 목록 : 알림이 있는 경우 -->
           <% } else { %>
             <% commentalerts.forEach(alerts => { %>
-              <form method="POST" action="/alerts/<%= alerts.alert_id %>/read">
-                <button class="alert-category-<%= alerts.is_checked %>" type="submit"><%= alerts.alert_message %></button>
-              </form>
-              <form method="POST" action="/alerts/<%= alerts.alert_id %>/delete">
-                <button class="delete-alert" type="submit">&times;</button>
-              </form>
+            <div class="alert-content-line">
+              <!-- 댓글 알림인 경우 -->
+              <% if ('alert_id' in alerts) { %>
+                <form method="POST" action="/alerts/alert/<%= alerts.alert_id %>/read">
+                  <button class="alert-category-<%= alerts.is_checked %>" type="submit"><%= alerts.alert_message %></button>
+                </form>
+                <form method="POST" action="/alerts/alert/<%= alerts.alert_id %>/delete">
+                  <button class="delete-alert" type="submit">&times;</button>
+                </form>
+              <!-- 사용자 알림인 경우 -->
+              <% } else { %>
+                <form method="POST" action="/alerts/notification/<%= alerts.notification_id %>/read">
+                  <button class="alert-category-<%= notification.is_checked %>" type="submit"><%= notification.message %></button>
+                 </form>
+               <form method="POST" action="/alerts/notification/<%= alerts.notification_id %>/delete">
+                 <button class="delete-alert" type="submit">&times;</button>
+               </form>
+              <% } %>
+            </div>
             <% }) %>
           <% } %>
         </div>

@@ -126,18 +126,35 @@ app.use(async (req, res, next) => {
     res.locals.loggedIn = req.isAuthenticated();
     res.locals.currentUser = req.user;
 
-    // about comment alerts
+    // about alerts
     res.locals.commentalerts = [];
     res.locals.isThereNewAlert = false;
 
+    // 사용자가 로그인한 경우 알림 확인
     if (res.locals.loggedIn) {
+
+      // 댓글 알림 확인
       const alerts = await db.CommentAlert.findAll({
-        where: { user_id: res.locals.currentUser.user_id }
+        where: { user_id: res.locals.currentUser.user_id },
+        order: [['alert_id', 'DESC']]
       });
       res.locals.commentalerts = alerts;
-      res.locals.isThereNewAlert = await alerts.some(alr => alr.is_checked === 'N');
-    }
 
+      // 새로운 댓글 알림이 있는지 확인
+      res.locals.isThereNewAlert = await alerts.some(alr => alr.is_checked === 'N');
+
+      // 사용자 알림 확인
+      const notifications = await db.UserNotification.findAll({
+        where: { user_id: res.locals.currentUser.user_id },
+        order: [['created_at', 'DESC']]
+      });
+      res.locals.commentalerts.push(...notifications);
+
+      // 새로운 사용자 알림이 있는지 확인 (새로운 댓글 알림이 이미 있다면 확인하지 않음)
+      if(res.locals.isThereNewAlert === false) {
+        res.locals.isThereNewAlert = await notifications.some(ntf => ntf.is_checked === 'N');
+      }
+    }
     next();
   } catch (error) {
     next(error);

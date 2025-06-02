@@ -94,12 +94,15 @@ body {
   cursor: pointer;
   font-size: 20px;
 }
-.alert-content-line {
+.alert-content-area {
   margin: 0.5rem;
   position: relative;
   overflow: scroll;
+}
+.alert-content-line {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 .alert-category-N {
   outline: none;

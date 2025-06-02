@@ -8,12 +8,18 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		user_id: {
 			type: Sequelize.INTEGER,
-			allowNull: false
+			allowNull: false,
+			references: {
+				model: "users",
+				key: "user_id"
+			},
+			onDelete: "CASCADE"
 		},
 		message: Sequelize.TEXT,
-		is_read: {
-			type: Sequelize.BOOLEAN,
-			defaultValue: false
+		is_checked: {
+			type: Sequelize.STRING(5),
+			allowNull: false,
+			defaultValue: 'N'
 		},
 		created_at: { //알림 생성된 시각 ( 알림 정렬을 위해)
 			type: Sequelize.DATE,
