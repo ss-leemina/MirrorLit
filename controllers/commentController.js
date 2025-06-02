@@ -6,6 +6,7 @@ const db = require("../models"),
 const { handleCommentNotification } = require('./commentAlterHandler');
 const { evaluateUserRank } = require("../services/rankService");
 const { isValidUrl } = require("../services/checkUrl");
+const { maskBannedWords } = require("../services/profanityFilter");
 
 // 댓글 작성
 exports.createComment = async (req, res) => {
@@ -19,11 +20,13 @@ exports.createComment = async (req, res) => {
     }
     // url 검사
     if (!isValidUrl(source)) { return res.redirect(`/articles/${article_id}`) };
-
+    // 금칙어 마스킹
+    const filteredContent = await maskBannedWords(content);
+   
     const newComment = await Comment.create({
       article_id: article_id,
       source,
-      content,
+      content: filteredContent,
       user_id
     });
 
@@ -141,43 +144,3 @@ exports.reactToComment = async (req, res) => {
   }
 };
 
-// 댓글 리스트 조회
-/*
-exports.getCommentsWithReactions = async (req, res) => {
-  try {
-    const articleId = req.params.articleId;
-
-    // 댓글 목록 조회
-    const comments = await Comment.findAll({
-      where: { article_id: articleId },
-      include: [
-        {
-          model: CommentReaction,
-          attributes: ['reaction_type', 'user_id']
-        }
-      ]
-    });
-
-    // 추천/비추천 수 계산
-    const formattedComments = comments.map(comment => {
-      const reactions = comment.comment_reactions || [];
-      const likeCount = reactions.filter(r => r.reaction_type === 'like').length;
-      const dislikeCount = reactions.filter(r => r.reaction_type === 'dislike').length;
-
-      return {
-        comment_id: comment.comment_id,
-        content: comment.content,
-        user_id: comment.user_id,
-        createdAt: comment.createdAt,
-        likeCount,
-        dislikeCount
-      };
-    });
-
-    res.json(formattedComments);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: '댓글 조회 실패' });
-  }
-};
-*/
