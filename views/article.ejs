@@ -36,7 +36,7 @@
   <div>
     <!-- 댓글 작성 -->
     <form class="comment-form" method="POST" action="/comments">
-      <h2>댓글 <%=commentCounts %>
+      <h2>댓글 <%= commentCounts %>
       </h2>
       <input type="hidden" name="article_id" value="<%= article.article_id %>">
       <input type="url" name="source" placeholder="출처" required>
@@ -128,11 +128,11 @@
                             alert("<%= flashMessages.avaliablefactcheck %>");
                           </script>
                           <% } %>
-			    <% if (flashMessages.spam) { %>
-			      <script>
-				alert("<%= flashMessages.spam %>");
-			      </script>
-			      <% } %>
+                            <% if (flashMessages.spam) { %>
+                              <script>
+                                alert("<%= flashMessages.spam %>");
+                              </script>
+                              <% } %>
                                 <% } %>
 
 </div>
