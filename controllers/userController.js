@@ -279,7 +279,14 @@ const getMyPage = async (req, res) => {
     user.commentCount = commentCount;
     user.upvoteCount = upvoteCount;
 
-    res.render("mypage", { user });
+    res.render("mypage", {
+	    user: {
+	    ...user.toJSON(),  // plain 객체로 변환
+        commentCount,
+        upvoteCount
+      }
+    });
+
   } catch (err) {
     console.error("마이페이지 로딩 오류:", err);
     res.status(500).send("서버 에러");
