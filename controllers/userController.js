@@ -114,10 +114,13 @@ const login = (req, res) => {
 const logout = (req, res, next) => {
   req.logout(function (err) {
     if (err) { return next(err); }
-    req.session.destroy(() => {
-      const redirectTo = req.headers.referer || "/users/login";
-      res.redirect(redirectTo);
-    });
+    res.redirect("/"); // 로그아웃 완료 후 홈으로 이동(리다이렉트)
+
+    //원래코드
+    //req.session.destroy(() => {
+      //const redirectTo = req.headers.referer || "/users/login";
+      //res.redirect(redirectTo);
+    //});
   });
 };
 
@@ -281,9 +284,9 @@ const getMyPage = async (req, res) => {
 
     res.render("mypage", {
 	    user: {
-	    ...user.toJSON(),  // plain 객체로 변환
-        commentCount,
-        upvoteCount
+	    ...user.toJSON(),
+	    commentCount,
+            upvoteCount
       }
     });
 
