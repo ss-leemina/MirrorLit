@@ -39,7 +39,6 @@ router.post("/verify-code", userController.verifyResetCode);
 router.get("/mypage", ensureAuthenticated, userController.getMyPage);
 
 router.get("/logout", userController.logout);
-
 //router.get("/logout", userController.logout, userController.redirectView);
 
 

@@ -114,13 +114,13 @@ const login = (req, res) => {
 const logout = (req, res, next) => {
   req.logout(function (err) {
     if (err) { return next(err); }
-    res.redirect("/"); // 로그아웃 완료 후 홈으로 이동(리다이렉트)
 
-    //원래코드
-    //req.session.destroy(() => {
+    // 마이페이지에서 로그아웃 할 경우 마이페이지에 계속 남아있는 오류가 발생하여 리다이렉트 수정, 메인페이지로 이동
+    req.session.destroy(() => {
+     res.redirect("/");
       //const redirectTo = req.headers.referer || "/users/login";
       //res.redirect(redirectTo);
-    //});
+    });
   });
 };
 
