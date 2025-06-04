@@ -46,7 +46,7 @@
               <!-- 사용자 알림인 경우 -->
               <% } else { %>
                 <form method="POST" action="/alerts/notification/<%= alerts.notification_id %>/read">
-                  <button class="alert-category-<%= notification.is_checked %>" type="submit"><%= notification.message %></button>
+                  <button class="alert-category-<%= alerts.is_checked %>" type="submit"><%= alerts.message %></button>
                  </form>
                <form method="POST" action="/alerts/notification/<%= alerts.notification_id %>/delete">
                  <button class="delete-alert" type="submit">&times;</button>
