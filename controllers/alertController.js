@@ -71,7 +71,7 @@ exports.markNotificationAsRead = async (req, res) => {
     console.log("사용자 알림을 읽음으로 표시했습니다.");
 
     // 마이페이지로 redirection
-    return res.redirect(`/rank/users/${res.locals.currentUser.user_id}`);
+    return res.redirect(`/rank/user/${res.locals.currentUser.user_id}`);
   } catch (err) {
     console.error("알림 읽음 처리 실패:", err);
     res.status(500).json({ message: "알림 상태 변경 실패" });
