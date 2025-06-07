@@ -50,14 +50,21 @@ const evaluateUserRank = async (userId) => {
 
 		//등급 변경된 경우 업데이트, 알림기능
 		if (user.rank_id !== newRank.rank_id) {
+			//등급 업데이트
 			await user.update({ rank_id: newRank.rank_id });
-
+      
+			//알림 DB에 저장
 			await UserNotification.create({
 				user_id: user.user_id,
-				message: `${newRank.name}'등급으로 승급되었습니다.`
+				message: `'${newRank.rank_name}' 등급으로 승급되었습니다.`
 			});
 
-			console.log(`사용자 '${user.name}'이(가) '${newRank.name}' 등급으로 승급되었습니다.`);
+			//SSE알림 전송(실시간)
+			if (global.sendSSE) {
+				global.sendSSE(user.user_id, `${newRank.rank_name} 등급으로 승급되었습니다.`);
+			}
+
+			console.log(`사용자 '${user.rank_name}'이(가) '${newRank.rank_name}' 등급으로 승급되었습니다.`);
 		}
 	} catch (err) {
 		console.error('등급 평가 실패: ', err);

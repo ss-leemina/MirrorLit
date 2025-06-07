@@ -114,9 +114,12 @@ const login = (req, res) => {
 const logout = (req, res, next) => {
   req.logout(function (err) {
     if (err) { return next(err); }
+
+    // 마이페이지에서 로그아웃 할 경우 마이페이지에 계속 남아있는 오류가 발생하여 리다이렉트 수정, 메인페이지로 이동
     req.session.destroy(() => {
-      const redirectTo = req.headers.referer || "/users/login";
-      res.redirect(redirectTo);
+     res.redirect("/");
+      //const redirectTo = req.headers.referer || "/users/login";
+      //res.redirect(redirectTo);
     });
   });
 };
@@ -271,7 +274,22 @@ const getMyPage = async (req, res) => {
       return res.status(404).send("사용자를 찾을 수 없습니다.");
     }
 
-    res.render("mypage", { user });
+    const commentCount = await db.comment.count({ where: { user_id: userId } });
+    const upvoteCount = await db.CommentReaction.count({
+      where: { user_id: userId, reaction_type: 'like' }
+    });
+
+    user.commentCount = commentCount;
+    user.upvoteCount = upvoteCount;
+
+    res.render("mypage", {
+	    user: {
+	    ...user.toJSON(),
+	    commentCount,
+            upvoteCount
+      }
+    });
+
   } catch (err) {
     console.error("마이페이지 로딩 오류:", err);
     res.status(500).send("서버 에러");

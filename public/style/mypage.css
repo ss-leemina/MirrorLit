@@ -1,0 +1,58 @@
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.summary-box {
+  background-color: #f9f9f9;
+  padding: 16px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.summary-box h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.rank-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.rank-new {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.rank-existing {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.edit-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.logout-link {
+  display: block;
+  margin-top: 10px;
+  margin-left: auto;
+  padding: 8px 12px;
+  background-color: #ccc;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #dc3545;
+  width: fit-content;
+}
+
