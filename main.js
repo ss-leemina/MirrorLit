@@ -111,9 +111,9 @@ passport.deserializeUser(async (user_id, done) => {
 });
 
 
-// db 수정이 없는 경우 : alert true인 채로 계속 돌리다 보면 오류 납니다.
+// db 수정이 없는 경우
 db.sequelize.sync();
-// db 수정이 있는 경우 : sequelize 바꾸면 이걸로 바꿔서 동기화
+// db 수정이 있는 경우
 // db.sequelize.sync({ alter: true });
 
 // set local data
@@ -146,7 +146,7 @@ app.use(async (req, res, next) => {
       // 사용자 알림 확인
       const notifications = await db.UserNotification.findAll({
         where: { user_id: res.locals.currentUser.user_id },
-        order: [['created_at', 'DESC']]
+        order: [['notification_id', 'DESC']]
       });
       res.locals.commentalerts.push(...notifications);
 
